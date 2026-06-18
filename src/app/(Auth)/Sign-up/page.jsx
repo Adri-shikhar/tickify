@@ -3,12 +3,38 @@
 import React, { useState } from "react";
 import { Input, Button, Card } from "@heroui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    const { data, error: signUpError } = await authClient.signUp.email({
+      name,
+      email,
+      password,
+      image: photoUrl || undefined,
+      callbackURL: "/dashboard",
+    });
+
+    if (signUpError) {
+      setError(signUpError.message ?? "Registration failed");
+      console.error(signUpError);
+      return;
+    }
+
+    console.log(data);
+    router.push("/Dashboard");
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
@@ -27,7 +53,11 @@ export default function RegisterPage() {
           </div>
 
           {/* Registration Form */}
-          <form className="w-full flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
+          {error && (
+            <p className="w-full text-sm text-red-500 text-center">{error}</p>
+          )}
+
+          <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
             {/* Full Name Field */}
             <div className="flex flex-col gap-1.5">
               <label className="text-gray-600 text-sm font-medium">Full Name</label>

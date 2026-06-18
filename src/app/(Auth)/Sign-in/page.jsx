@@ -3,15 +3,43 @@
 import React, { useState } from "react";
 import { Input, Button, Card } from "@heroui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const emailValue = formData.get("email");
+    const passwordValue = formData.get("password");
+
+    const { data, error: signInError } = await authClient.signIn.email({
+      email: emailValue,
+      password: passwordValue,
+      callbackURL: "/dashboard",
+    });
+
+    if (signInError) {
+      setError(signInError.message ?? "Sign in failed");
+      console.error(signInError);
+      return;
+    }
+
+    console.log(data);
+    router.push("/dashboard");
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md bg-white shadow-xl rounded-2xl border border-gray-100 p-4">
-        {/* Changed from CardBody to HeroUI v3 Compound Card.Content */}
+        {/* HeroUI v3 Compound Card.Content */}
         <Card.Content className="flex flex-col gap-6 items-center">
           
           {/* Header Section */}
@@ -24,11 +52,16 @@ export default function LoginForm() {
             </p>
           </div>
 
+          {error && (
+            <p className="w-full text-sm text-red-500 text-center">{error}</p>
+          )}
+
           {/* Login Form */}
-          <form className="w-full flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
+          <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1.5">
               <label className="text-gray-600 text-sm font-medium">Email address</label>
               <Input
+                name="email" // <-- Crucial for FormData
                 type="email"
                 placeholder="Enter Your Email Here"
                 value={email}
@@ -40,6 +73,7 @@ export default function LoginForm() {
             <div className="flex flex-col gap-1.5">
               <label className="text-gray-600 text-sm font-medium">Password</label>
               <Input
+                name="password" // <-- Crucial for FormData
                 type="password"
                 placeholder="*******"
                 value={password}
