@@ -1,2 +1,124 @@
 @import "tailwindcss";
-@import "@heroui/styles"; 
+@import "@heroui/styles";
+
+@layer components {
+  .page-bg {
+    @apply bg-gray-50;
+  }
+
+  .surface {
+    @apply bg-white;
+  }
+
+  .surface-border {
+    @apply border-gray-100;
+  }
+
+  .text-heading {
+    @apply text-gray-900;
+  }
+
+  .text-body {
+    @apply text-gray-600;
+  }
+
+  .text-label {
+    @apply text-gray-600;
+  }
+
+  .nav-bar {
+    @apply border-b border-gray-100 bg-white;
+  }
+
+  .nav-link {
+    @apply font-medium text-gray-900 hover:text-emerald-500;
+  }
+
+  .nav-link-active {
+    @apply font-semibold text-emerald-500;
+  }
+
+  .input-field {
+    @apply rounded-lg border-none bg-gray-100 text-gray-800 outline-none transition-colors placeholder:text-gray-400 hover:bg-gray-200/70 focus:bg-gray-100;
+  }
+
+  .dropdown-menu {
+    @apply rounded-lg border border-gray-100 bg-white py-1 shadow-lg;
+  }
+
+  .dropdown-item {
+    @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50;
+  }
+
+  .dashboard-shell {
+    @apply bg-teal-50/40;
+  }
+
+  .dashboard-shell-vendor {
+    @apply bg-violet-50/40;
+  }
+
+  .dashboard-sidebar {
+    @apply border-r border-sky-100 bg-white;
+  }
+
+  .dashboard-sidebar-vendor {
+    @apply border-r border-violet-100 bg-white;
+  }
+
+  .dashboard-sidebar-border {
+    @apply border-sky-100;
+  }
+
+  .dashboard-sidebar-border-vendor {
+    @apply border-violet-100;
+  }
+
+  .dashboard-inactive {
+    @apply text-slate-600 hover:bg-sky-50 hover:text-teal-600;
+  }
+
+  .dashboard-inactive-vendor {
+    @apply text-slate-600 hover:bg-violet-50 hover:text-violet-700;
+  }
+
+  .profile-card {
+    @apply border-teal-100 bg-white;
+  }
+
+  .profile-card-vendor {
+    @apply border-violet-100 bg-white;
+  }
+
+  .profile-banner {
+    @apply bg-gradient-to-br from-emerald-200 via-teal-100 to-sky-100;
+  }
+
+  .profile-banner-vendor {
+    @apply bg-gradient-to-br from-violet-200 via-indigo-100 to-purple-100;
+  }
+
+  .profile-badge {
+    @apply bg-teal-100 text-teal-700;
+  }
+
+  .profile-badge-vendor {
+    @apply bg-violet-100 text-violet-700;
+  }
+
+  .profile-ring {
+    @apply ring-teal-200;
+  }
+
+  .profile-ring-vendor {
+    @apply ring-violet-200;
+  }
+
+  .profile-avatar-ring {
+    @apply border-white;
+  }
+
+  .btn-outline {
+    @apply border border-gray-200 bg-white hover:bg-gray-50;
+  }
+}

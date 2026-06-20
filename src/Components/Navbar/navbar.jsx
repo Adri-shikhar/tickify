@@ -1,66 +1,135 @@
 "use client";
 
-import { buttonVariants } from "@heroui/styles";
-import logo from "@/assets/logo.png";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { authClient, useSession } from "@/lib/auth-client";
+import { getDashboardPath } from "@/lib/dashboard";
+import Logo from "@/Components/Logo";
 
-const navLinkClass =
-  "text-gray-800 hover:text-black font-medium text-[15px] transition-colors";
+const publicLinks = [
+  { href: "/", label: "Home" },
+  { href: "/all-tickets", label: "All Tickets" },
+  { href: "dashboard", label: "Dashboard", auth: true },
+  { href: "/about", label: "About" },
+  { href: "/help", label: "Help & Support" },
+];
 
 export default function TickifyNavbar() {
-  return (
-    <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6">
-        <Link href="/" className="flex shrink-0 items-center">
-          <Image
-            src={logo}
-            alt="Tickify Logo"
-            width={120}
-            height={36}
-            priority
-            className="object-contain"
-          />
-        </Link>
+  const { data: session, isPending } = useSession();
+  const pathname = usePathname();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef(null);
 
-        <ul className="hidden md:flex items-center gap-8">
-          <li>
-            <Link href="/" className={navLinkClass}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/all-tickets" className={navLinkClass}>
-              All Tickets
-            </Link>
-          </li>
-          <li>
-            <Link href="/dashboard" className={navLinkClass}>
-              Dashboard
-            </Link>
-          </li>
+  const profilePath = session ? getDashboardPath(session.user?.role) : "/sign-in";
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+
+  const handleLogout = async () => {
+    await authClient.signOut();
+    setOpen(false);
+    router.push("/sign-in");
+  };
+
+  const isActive = (href) => {
+    if (href === "/") return pathname === "/";
+    if (href === "dashboard") return pathname.startsWith("/dashboard");
+    return pathname.startsWith(href);
+  };
+
+  const linkClass = (href) => (isActive(href) ? "nav-link-active" : "nav-link");
+
+  return (
+    <header className="nav-bar sticky top-0 z-50">
+      <div className="h-1 bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600" />
+
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
+        <Logo href="/" />
+
+        <ul className="hidden items-center gap-8 md:flex">
+          {publicLinks.map((link) => {
+            if (link.auth && !session) return null;
+
+            const href = link.href === "dashboard" ? profilePath : link.href;
+
+            return (
+              <li key={link.label}>
+                <Link href={href} className={linkClass(link.href)}>
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="/Sign-up"
-            className={buttonVariants({
-              variant: "ghost",
-              className: "text-gray-800 font-medium hover:bg-gray-100",
-            })}
-          >
-            Sign Up
-          </Link>
-          <Link
-            href="/Sign-in"
-            className={buttonVariants({
-              variant: "primary",
-              className:
-                "bg-[#1a1c1e] px-5 tracking-wide shadow-sm hover:bg-[#2d3135]",
-            })}
-          >
-            Sign In
-          </Link>
+          {!isPending && session ? (
+            <div className="relative" ref={menuRef}>
+              <button
+                type="button"
+                onClick={() => setOpen((prev) => !prev)}
+                className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-gray-50"
+              >
+                <div className="h-9 w-9 overflow-hidden rounded-full border-2 border-teal-400 bg-gray-200">
+                  {session.user?.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={session.user.image}
+                      alt={session.user.name ?? "Profile"}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-400 to-blue-600 text-sm font-bold text-white">
+                      {session.user?.name?.[0]?.toUpperCase() ?? "U"}
+                    </div>
+                  )}
+                </div>
+                <span className="text-heading hidden text-sm font-semibold sm:block">
+                  {session.user?.name ?? "User"}
+                </span>
+                <svg className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {open && (
+                <div className="dropdown-menu absolute right-0 mt-2 w-40">
+                  <Link href={profilePath} onClick={() => setOpen(false)} className="dropdown-item">
+                    Profile
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="block w-full px-4 py-2 text-left text-sm font-medium text-red-500 hover:bg-red-50"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : !isPending ? (
+            <>
+              <Link
+                href="/sign-up"
+                className="text-heading rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-100"
+              >
+                Sign Up
+              </Link>
+              <Link
+                href="/sign-in"
+                className="rounded-lg bg-[#1a1c1e] px-5 py-2 text-sm font-medium text-white hover:bg-[#2d3135]"
+              >
+                Sign In
+              </Link>
+            </>
+          ) : null}
         </div>
       </nav>
     </header>
