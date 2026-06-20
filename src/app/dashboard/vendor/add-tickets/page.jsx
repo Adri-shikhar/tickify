@@ -58,7 +58,7 @@ export default function AddTicketsPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+    <div className="flex min-h-full items-center justify-center bg-gray-50 p-4">
       <Card className="w-full max-w-xl rounded-xl border border-gray-100 bg-white p-6 shadow-md">
         <Card.Content className="flex flex-col gap-5">
           <h1 className="text-center text-2xl font-bold text-cyan-600">Add New Ticket</h1>

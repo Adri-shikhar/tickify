@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { authClient, useSession } from "@/lib/auth-client";
 import { getDashboardPath } from "@/lib/dashboard";
 import Logo from "@/Components/Logo";
+import Image from "@/Components/Image";
 import DarkModeToggle from "@/Components/DarkModeToggle";
 
 const publicLinks = [
@@ -83,19 +84,19 @@ export default function TickifyNavbar() {
                 onClick={() => setOpen((prev) => !prev)}
                 className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-gray-50 dark:hover:bg-gray-800"
               >
-                <div className="h-9 w-9 overflow-hidden rounded-full border-2 border-teal-400 bg-gray-200">
-                  {session.user?.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={session.user.image}
-                      alt={session.user.name ?? "Profile"}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-400 to-blue-600 text-sm font-bold text-white">
-                      {session.user?.name?.[0]?.toUpperCase() ?? "U"}
-                    </div>
-                  )}
+                <div className="relative h-9 w-9 overflow-hidden rounded-full border-2 border-teal-400 bg-gray-200">
+                  <Image
+                    src={session.user?.image}
+                    alt={session.user.name ?? "Profile"}
+                    fill
+                    className="object-cover"
+                    sizes="36px"
+                    fallback={
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-400 to-blue-600 text-sm font-bold text-white">
+                        {session.user?.name?.[0]?.toUpperCase() ?? "U"}
+                      </div>
+                    }
+                  />
                 </div>
                 <span className="text-heading hidden text-sm font-semibold sm:block">
                   {session.user?.name ?? "User"}

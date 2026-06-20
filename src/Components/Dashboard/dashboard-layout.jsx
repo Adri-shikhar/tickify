@@ -54,9 +54,9 @@ export default function DashboardLayout({ children }) {
   if (!session) return null;
 
   return (
-    <div className={`flex min-h-screen ${theme.main}`}>
+    <div className={`flex h-screen overflow-hidden ${theme.main}`}>
       <aside
-        className={`flex h-screen w-64 shrink-0 flex-col ${theme.sidebar}`}
+        className={`sticky top-0 flex h-full w-64 shrink-0 flex-col ${theme.sidebar}`}
       >
         <div className={`h-1 ${theme.accentBar}`} />
 
@@ -100,7 +100,7 @@ export default function DashboardLayout({ children }) {
         </div>
       </aside>
 
-      <main className="flex-1 overflow-y-auto">{children}</main>
+      <main className="min-h-0 flex-1 overflow-y-auto">{children}</main>
     </div>
   );
 }

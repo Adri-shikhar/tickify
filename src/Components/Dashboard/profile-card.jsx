@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@heroui/react";
+import Image from "@/Components/Image";
 import { themes } from "@/lib/dashboard";
 
 export default function ProfileCard({ user, role = "user" }) {
@@ -14,30 +14,26 @@ export default function ProfileCard({ user, role = "user" }) {
     .slice(0, 2)
     .toUpperCase();
 
-  const [imageError, setImageError] = useState(false);
-  const showImage = user?.image && !imageError;
-
   return (
     <div className={`mx-auto w-full max-w-lg overflow-hidden rounded-2xl border ${theme.card}`}>
       <div className={`h-36 ${theme.banner}`} />
 
       <div className="flex flex-col items-center px-6 pb-8">
         <div
-          className={`profile-avatar-ring -mt-16 flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 ring-4 ${theme.ring}`}
+          className={`profile-avatar-ring relative -mt-16 h-28 w-28 overflow-hidden rounded-full border-4 ring-4 ${theme.ring}`}
         >
-          {showImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={user.image}
-              alt={name}
-              className="h-full w-full object-cover"
-              onError={() => setImageError(true)}
-            />
-          ) : (
-            <div className={`flex h-full w-full items-center justify-center text-2xl font-bold text-white ${theme.avatar}`}>
-              {initials}
-            </div>
-          )}
+          <Image
+            src={user?.image}
+            alt={name}
+            fill
+            className="object-cover"
+            sizes="112px"
+            fallback={
+              <div className={`flex h-full w-full items-center justify-center text-2xl font-bold text-white ${theme.avatar}`}>
+                {initials}
+              </div>
+            }
+          />
         </div>
 
         <span className={`mt-4 rounded-full px-4 py-1 text-xs font-bold capitalize ${theme.badge}`}>
