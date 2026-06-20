@@ -13,7 +13,8 @@ export const themes = {
     main: "dashboard-shell-vendor",
     active: "bg-gradient-to-r from-violet-600 to-indigo-500 text-white",
     inactive: "dashboard-inactive-vendor",
-    button: "bg-gradient-to-r from-violet-600 to-indigo-500 text-white hover:opacity-90",
+    button:
+      "bg-gradient-to-r from-violet-600 to-indigo-500 text-white hover:opacity-90",
     spinner: "border-violet-400",
     panelLabel: "text-violet-600",
     banner: "profile-banner-vendor",
@@ -29,7 +30,8 @@ export const themes = {
     main: "dashboard-shell",
     active: "bg-gradient-to-r from-teal-500 to-sky-500 text-white",
     inactive: "dashboard-inactive",
-    button: "bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 text-white hover:opacity-90",
+    button:
+      "bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 text-white hover:opacity-90",
     spinner: "border-teal-400",
     panelLabel: "text-teal-600",
     banner: "profile-banner",

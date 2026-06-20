@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "@/Components/Logo";
+import DarkModeToggle from "@/Components/DarkModeToggle";
 import { authClient, useSession } from "@/lib/auth-client";
 import { logoutBtn, themes, userLinks, vendorLinks } from "@/lib/dashboard";
 
@@ -27,8 +28,10 @@ export default function DashboardLayout({ children }) {
     }
 
     const userRole = session.user?.role;
-    if (role === "vendor" && userRole !== "vendor") router.replace("/dashboard/user");
-    if (role === "user" && userRole === "vendor") router.replace("/dashboard/vendor");
+    if (role === "vendor" && userRole !== "vendor")
+      router.replace("/dashboard/user");
+    if (role === "user" && userRole === "vendor")
+      router.replace("/dashboard/vendor");
   }, [isPending, session, router, role]);
 
   if (!role) return children;
@@ -38,8 +41,12 @@ export default function DashboardLayout({ children }) {
 
   if (isPending) {
     return (
-      <div className={`flex min-h-screen items-center justify-center ${theme.main}`}>
-        <div className={`h-8 w-8 animate-spin rounded-full border-4 border-t-transparent ${theme.spinner}`} />
+      <div
+        className={`flex min-h-screen items-center justify-center ${theme.main}`}
+      >
+        <div
+          className={`h-8 w-8 animate-spin rounded-full border-4 border-t-transparent ${theme.spinner}`}
+        />
       </div>
     );
   }
@@ -48,12 +55,19 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div className={`flex min-h-screen ${theme.main}`}>
-      <aside className={`flex h-screen w-64 shrink-0 flex-col ${theme.sidebar}`}>
+      <aside
+        className={`flex h-screen w-64 shrink-0 flex-col ${theme.sidebar}`}
+      >
         <div className={`h-1 ${theme.accentBar}`} />
 
         <div className={`px-6 py-5 ${theme.sidebarBorder}`}>
-          <Logo href="/" />
-          <p className={`mt-2 text-[11px] font-bold uppercase tracking-widest ${theme.panelLabel}`}>
+          <div className="flex items-center justify-between gap-3">
+            <Logo href="/" />
+            <DarkModeToggle />
+          </div>
+          <p
+            className={`mt-2 text-[11px] font-bold uppercase tracking-widest ${theme.panelLabel}`}
+          >
             {role} Panel
           </p>
         </div>

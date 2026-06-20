@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { authClient, useSession } from "@/lib/auth-client";
 import { getDashboardPath } from "@/lib/dashboard";
 import Logo from "@/Components/Logo";
+import DarkModeToggle from "@/Components/DarkModeToggle";
 
 const publicLinks = [
   { href: "/", label: "Home" },
@@ -22,11 +23,14 @@ export default function TickifyNavbar() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
 
-  const profilePath = session ? getDashboardPath(session.user?.role) : "/sign-in";
+  const profilePath = session
+    ? getDashboardPath(session.user?.role)
+    : "/sign-in";
 
   useEffect(() => {
     const handleClick = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setOpen(false);
+      if (menuRef.current && !menuRef.current.contains(e.target))
+        setOpen(false);
     };
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
@@ -70,12 +74,14 @@ export default function TickifyNavbar() {
         </ul>
 
         <div className="flex items-center gap-3">
+          <DarkModeToggle />
+
           {!isPending && session ? (
             <div className="relative" ref={menuRef}>
               <button
                 type="button"
                 onClick={() => setOpen((prev) => !prev)}
-                className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-gray-50"
+                className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-gray-50 dark:hover:bg-gray-800"
               >
                 <div className="h-9 w-9 overflow-hidden rounded-full border-2 border-teal-400 bg-gray-200">
                   {session.user?.image ? (
@@ -94,14 +100,28 @@ export default function TickifyNavbar() {
                 <span className="text-heading hidden text-sm font-semibold sm:block">
                   {session.user?.name ?? "User"}
                 </span>
-                <svg className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                <svg
+                  className="h-4 w-4 text-gray-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </button>
 
               {open && (
                 <div className="dropdown-menu absolute right-0 mt-2 w-40">
-                  <Link href={profilePath} onClick={() => setOpen(false)} className="dropdown-item">
+                  <Link
+                    href={profilePath}
+                    onClick={() => setOpen(false)}
+                    className="dropdown-item"
+                  >
                     Profile
                   </Link>
                   <button
@@ -118,7 +138,7 @@ export default function TickifyNavbar() {
             <>
               <Link
                 href="/sign-up"
-                className="text-heading rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-100"
+                className="text-heading rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800"
               >
                 Sign Up
               </Link>
