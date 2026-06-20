@@ -2,7 +2,7 @@
 
 import { apiReq } from "@/lib/api";
 
-// Books seats on a ticket (requires ticket_id, user_id, userName, userEmail, seatsBooked)
+// Books seats on a ticket (status defaults to "waiting for confirm" on backend)
 export async function bookTicket(booking) {
   const { data, error } = await apiReq("/api/bookings", {
     method: "POST",
@@ -22,4 +22,14 @@ export async function getUserBookings(userId) {
 export async function getVendorBookings(vendorId) {
   const { data, error } = await apiReq(`/api/bookings?vendor_id=${vendorId}`, { cache: "no-store" });
   return error ? { error } : { bookings: data };
+}
+
+// Workflow Update: Allows vendors to change booking status to "pay" or "rejected"
+export async function updateBookingStatus(id, status) {
+  const { data, error } = await apiReq(`/api/bookings/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+  return error ? { error } : { success: true, status: data.status };
 }
