@@ -1,5 +1,6 @@
 "use client";
 
+// Vendor Profile page (route: /dashboard/vendor)
 import { useSession } from "@/lib/auth-client";
 import ProfileCard from "@/Components/Dashboard/profile-card";
 

@@ -1,4 +1,4 @@
-// src/app/page.js
+// Landing page (route: /)
 import PublicNavbar from "@/Components/Navbar/navbar";
 
 export default function LandingPage() {
@@ -6,7 +6,7 @@ export default function LandingPage() {
     <>
       <PublicNavbar />
       <main className="min-h-screen p-8">
-        <h1 className="text-heading">Welcome to Tickify Landing Page</h1>
+        <h1 className="text-heading">Welcome to Tickify</h1>
       </main>
     </>
   );

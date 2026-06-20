@@ -1,5 +1,6 @@
 "use client";
 
+// Wrapper around next/image that shows a fallback when the src is missing or broken
 import { useState } from "react";
 import NextImage from "next/image";
 
@@ -8,26 +9,13 @@ function isValidSrc(src) {
   return src.startsWith("http://") || src.startsWith("https://") || src.startsWith("/");
 }
 
-export default function Image({
-  src,
-  alt = "",
-  className = "",
-  fill = false,
-  width,
-  height,
-  sizes,
-  fallback,
-  fallbackClassName = "",
-}) {
+export default function Image({ src, alt = "", className = "", fill = false, width, height, sizes, fallback, fallbackClassName = "" }) {
   const [error, setError] = useState(false);
 
   if (!isValidSrc(src) || error) {
     if (fallback) return fallback;
-
     return (
-      <div
-        className={`flex items-center justify-center bg-gray-200 text-sm text-gray-400 ${fallbackClassName || className}`}
-      >
+      <div className={`flex items-center justify-center bg-gray-200 text-sm text-gray-400 ${fallbackClassName || className}`}>
         No Image
       </div>
     );

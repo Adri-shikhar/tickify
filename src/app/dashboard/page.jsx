@@ -1,5 +1,6 @@
 "use client";
 
+// Dashboard redirect page (route: /dashboard) — redirects to /dashboard/vendor or /dashboard/user based on role
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
@@ -11,10 +12,7 @@ export default function DashboardRedirectPage() {
 
   useEffect(() => {
     if (isPending) return;
-    if (!session) {
-      router.replace("/sign-in");
-      return;
-    }
+    if (!session) { router.replace("/sign-in"); return; }
     router.replace(getDashboardPath(session.user?.role));
   }, [isPending, session, router]);
 

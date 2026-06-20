@@ -1,5 +1,6 @@
 "use client";
 
+// User Profile page (route: /dashboard/user)
 import { useSession } from "@/lib/auth-client";
 import ProfileCard from "@/Components/Dashboard/profile-card";
 

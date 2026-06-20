@@ -1,5 +1,6 @@
 "use client";
 
+// Toggles dark mode and saves the preference to localStorage
 import { useEffect, useState } from "react";
 
 export default function DarkModeToggle() {
@@ -20,7 +21,7 @@ export default function DarkModeToggle() {
     <button
       type="button"
       onClick={toggle}
-      aria-label={dark ? "Light mode" : "Dark mode"}
+      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
       className="rounded-lg px-2 py-1 text-lg hover:bg-gray-100 dark:hover:bg-gray-800"
     >
       {dark ? "☀️" : "🌙"}

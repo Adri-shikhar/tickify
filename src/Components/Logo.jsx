@@ -1,3 +1,4 @@
+// Gradient "Tickify" brand link
 import Link from "next/link";
 
 export default function Logo({ href = "/" }) {

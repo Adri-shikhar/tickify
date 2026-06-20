@@ -1,10 +1,13 @@
+// Dashboard config: sidebar links and colour themes for vendor (purple) and user (teal)
+
+// Returns the correct dashboard path based on the user's role
 export function getDashboardPath(role) {
   return role === "vendor" ? "/dashboard/vendor" : "/dashboard/user";
 }
 
-export const logoutBtn =
-  "bg-red-500 text-white hover:bg-red-600 shadow-sm shadow-red-200/60";
+export const logoutBtn = "bg-red-500 text-white hover:bg-red-600 shadow-sm shadow-red-200/60";
 
+// Tailwind class sets for each dashboard type
 export const themes = {
   vendor: {
     sidebar: "dashboard-sidebar-vendor",
@@ -13,8 +16,7 @@ export const themes = {
     main: "dashboard-shell-vendor",
     active: "bg-gradient-to-r from-violet-600 to-indigo-500 text-white",
     inactive: "dashboard-inactive-vendor",
-    button:
-      "bg-gradient-to-r from-violet-600 to-indigo-500 text-white hover:opacity-90",
+    button: "bg-gradient-to-r from-violet-600 to-indigo-500 text-white hover:opacity-90",
     spinner: "border-violet-400",
     panelLabel: "text-violet-600",
     banner: "profile-banner-vendor",
@@ -30,8 +32,7 @@ export const themes = {
     main: "dashboard-shell",
     active: "bg-gradient-to-r from-teal-500 to-sky-500 text-white",
     inactive: "dashboard-inactive",
-    button:
-      "bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 text-white hover:opacity-90",
+    button: "bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 text-white hover:opacity-90",
     spinner: "border-teal-400",
     panelLabel: "text-teal-600",
     banner: "profile-banner",
@@ -45,8 +46,8 @@ export const themes = {
 export const vendorLinks = [
   { href: "/", label: "Dashboard" },
   { href: "/dashboard/vendor", label: "Profile" },
-  { href: "/dashboard/vendor/add-tickets", label: "Add tickets" },
-  { href: "/dashboard/vendor/my-tickets", label: "My Added tickets" },
+  { href: "/dashboard/vendor/add-tickets", label: "Add Tickets" },
+  { href: "/dashboard/vendor/my-tickets", label: "My Added Tickets" },
   { href: "/dashboard/vendor/bookings", label: "Requested Bookings" },
   { href: "/dashboard/vendor/revenue", label: "Revenue Overview" },
 ];
