@@ -1,6 +1,7 @@
 "use client";
 
 // Dashboard redirect page (route: /dashboard) — redirects to /dashboard/vendor or /dashboard/user based on role
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";

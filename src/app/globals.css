@@ -60,12 +60,20 @@
     @apply bg-violet-50/40 dark:bg-gray-950;
   }
 
+  .dashboard-shell-admin {
+    @apply bg-amber-50/30 dark:bg-gray-950;
+  }
+
   .dashboard-sidebar {
     @apply border-r border-sky-100 bg-white dark:border-gray-800 dark:bg-gray-900;
   }
 
   .dashboard-sidebar-vendor {
     @apply border-r border-violet-100 bg-white dark:border-gray-800 dark:bg-gray-900;
+  }
+
+  .dashboard-sidebar-admin {
+    @apply border-r border-amber-100 bg-white dark:border-gray-800 dark:bg-gray-900;
   }
 
   .dashboard-sidebar-border {
@@ -76,12 +84,20 @@
     @apply border-violet-100 dark:border-gray-800;
   }
 
+  .dashboard-sidebar-border-admin {
+    @apply border-amber-100 dark:border-gray-800;
+  }
+
   .dashboard-inactive {
     @apply text-slate-600 hover:bg-sky-50 hover:text-teal-600 dark:text-gray-300 dark:hover:bg-gray-800;
   }
 
   .dashboard-inactive-vendor {
     @apply text-slate-600 hover:bg-violet-50 hover:text-violet-700 dark:text-gray-300 dark:hover:bg-gray-800;
+  }
+
+  .dashboard-inactive-admin {
+    @apply text-slate-600 hover:bg-amber-50 hover:text-amber-700 dark:text-gray-300 dark:hover:bg-gray-800;
   }
 
   .profile-card {
@@ -92,12 +108,20 @@
     @apply border-violet-100 bg-white dark:border-gray-800 dark:bg-gray-900;
   }
 
+  .profile-card-admin {
+    @apply border-amber-100 bg-white dark:border-gray-800 dark:bg-gray-900;
+  }
+
   .profile-banner {
     @apply bg-gradient-to-br from-emerald-200 via-teal-100 to-sky-100 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800;
   }
 
   .profile-banner-vendor {
     @apply bg-gradient-to-br from-violet-200 via-indigo-100 to-purple-100 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800;
+  }
+
+  .profile-banner-admin {
+    @apply bg-gradient-to-br from-amber-200 via-orange-100 to-rose-100 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800;
   }
 
   .profile-badge {
@@ -108,12 +132,20 @@
     @apply bg-violet-100 text-violet-700 dark:bg-gray-800 dark:text-violet-300;
   }
 
+  .profile-badge-admin {
+    @apply bg-amber-100 text-amber-700 dark:bg-gray-800 dark:text-amber-300;
+  }
+
   .profile-ring {
     @apply ring-teal-200 dark:ring-gray-700;
   }
 
   .profile-ring-vendor {
     @apply ring-violet-200 dark:ring-gray-700;
+  }
+
+  .profile-ring-admin {
+    @apply ring-amber-200 dark:ring-gray-700;
   }
 
   .profile-avatar-ring {

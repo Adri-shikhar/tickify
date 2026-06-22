@@ -15,7 +15,9 @@ export default function BookingsPage() {
   // Safe array synchronization guard to eliminate undefined mapping crashes
   useEffect(() => {
     if (Array.isArray(initialBookings)) {
-      setBookings(initialBookings);
+      setTimeout(() => {
+        setBookings(initialBookings);
+      }, 0);
     }
   }, [initialBookings]);
 

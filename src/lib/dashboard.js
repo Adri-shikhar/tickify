@@ -1,8 +1,10 @@
-// Dashboard config: sidebar links and colour themes for vendor (purple) and user (teal)
+// Dashboard config: sidebar links and colour themes for admin (amber), vendor (purple), and user (teal)
 
 // Returns the correct dashboard path based on the user's role
 export function getDashboardPath(role) {
-  return role === "vendor" ? "/dashboard/vendor" : "/dashboard/user";
+  if (role === "admin") return "/dashboard/admin";
+  if (role === "vendor") return "/dashboard/vendor";
+  return "/dashboard/user";
 }
 
 export const logoutBtn = "bg-red-500 text-white hover:bg-red-600 shadow-sm shadow-red-200/60";
@@ -41,7 +43,31 @@ export const themes = {
     ring: "profile-ring",
     card: "profile-card",
   },
+  admin: {
+    sidebar: "dashboard-sidebar-admin",
+    sidebarBorder: "dashboard-sidebar-border-admin border-b",
+    accentBar: "bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500",
+    main: "dashboard-shell-admin",
+    active: "bg-gradient-to-r from-amber-600 to-rose-500 text-white shadow-sm shadow-amber-200/50",
+    inactive: "dashboard-inactive-admin",
+    button: "bg-gradient-to-r from-amber-600 to-rose-500 text-white hover:opacity-90",
+    spinner: "border-amber-400",
+    panelLabel: "text-amber-600",
+    banner: "profile-banner-admin",
+    badge: "profile-badge-admin",
+    avatar: "bg-gradient-to-br from-amber-500 to-rose-500",
+    ring: "profile-ring-admin",
+    card: "profile-card-admin",
+  },
 };
+
+export const adminLinks = [
+  { href: "/", label: "Dashboard", icon: "dashboard" },
+  { href: "/dashboard/admin", label: "Profile", icon: "home" },
+  { href: "/dashboard/admin/manage-users", label: "Manage Users", icon: "users" },
+  { href: "/dashboard/admin/manage-tickets", label: "Manage Ticket", icon: "ticket" },
+  { href: "/dashboard/admin/advertise-tickets", label: "Advertise Tickets", icon: "ad" },
+];
 
 export const vendorLinks = [
   { href: "/", label: "Dashboard" },

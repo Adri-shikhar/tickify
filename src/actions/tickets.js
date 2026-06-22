@@ -24,3 +24,9 @@ export async function getTicket(id) {
   const { data, error } = await apiReq(`/api/tickets/${id}`, { cache: "no-store" });
   return error ? { error } : { ticket: data };
 }
+
+// Fetches all tickets for admin
+export async function getTicketsAdmin() {
+  const { data, error } = await apiReq("/api/tickets/admin", { cache: "no-store" });
+  return error ? { error } : { tickets: data };
+}

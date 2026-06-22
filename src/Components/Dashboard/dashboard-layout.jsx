@@ -7,34 +7,35 @@ import { usePathname, useRouter } from "next/navigation";
 import Logo from "@/Components/Logo";
 import DarkModeToggle from "@/Components/DarkModeToggle";
 import { authClient, useSession } from "@/lib/auth-client";
-import { logoutBtn, themes, userLinks, vendorLinks } from "@/lib/dashboard";
+import { getDashboardPath, logoutBtn, themes, adminLinks, userLinks, vendorLinks } from "@/lib/dashboard";
+import { sidebarIcons } from "@/Components/Dashboard/sidebar-icons";
+
+function roleFromPath(pathname) {
+  if (pathname.startsWith("/dashboard/admin")) return "admin";
+  if (pathname.startsWith("/dashboard/vendor")) return "vendor";
+  if (pathname.startsWith("/dashboard/user")) return "user";
+  return null;
+}
 
 export default function DashboardLayout({ children }) {
   const { data: session, isPending } = useSession();
   const router = useRouter();
   const pathname = usePathname();
-
-  // Detect which dashboard type we're on from the URL
-  const role = pathname.startsWith("/dashboard/vendor")
-    ? "vendor"
-    : pathname.startsWith("/dashboard/user")
-      ? "user"
-      : null;
+  const role = roleFromPath(pathname);
 
   useEffect(() => {
     if (isPending || !role) return;
     if (!session) { router.replace("/sign-in"); return; }
 
     const userRole = session.user?.role;
-    // Redirect if a user tries to access the wrong dashboard
-    if (role === "vendor" && userRole !== "vendor") router.replace("/dashboard/user");
-    if (role === "user" && userRole === "vendor") router.replace("/dashboard/vendor");
+    if (userRole !== role) router.replace(getDashboardPath(userRole));
   }, [isPending, session, router, role]);
 
   if (!role) return children;
 
   const theme = themes[role];
-  const links = role === "vendor" ? vendorLinks : userLinks;
+  const links = role === "admin" ? adminLinks : role === "vendor" ? vendorLinks : userLinks;
+  const showIcons = role === "admin";
 
   if (isPending) {
     return (
@@ -62,15 +63,19 @@ export default function DashboardLayout({ children }) {
         </div>
 
         <nav className="flex flex-1 flex-col gap-1.5 px-4 py-6">
-          {links.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`rounded-xl px-4 py-2.5 text-sm font-medium transition-all ${pathname === href ? theme.active : theme.inactive}`}
-            >
-              {label}
-            </Link>
-          ))}
+          {links.map(({ href, label, icon }) => {
+            const isActive = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all ${isActive ? theme.active : theme.inactive}`}
+              >
+                {showIcons && icon && sidebarIcons[icon]}
+                {label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className={`border-t p-4 ${theme.sidebarBorder}`}>
