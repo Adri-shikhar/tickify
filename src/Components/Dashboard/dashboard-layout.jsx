@@ -27,7 +27,7 @@ export default function DashboardLayout({ children }) {
     if (isPending || !role) return;
     if (!session) { router.replace("/sign-in"); return; }
 
-    const userRole = session.user?.role;
+    const userRole = session.user?.role ?? "user";
     if (userRole !== role) router.replace(getDashboardPath(userRole));
   }, [isPending, session, router, role]);
 
@@ -64,10 +64,10 @@ export default function DashboardLayout({ children }) {
 
         <nav className="flex flex-1 flex-col gap-1.5 px-4 py-6">
           {links.map(({ href, label, icon }) => {
-            const isActive = pathname === href;
+            const isActive = href === "/" ? pathname === "/" : pathname === href;
             return (
               <Link
-                key={href}
+                key={label}
                 href={href}
                 className={`flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all ${isActive ? theme.active : theme.inactive}`}
               >
@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }) {
           })}
         </nav>
 
-        <div className={`border-t p-4 ${theme.sidebarBorder}`}>
+        <div className={`border-t p-4 ${theme.sidebarBorder.replace("border-b", "")}`}>
           <button
             type="button"
             onClick={async () => { await authClient.signOut(); router.push("/sign-in"); }}

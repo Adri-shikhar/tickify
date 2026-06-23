@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { authClient, useSession } from "@/lib/auth-client";
-import { getDashboardPath } from "@/lib/dashboard";
+import { getProfilePath } from "@/lib/dashboard";
 import Logo from "@/Components/Logo";
 import Image from "@/Components/Image";
 import DarkModeToggle from "@/Components/DarkModeToggle";
@@ -25,7 +25,7 @@ export default function TickifyNavbar() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
 
-  const profilePath = session ? getDashboardPath(session.user?.role) : "/sign-in";
+  const profilePath = session ? getProfilePath(session.user?.role) : "/sign-in";
 
   // Close the dropdown when clicking outside of it
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function TickifyNavbar() {
         <ul className="hidden items-center gap-8 md:flex">
           {publicLinks.map((link) => {
             if (link.auth && !session) return null;
-            const href = link.href === "dashboard" ? profilePath : link.href;
+            const href = link.href === "dashboard" ? "/dashboard" : link.href;
             return (
               <li key={link.label}>
                 <Link href={href} className={linkClass(link.href)}>{link.label}</Link>

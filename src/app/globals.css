@@ -1,2 +1,110 @@
 @import "tailwindcss";
 @import "@heroui/styles";
+
+/* ─── Tell Tailwind v4 to use .dark class (not media query) for dark: variants */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─── Semantic colour tokens ───────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --color-heading:  #111827;
+    --color-body:     #6b7280;
+    --color-label:    #374151;
+    --color-bg:       #f9fafb;
+    --color-surface:  #ffffff;
+    --color-border:   #e5e7eb;
+  }
+
+  .dark {
+    --color-heading:  #f9fafb;
+    --color-body:     #9ca3af;
+    --color-label:    #d1d5db;
+    --color-bg:       #111827;
+    --color-surface:  #1f2937;
+    --color-border:   #374151;
+  }
+}
+
+/* ─── Utility classes ───────────────────────────────────────────────────────── */
+@layer utilities {
+  .text-heading { color: var(--color-heading); }
+  .text-body    { color: var(--color-body); }
+  .text-label   { color: var(--color-label); }
+
+  .page-bg        { background-color: var(--color-bg); }
+  .surface        { background-color: var(--color-surface); }
+  .surface-border { border-color: var(--color-border); }
+
+  .btn-outline {
+    background-color: transparent;
+    color: var(--color-heading);
+  }
+
+  .input-field {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    color: var(--color-heading);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .input-field:focus {
+    border-color: #14b8a6;
+    box-shadow: 0 0 0 2px rgb(20 184 166 / 0.15);
+  }
+}
+
+/* ─── Component classes ─────────────────────────────────────────────────────── */
+@layer components {
+
+  /* ── Navbar ─────────────────────────────────── */
+  .nav-bar {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.06);
+  }
+
+  .nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-body);
+    transition: color 0.15s;
+  }
+  .nav-link:hover { color: var(--color-heading); }
+
+  .nav-link-active {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #0d9488;
+  }
+
+  /* ── Dropdown ────────────────────────────────── */
+  .dropdown-menu {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+    padding: 0.25rem;
+    z-index: 50;
+  }
+
+  .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-heading);
+    transition: background-color 0.15s;
+  }
+  .dropdown-item:hover { background-color: var(--color-bg); }
+
+  /* ── Profile avatar ring wrapper ─────────────── */
+  .profile-avatar-ring {
+    position: relative;
+    overflow: hidden;
+    border-radius: 9999px;
+    border: 4px solid var(--color-surface);
+  }
+}

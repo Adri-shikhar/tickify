@@ -1,25 +1,13 @@
-"use client";
-
-// Dashboard redirect page (route: /dashboard) — redirects to /dashboard/vendor or /dashboard/user based on role
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 import { getDashboardPath } from "@/lib/dashboard";
 
-export default function DashboardRedirectPage() {
-  const { data: session, isPending } = useSession();
-  const router = useRouter();
+// Server-side redirect — instantly bounces to the correct role dashboard
+export default async function DashboardRedirectPage() {
+  const session = await auth.api.getSession({ headers: await headers() });
 
-  useEffect(() => {
-    if (isPending) return;
-    if (!session) { router.replace("/sign-in"); return; }
-    router.replace(getDashboardPath(session.user?.role));
-  }, [isPending, session, router]);
+  if (!session) redirect("/sign-in");
 
-  return (
-    <div className="page-bg flex min-h-screen items-center justify-center">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-teal-500 border-t-transparent" />
-    </div>
-  );
+  redirect(getDashboardPath(session.user?.role));
 }

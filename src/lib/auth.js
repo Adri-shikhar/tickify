@@ -1,5 +1,6 @@
 // Sets up better-auth with MongoDB and adds a "role" field to every user
 import { betterAuth } from "better-auth";
+import { customSession } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
@@ -13,8 +14,13 @@ export const auth = betterAuth({
   database: mongodbAdapter(db, { client }),
   user: {
     additionalFields: {
-      // "user" by default; vendors register with role: "vendor"
-      role: { type: "string", default: "user", index: true },
+      role: { type: "string", defaultValue: "user", input: false },
     },
   },
+  plugins: [
+    customSession(async ({ user, session }) => ({
+      user: { ...user, role: user.role ?? "user" },
+      session,
+    })),
+  ],
 });

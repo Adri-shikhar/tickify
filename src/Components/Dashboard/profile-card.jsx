@@ -36,8 +36,8 @@ export default function ProfileCard({ user, role = "user" }) {
           {user?.role ?? role}
         </span>
 
-        <h2 className="text-heading mt-3 text-xl font-bold">{name}</h2>
-        <p className="text-body mt-1 text-sm">{user?.email}</p>
+        <h2 className="mt-3 text-xl font-bold text-gray-900 dark:text-gray-100">{name}</h2>
+        <p className="mt-1 text-sm text-gray-500">{user?.email}</p>
 
         {/* Edit Profile button — not yet functional */}
         <Button className={`mt-6 h-11 w-full max-w-xs rounded-xl font-semibold ${theme.button}`}>
