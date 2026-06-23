@@ -1,5 +1,6 @@
 // Root layout — loads fonts, applies saved dark/light theme before render, sets page metadata
 import { Geist, Geist_Mono } from "next/font/google";
+import SiteShell from "@/Components/Layout/SiteShell";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -18,7 +19,7 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch(e){}})();` }} />
       </head>
       <body className="flex min-h-full flex-col bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-        {children}
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

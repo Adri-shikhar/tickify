@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { getDashboardPath } from "@/lib/dashboard";
-import MainLayout from "@/Components/Layout/MainLayout";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -27,8 +26,7 @@ export default function SignInPage() {
   };
 
   return (
-    <MainLayout>
-      <div className="flex min-h-[70vh] items-center justify-center px-4 py-12">
+    <div className="flex min-h-[70vh] items-center justify-center px-4 py-12">
         <Card className="surface surface-border w-full max-w-md rounded-2xl border p-4 shadow-xl">
           <Card.Content className="flex flex-col items-center gap-6">
             <div className="w-full text-center">
@@ -62,7 +60,6 @@ export default function SignInPage() {
             </div>
           </Card.Content>
         </Card>
-      </div>
-    </MainLayout>
+    </div>
   );
 }
