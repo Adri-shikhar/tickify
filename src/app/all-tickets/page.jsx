@@ -3,7 +3,7 @@
 // All Tickets page (route: /all-tickets) — shows all approved tickets
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import PublicNavbar from "@/Components/Navbar/navbar";
+import MainLayout from "@/Components/Layout/MainLayout";
 import TicketCard from "@/Components/TicketCard";
 import { getTickets } from "@/actions/tickets";
 
@@ -24,9 +24,8 @@ export default function AllTicketsPage() {
   }, []);
 
   return (
-    <>
-      <PublicNavbar />
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    <MainLayout>
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <h1 className="mb-8 text-2xl font-black text-gray-900">
           Available Tickets <span className="text-emerald-500">({loading ? 0 : tickets.length})</span>
         </h1>
@@ -45,7 +44,7 @@ export default function AllTicketsPage() {
             />
           ))}
         </div>
-      </main>
-    </>
+      </div>
+    </MainLayout>
   );
 }

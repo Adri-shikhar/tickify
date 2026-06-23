@@ -1,13 +1,12 @@
 // Landing page (route: /)
-import PublicNavbar from "@/Components/Navbar/navbar";
+import MainLayout from "@/Components/Layout/MainLayout";
 
 export default function LandingPage() {
   return (
-    <>
-      <PublicNavbar />
-      <main className="min-h-screen p-8">
+    <MainLayout>
+      <div className="mx-auto max-w-7xl p-8">
         <h1 className="text-heading">Welcome to Tickify</h1>
-      </main>
-    </>
+      </div>
+    </MainLayout>
   );
 }

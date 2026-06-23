@@ -3,7 +3,7 @@
 // Book Ticket page (route: /all-tickets/[id]) — shows ticket details and a seat booking form
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import PublicNavbar from "@/Components/Navbar/navbar";
+import MainLayout from "@/Components/Layout/MainLayout";
 import Image from "@/Components/Image";
 import { useSession } from "@/lib/auth-client";
 import { bookTicket } from "@/actions/booked";
@@ -50,9 +50,8 @@ export default function BookTicketPage() {
   const perks = ticket?.perks ? Object.keys(ticket.perks).filter((k) => ticket.perks[k]) : [];
 
   return (
-    <>
-      <PublicNavbar />
-      <div className="flex min-h-[85vh] items-center justify-center bg-gray-50/50 p-4 md:p-8">
+    <MainLayout>
+      <div className="flex min-h-[70vh] items-center justify-center p-4 md:p-8">
         <Card className="w-full max-w-4xl rounded-2xl border p-6 shadow-md md:p-8">
           <Card.Content>
             {error && <p className="mb-6 rounded-lg border border-red-100 bg-red-50 p-3 text-sm text-red-500">{error}</p>}
@@ -118,6 +117,6 @@ export default function BookTicketPage() {
           </Card.Content>
         </Card>
       </div>
-    </>
+    </MainLayout>
   );
 }

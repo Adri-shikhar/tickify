@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { getDashboardPath } from "@/lib/dashboard";
-import PublicNavbar from "@/Components/Navbar/navbar";
+import MainLayout from "@/Components/Layout/MainLayout";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -36,9 +36,8 @@ export default function SignUpPage() {
     role === value ? "border-teal-500 bg-teal-50/30 ring-1 ring-teal-500/20" : "surface-border btn-outline border";
 
   return (
-    <>
-      <PublicNavbar />
-      <div className="page-bg flex min-h-screen items-center justify-center px-4 py-8">
+    <MainLayout>
+      <div className="flex min-h-[70vh] items-center justify-center px-4 py-8">
         <Card className="surface surface-border w-full max-w-sm rounded-2xl border p-5 shadow-xl">
           <Card.Content className="flex flex-col items-center gap-5">
             <div className="w-full text-center">
@@ -98,6 +97,6 @@ export default function SignUpPage() {
           </Card.Content>
         </Card>
       </div>
-    </>
+    </MainLayout>
   );
 }
