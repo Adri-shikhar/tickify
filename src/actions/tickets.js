@@ -30,3 +30,13 @@ export async function getTicketsAdmin() {
   const { data, error } = await apiReq("/api/tickets/admin", { cache: "no-store" });
   return error ? { error } : { tickets: data };
 }
+
+// Admin: update ticket status to accepted or rejected
+export async function updateTicketStatus(id, status) {
+  const { data, error } = await apiReq(`/api/tickets/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+  return error ? { error } : { success: true, status: data.status };
+}
