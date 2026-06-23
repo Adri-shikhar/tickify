@@ -1,0 +1,42 @@
+.background-swiper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  height: 100%;
+  background: #000;
+}
+
+.background-swiper .swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.background-swiper .swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #444;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background-swiper .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.background-swiper .swiper-pagination {
+  bottom: 1.5rem;
+  z-index: 2;
+}
+
+.background-swiper .swiper-pagination-bullet {
+  background: rgb(255 255 255 / 0.55);
+  opacity: 1;
+}
+
+.background-swiper .swiper-pagination-bullet-active {
+  background: #fff;
+}
