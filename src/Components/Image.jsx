@@ -36,9 +36,13 @@ export default function Image({ src, alt = "", className = "", fill = false, wid
 
   return (
     <NextImage
-      {...shared}
+      src={src}
+      alt={alt}
       width={width ?? 400}
       height={height ?? 176}
+      sizes={sizes}
+      className={className}
+      onError={() => setError(true)}
     />
   );
 }
