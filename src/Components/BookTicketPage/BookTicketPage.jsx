@@ -24,6 +24,10 @@ export default function BookTicketPage({ initialTicket, ticketId }) {
   const [seats, setSeats] = useState(1);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [departed, setDeparted] = useState(
+    () => initialTicket && new Date(initialTicket.departureDateTime) < new Date()
+  );
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -52,6 +56,7 @@ export default function BookTicketPage({ initialTicket, ticketId }) {
       return;
     }
 
+    setModalOpen(false);
     router.push("/dashboard/user/my-booked-tickets");
   }
 
@@ -114,71 +119,148 @@ export default function BookTicketPage({ initialTicket, ticketId }) {
   const perksText = getPerksText(ticket.perks);
   const totalPrice = ticket.price * seats;
   const soldOut = ticket.quantity <= 0;
+  const canBook = !soldOut && !departed;
 
   return (
-    <div className="flex min-h-[70vh] items-center justify-center p-4 md:p-8">
-      <Card className="w-full max-w-4xl rounded-2xl border p-6 shadow-md md:p-8">
-        <Card.Content>
-          {error && (
-            <p className="mb-6 rounded-lg border border-red-100 bg-red-50 p-3 text-sm text-red-500">
-              {error}
-            </p>
-          )}
-
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="relative h-56 overflow-hidden rounded-xl border bg-gray-50 md:h-80">
-              <Image
-                src={ticket.imageUrl}
-                alt={ticket.title}
-                fill
-                className="object-cover"
-                fallbackClassName="h-full w-full"
-              />
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-center text-sm font-bold text-amber-700">
-                Time until departure:{" "}
-                <span className="text-base font-black text-amber-900 ml-1">
-                  <Countdown
-                    date={new Date(ticket.departureDateTime)}
-                    onComplete={() =>
-                      setError("This trip has already departed. Booking is no longer available.")
-                    }
-                  />
-                </span>
-              </div>
-
-              <div className="flex justify-between gap-4 items-start">
-                <div>
-                  <h1 className="text-2xl font-black text-gray-900">{ticket.title}</h1>
-                  <p className="mt-1 text-sm font-bold text-gray-700">
-                    {ticket.from} ➔ {ticket.to}
-                  </p>
-                </div>
-                <span className="h-fit rounded-full bg-blue-500 px-3 py-1 text-xs font-bold text-white capitalize">
-                  {ticket.transportType || "Bus"}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 border-y border-gray-100 py-3 text-sm">
-                <div>
-                  <span className="text-gray-500">Price:</span>{" "}
-                  <span className="font-black">৳{ticket.price}</span>
-                </div>
-                <div>
-                  <span className="text-gray-500">Available:</span>{" "}
-                  <span className="font-black">{ticket.quantity}</span>
-                </div>
-              </div>
-
-              <p className="text-xs text-gray-600">
-                <span className="font-bold text-gray-400">Departure:</span>{" "}
-                {fmtDate(ticket.departureDateTime)}
+    <>
+      <div className="flex min-h-[70vh] items-center justify-center p-4 md:p-8">
+        <Card className="w-full max-w-4xl rounded-2xl border p-6 shadow-md md:p-8">
+          <Card.Content>
+            {error && (
+              <p className="mb-6 rounded-lg border border-red-100 bg-red-50 p-3 text-sm text-red-500">
+                {error}
               </p>
+            )}
 
-              <div className="text-xs">
-                <span className="font-bold">Perks:</span> {perksText}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="relative h-56 overflow-hidden rounded-xl border bg-gray-50 md:h-80">
+                <Image
+                  src={ticket.imageUrl}
+                  alt={ticket.title}
+                  fill
+                  className="object-cover"
+                  fallbackClassName="h-full w-full"
+                />
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-center text-sm font-bold text-amber-700">
+                  {departed ? (
+                    <span className="text-base font-black text-red-600">
+                      This trip has already departed.
+                    </span>
+                  ) : (
+                    <>
+                      Time until departure:{" "}
+                      <span className="text-base font-black text-amber-900 ml-1">
+                        <Countdown
+                          date={new Date(ticket.departureDateTime)}
+                          onComplete={() => setDeparted(true)}
+                        />
+                      </span>
+                    </>
+                  )}
+                </div>
+
+                <div className="flex justify-between gap-4 items-start">
+                  <div>
+                    <h1 className="text-2xl font-black text-gray-900">{ticket.title}</h1>
+                    <p className="mt-1 text-sm font-bold text-gray-700">
+                      {ticket.from} ➔ {ticket.to}
+                    </p>
+                  </div>
+                  <span className="h-fit rounded-full bg-blue-500 px-3 py-1 text-xs font-bold text-white capitalize">
+                    {ticket.transportType || "Bus"}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 border-y border-gray-100 py-3 text-sm">
+                  <div>
+                    <span className="text-gray-500">Price:</span>{" "}
+                    <span className="font-black">৳{ticket.price}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500">Available:</span>{" "}
+                    <span className="font-black">{ticket.quantity}</span>
+                  </div>
+                </div>
+
+                <p className="text-xs text-gray-600">
+                  <span className="font-bold text-gray-400">Departure:</span>{" "}
+                  {fmtDate(ticket.departureDateTime)}
+                </p>
+
+                <div className="text-xs">
+                  <span className="font-bold">Perks:</span> {perksText}
+                </div>
+
+                {soldOut ? (
+                  <Button
+                    disabled
+                    className="h-10 w-full rounded-xl bg-gray-300 text-sm font-black text-gray-500"
+                  >
+                    Sold Out
+                  </Button>
+                ) : departed ? (
+                  <Button
+                    disabled
+                    className="h-10 w-full rounded-xl bg-gray-300 text-sm font-black text-gray-500"
+                  >
+                    Departure Passed
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setSeats(1);
+                      setModalOpen(true);
+                    }}
+                    className="h-10 w-full rounded-xl bg-gradient-to-r from-emerald-400 to-blue-600 text-sm font-black text-white"
+                  >
+                    Book Now
+                  </Button>
+                )}
+              </div>
+            </div>
+          </Card.Content>
+        </Card>
+      </div>
+
+      {modalOpen && canBook && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          onClick={() => !loading && setModalOpen(false)}
+          role="presentation"
+        >
+          <div
+            className="w-full max-w-md rounded-2xl border bg-white p-6 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="book-modal-title"
+          >
+            <h2 id="book-modal-title" className="text-xl font-black text-gray-900">
+              Book {ticket.title}
+            </h2>
+            <p className="mt-1 text-sm text-gray-500">
+              {ticket.from} ➔ {ticket.to}
+            </p>
+
+            <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
+              <div className="flex flex-col gap-1">
+                <label className="text-[11px] font-bold uppercase text-gray-500">
+                  Number of seats
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  max={ticket.quantity}
+                  value={seats}
+                  onChange={handleSeatChange}
+                  className="h-10 rounded-lg bg-gray-100 px-3 text-sm font-bold"
+                  required
+                />
+                <p className="text-xs text-gray-400">Max available: {ticket.quantity}</p>
               </div>
 
               <div className="flex justify-between rounded-xl border border-emerald-100 bg-emerald-50 p-3 text-sm">
@@ -186,41 +268,28 @@ export default function BookTicketPage({ initialTicket, ticketId }) {
                 <span className="text-xl font-black text-emerald-600">৳ {totalPrice}</span>
               </div>
 
-              <div className="flex items-end gap-4">
-                <div className="flex w-24 flex-col gap-1">
-                  <label className="text-[11px] font-bold uppercase text-gray-500">Seats</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max={ticket.quantity}
-                    value={seats}
-                    onChange={handleSeatChange}
-                    className="h-10 rounded-lg bg-gray-100 px-3 text-sm font-bold"
-                    required
-                  />
-                </div>
-
-                {soldOut ? (
-                  <Button
-                    disabled
-                    className="h-10 flex-1 rounded-xl bg-gray-300 text-sm font-black text-gray-500"
-                  >
-                    Sold Out
-                  </Button>
-                ) : (
-                  <Button
-                    type="submit"
-                    disabled={loading || error !== ""}
-                    className="h-10 flex-1 rounded-xl bg-gradient-to-r from-emerald-400 to-blue-600 text-sm font-black text-white"
-                  >
-                    {loading ? "Booking..." : "Book Now"}
-                  </Button>
-                )}
+              <div className="flex gap-3">
+                <Button
+                  type="button"
+                  variant="bordered"
+                  disabled={loading}
+                  onClick={() => setModalOpen(false)}
+                  className="h-10 flex-1 rounded-xl text-sm font-bold"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="h-10 flex-1 rounded-xl bg-gradient-to-r from-emerald-400 to-blue-600 text-sm font-black text-white"
+                >
+                  {loading ? "Booking..." : "Confirm Booking"}
+                </Button>
               </div>
-            </div>
-          </form>
-        </Card.Content>
-      </Card>
-    </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

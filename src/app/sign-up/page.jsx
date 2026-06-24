@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Input, Button, Card } from "@heroui/react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
-import { getDashboardPath } from "@/lib/dashboard";
 import { FcGoogle } from "react-icons/fc";
 
 export default function SignUpPage() {
@@ -25,7 +24,7 @@ export default function SignUpPage() {
       password,
       image: photoUrl || undefined,
       role,
-      callbackURL: "/dashboard",
+      callbackURL: "/",
     });
 
     if (result.error) {
@@ -33,8 +32,7 @@ export default function SignUpPage() {
       return;
     }
 
-    const userRole = result.data?.user?.role ?? role;
-    window.location.href = getDashboardPath(userRole);
+    window.location.href = "/";
   }
 
   async function registerWithGoogle() {
@@ -42,7 +40,7 @@ export default function SignUpPage() {
 
     const result = await authClient.signIn.social({
       provider: "google",
-      callbackURL: getDashboardPath(role),
+      callbackURL: "/",
       errorCallbackURL: "/sign-up",
       additionalData: { role },
     });

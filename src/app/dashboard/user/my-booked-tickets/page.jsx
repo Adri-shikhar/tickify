@@ -8,30 +8,40 @@ import { Card, Button } from "@heroui/react";
 
 function getStatusBadge(status) {
   if (status === "paid") {
-    return { text: "Paid", cls: "bg-emerald-50 border-emerald-200 text-emerald-600" };
+    return {
+      text: "Paid",
+      cls: "bg-emerald-50 border-emerald-200 text-emerald-600",
+    };
   }
   if (status === "pay") {
-    return { text: "Approved", cls: "bg-blue-50 border-blue-200 text-blue-600" };
+    return {
+      text: "Approved",
+      cls: "bg-blue-50 border-blue-200 text-blue-600",
+    };
   }
   if (status === "rejected") {
     return { text: "Rejected", cls: "bg-red-50 border-red-200 text-red-600" };
   }
-  return { text: "Waiting for Confirmation", cls: "bg-amber-50 border-amber-200 text-amber-600" };
+  return {
+    text: "Waiting for Confirmation",
+    cls: "bg-amber-50 border-amber-200 text-amber-600",
+  };
 }
 
 export default function MyBookedTicketsPage() {
   const { data: session } = useSession();
-  const { data: bookings = [], error, loading } = useSessionData(
-    session?.user?.id,
-    getUserBookings,
-    "bookings"
-  );
+  const {
+    data: bookings = [],
+    error,
+    loading,
+  } = useSessionData(session?.user?.id, getUserBookings, "bookings");
 
   return (
     <div className="mx-auto flex min-h-screen max-w-4xl flex-col gap-6 bg-gray-50/50 p-6 md:p-8 isolate">
       <div>
         <h1 className="text-3xl font-black text-gray-900 tracking-tight">
-          My Booked Tickets <span className="text-emerald-500">({bookings.length})</span>
+          My Booked Tickets{" "}
+          <span className="text-emerald-500">({bookings.length})</span>
         </h1>
         <p className="mt-1 text-sm text-gray-500">
           Track and process payments for your active trip reservations.
@@ -39,7 +49,9 @@ export default function MyBookedTicketsPage() {
       </div>
 
       {loading && (
-        <p className="animate-pulse text-sm text-gray-500 font-medium">Loading your bookings...</p>
+        <p className="animate-pulse text-sm text-gray-500 font-medium">
+          Loading your bookings...
+        </p>
       )}
 
       {error && (
@@ -75,29 +87,45 @@ export default function MyBookedTicketsPage() {
                 </span>
               </div>
 
-              
-
               <div className="flex justify-between rounded-xl bg-gray-50 p-3 text-xs font-semibold text-gray-600 border border-gray-100/60">
                 <span>🕒 Departure: {fmtDate(booking.departureDateTime)}</span>
-                <span className="text-gray-400 font-medium">Booked: {fmtDate(booking.bookedAt)}</span>
+                <span className="text-gray-400 font-medium">
+                  Booked: {fmtDate(booking.bookedAt)}
+                </span>
               </div>
 
               <div className="flex justify-between border-t border-dashed border-gray-100 pt-3 items-end">
                 <div>
-                  <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Seats Secured</p>
-                  <p className="text-sm font-black text-gray-800 mt-0.5">{booking.seatsBooked}</p>
+                  <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">
+                    Seats Secured
+                  </p>
+                  <p className="text-sm font-black text-gray-800 mt-0.5">
+                    {booking.seatsBooked}
+                  </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Total Due</p>
-                  <p className="text-lg font-black text-emerald-500 mt-0.5">৳ {booking.totalPrice}</p>
+                  <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">
+                    Total Due
+                  </p>
+                  <p className="text-lg font-black text-emerald-500 mt-0.5">
+                    ৳ {booking.totalPrice}
+                  </p>
                 </div>
               </div>
 
               {canPay && (
                 <div className="border-t border-gray-100 pt-3">
                   <form action="/api/payment" method="POST">
-                    <input type="hidden" name="bookingId" value={String(booking._id)} />
-                    <input type="hidden" name="totalPrice" value={booking.totalPrice} />
+                    <input
+                      type="hidden"
+                      name="bookingId"
+                      value={String(booking._id)}
+                    />
+                    <input
+                      type="hidden"
+                      name="totalPrice"
+                      value={booking.totalPrice}
+                    />
 
                     <Button
                       type="submit"
