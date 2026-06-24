@@ -24,6 +24,13 @@ export async function POST(request) {
       if (res.ok) booking = await res.json();
     }
 
+    const accepted = booking?.status === "accepted" || booking?.status === "pay";
+    const departed = booking?.departureDateTime && new Date(booking.departureDateTime) < new Date();
+
+    if (booking && (!accepted || departed)) {
+      return NextResponse.redirect(new URL("/dashboard/user/my-booked-tickets", request.url));
+    }
+
     const price = booking?.totalPrice || totalPrice;
     const origin = headersList.get("origin");
 

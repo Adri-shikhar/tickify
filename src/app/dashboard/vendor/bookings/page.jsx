@@ -54,11 +54,11 @@ export default function BookingsPage() {
                 <h2 className="mt-1 text-lg font-bold text-gray-900 tracking-tight line-clamp-1">{ticketTitle}</h2>
               </div>
 
-              {!status || status === "waiting for confirm" ? (
+              {!status || status === "pending" || status === "waiting for confirm" ? (
                 <div className="flex gap-2 shrink-0">
                   <Button
                     size="sm"
-                    onClick={() => handleAction(_id, "pay")}
+                    onClick={() => handleAction(_id, "accepted")}
                     className="bg-emerald-500 text-white font-bold text-xs px-3 h-7 rounded-md shadow-sm hover:bg-emerald-600"
                   >
                     Accept
@@ -73,9 +73,9 @@ export default function BookingsPage() {
                 </div>
               ) : (
                 <span className={`rounded-md border px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider shrink-0 ${
-                  status === "pay" ? "bg-blue-50 border-blue-200 text-blue-600" : "bg-red-50 border-red-200 text-red-600"
+                  status === "accepted" || status === "pay" ? "bg-blue-50 border-blue-200 text-blue-600" : "bg-red-50 border-red-200 text-red-600"
                 }`}>
-                  {status === "pay" ? "pay" : "reject"}
+                  {status === "accepted" || status === "pay" ? "accepted" : "rejected"}
                 </span>
               )}
             </div>

@@ -40,3 +40,21 @@ export async function updateTicketStatus(id, status) {
   });
   return error ? { error } : { success: true, status: data.status };
 }
+
+// Vendor: update ticket details
+export async function updateTicket(id, ticket) {
+  const { data, error } = await apiReq(`/api/tickets/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(ticket),
+  });
+  return error ? { error } : { success: true, ticket: data };
+}
+
+// Vendor: delete a ticket
+export async function deleteTicket(id) {
+  const { data, error } = await apiReq(`/api/tickets/${id}`, {
+    method: "DELETE",
+  });
+  return error ? { error } : { success: true };
+}

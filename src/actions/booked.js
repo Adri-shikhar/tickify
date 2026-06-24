@@ -24,7 +24,7 @@ export async function getVendorBookings(vendorId) {
   return error ? { error } : { bookings: data };
 }
 
-// Workflow Update: Allows vendors to change booking status to "pay" or "rejected"
+// Workflow Update: Allows vendors to change booking status to "accepted" or "rejected"
 export async function updateBookingStatus(id, status) {
   const { data, error } = await apiReq(`/api/bookings/${id}`, {
     method: "PATCH",
