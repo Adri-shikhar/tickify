@@ -72,12 +72,14 @@ export default function MyBookedTicketsPage() {
               {/* Actionable Trigger: Prompt Payment Option when Vendor Approves Reservation */}
               {status === "pay" && (
                 <div className="border-t border-gray-100 pt-3">
-                  <Button
-                    type="button"
-                    className="w-full h-9 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-xs rounded-xl shadow-sm transition-transform active:scale-[0.98] hover:opacity-95"
-                  >
+                <form action="/api/payment" method="POST">
+                  <input type="hidden" name="ticketId" value={_id} />
+                  <input type="hidden" name="quantity" value={seatsBooked} />
+                  <input type="hidden" name="totalPrice" value={totalPrice} />
+                  <Button type="submit" className="w-full h-9 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-xs rounded-xl shadow-sm transition-transform active:scale-[0.98] hover:opacity-95">
                     💳 Pay Now (৳{totalPrice})
                   </Button>
+                </form>
                 </div>
               )}
 
