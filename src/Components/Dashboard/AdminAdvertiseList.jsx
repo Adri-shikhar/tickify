@@ -8,6 +8,7 @@ export default function AdminAdvertiseList() {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [togglingId, setTogglingId] = useState(null);
 
   useEffect(() => {
     getTicketsAdmin().then((result) => {
@@ -23,21 +24,26 @@ export default function AdminAdvertiseList() {
   async function handleToggle(ticket) {
     setError("");
     const newValue = !ticket.isAdvertised;
+    const currentCount = tickets.filter((t) => t.isAdvertised).length;
 
-    if (newValue && advertisedCount >= 6) {
+    if (newValue && currentCount >= 6) {
       setError("Maximum 6 tickets can be advertised");
       return;
     }
 
+    setTogglingId(String(ticket._id));
     const result = await toggleAdvertise(ticket._id, newValue);
+    setTogglingId(null);
 
     if (result.error) {
       setError(result.error);
       return;
     }
 
-    setTickets(
-      tickets.map((t) => (String(t._id) === String(ticket._id) ? { ...t, isAdvertised: newValue } : t))
+    setTickets((prev) =>
+      prev.map((t) =>
+        String(t._id) === String(ticket._id) ? { ...t, isAdvertised: newValue } : t
+      )
     );
   }
 
@@ -77,6 +83,7 @@ export default function AdminAdvertiseList() {
                   <td className="px-4 py-3">
                     <Button
                       size="sm"
+                      disabled={togglingId === String(ticket._id)}
                       onClick={() => handleToggle(ticket)}
                       className={
                         ticket.isAdvertised
@@ -84,7 +91,11 @@ export default function AdminAdvertiseList() {
                           : "bg-cyan-600 text-xs font-bold text-white"
                       }
                     >
-                      {ticket.isAdvertised ? "Unadvertise" : "Advertise"}
+                      {togglingId === String(ticket._id)
+                        ? "..."
+                        : ticket.isAdvertised
+                          ? "Unadvertise"
+                          : "Advertise"}
                     </Button>
                   </td>
                 </tr>
