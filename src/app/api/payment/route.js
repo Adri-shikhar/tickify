@@ -17,6 +17,8 @@ export async function POST(request) {
     const ticketId = formData.get('ticketId')
     const quantity = formData.get('quantity')
     const totalPrice = formData.get('totalPrice')
+    const vendorId = formData.get('vendorId')
+    const vendorName = formData.get('vendorName')
     console.log(userId, ticketId, quantity, totalPrice)
     const origin = headersList.get('origin')
 
@@ -41,6 +43,8 @@ export async function POST(request) {
         ticketId: ticketId,
         quantity: quantity,
         totalPrice: Number(totalPrice),
+        vendorId: vendorId || "",
+        vendorName: vendorName || "",
       },
       mode: 'payment',
       success_url: `${origin}/all-tickets/success?session_id={CHECKOUT_SESSION_ID}`,

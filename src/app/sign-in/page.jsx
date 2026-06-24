@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { getDashboardPath } from "@/lib/dashboard";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -23,6 +24,19 @@ export default function SignInPage() {
     if (signInError) { setError(signInError.message ?? "Sign in failed"); return; }
 
     router.push(getDashboardPath(data?.user?.role));
+  };
+
+  const handleGoogleSignIn = async () => {
+    setError("");
+
+    const { error: googleError } = await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
+    });
+
+    if (googleError) {
+      setError(googleError.message ?? "Google sign in failed");
+    }
   };
 
   return (
@@ -53,6 +67,21 @@ export default function SignInPage() {
                 Log In
               </Button>
             </form>
+
+            <div className="flex w-full items-center gap-3">
+              <div className="h-px flex-1 bg-gray-200" />
+              <span className="text-body text-xs font-medium">or</span>
+              <div className="h-px flex-1 bg-gray-200" />
+            </div>
+
+            <Button
+              type="button"
+              onClick={handleGoogleSignIn}
+              className="surface-border btn-outline flex h-12 w-full items-center justify-center gap-2 rounded-lg border text-base font-semibold"
+            >
+              <FcGoogle className="text-xl" />
+              Continue with Google
+            </Button>
 
             <div className="text-body mt-2 text-center text-sm font-medium">
               Don&apos;t have an account?{" "}
