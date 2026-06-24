@@ -5,7 +5,7 @@ import { Card, Button } from "@heroui/react";
 import Image from "@/Components/Image";
 import { fmtDate } from "@/lib/format";
 
-export default function TicketCard({ ticket, onBook, footer, showEmail = false }) {
+export default function TicketCard({ ticket, onBook, footer, showEmail = false, buttonText = "Book Ticket" }) {
   const { title, from, to, transportType, price, quantity, departureDateTime, imageUrl, vendorName, vendorEmail, perks = {} } = ticket;
 
   // Only list the perks that are enabled (true)
@@ -47,7 +47,7 @@ export default function TicketCard({ ticket, onBook, footer, showEmail = false }
         <div className="px-5 pb-5">
           {footer || (
             <Button onClick={onBook} className="h-10 w-full rounded-lg bg-gradient-to-r from-emerald-400 to-blue-600 font-bold text-gray-950">
-              Book Ticket
+              {buttonText}
             </Button>
           )}
         </div>

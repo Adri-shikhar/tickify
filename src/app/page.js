@@ -1,6 +1,12 @@
 // Landing page (route: /)
 import BackgroundSwiper from "@/Components/BackgroundSwiper";
 import LatestTicker from "@/Components/LatestTicker";
+import AdvertisementSection from "@/Components/AdvertisementSection";
+import LatestTicketsSection from "@/Components/LatestTicketsSection";
+import TrendingDestinations from "@/Components/TrendingDestinations";
+import WhyChooseUs from "@/Components/WhyChooseUs";
+import EasySteps from "@/Components/EasySteps";
+import TravelersSay from "@/Components/TravelersSay";
 
 export default function LandingPage() {
   return (
@@ -21,6 +27,27 @@ export default function LandingPage() {
       <div className="page-bg p-6">
         <LatestTicker />
       </div>
+
+      <section className="page-bg mx-auto max-w-7xl px-4 py-12 sm:px-6">
+        <h2 className="mb-2 text-center text-3xl font-black bg-gradient-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
+          Latest Tickets
+        </h2>
+        <p className="mb-8 text-center text-sm text-gray-500">Recently added trips you can book now</p>
+        <LatestTicketsSection />
+      </section>
+
+      <section className="page-bg mx-auto max-w-[1400px] px-4 py-12 sm:px-6">
+        <h2 className="mb-2 text-center text-3xl font-black bg-gradient-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
+          Advertisement
+        </h2>
+        <p className="mb-8 text-center text-sm text-gray-500">Featured tickets selected by admin</p>
+        <AdvertisementSection />
+      </section>
+
+      <TrendingDestinations />
+      <WhyChooseUs />
+      <EasySteps />
+      <TravelersSay />
     </>
   );
 }

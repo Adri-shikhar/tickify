@@ -58,3 +58,25 @@ export async function deleteTicket(id) {
   });
   return error ? { error } : { success: true };
 }
+
+// Home: advertised tickets (max 6)
+export async function getAdvertisedTickets() {
+  const { data, error } = await apiReq("/api/tickets/advertised", { cache: "no-store" });
+  return error ? { error } : { tickets: data };
+}
+
+// Home: latest accepted tickets
+export async function getLatestTickets() {
+  const { data, error } = await apiReq("/api/tickets/latest", { cache: "no-store" });
+  return error ? { error } : { tickets: data };
+}
+
+// Admin: toggle advertise on/off
+export async function toggleAdvertise(id, isAdvertised) {
+  const { data, error } = await apiReq(`/api/tickets/${id}/advertise`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ isAdvertised }),
+  });
+  return error ? { error } : { success: true, isAdvertised: data.isAdvertised };
+}
