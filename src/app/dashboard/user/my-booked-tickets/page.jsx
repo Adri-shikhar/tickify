@@ -7,6 +7,9 @@ import { fmtDate } from "@/lib/format";
 import { Card, Button } from "@heroui/react";
 
 function getStatusBadge(status) {
+  if (status === "paid") {
+    return { text: "Paid", cls: "bg-emerald-50 border-emerald-200 text-emerald-600" };
+  }
   if (status === "pay") {
     return { text: "Approved", cls: "bg-blue-50 border-blue-200 text-blue-600" };
   }
@@ -93,11 +96,8 @@ export default function MyBookedTicketsPage() {
               {canPay && (
                 <div className="border-t border-gray-100 pt-3">
                   <form action="/api/payment" method="POST">
-                    <input type="hidden" name="ticketId" value={booking.ticket_id} />
-                    <input type="hidden" name="quantity" value={booking.seatsBooked} />
+                    <input type="hidden" name="bookingId" value={String(booking._id)} />
                     <input type="hidden" name="totalPrice" value={booking.totalPrice} />
-                    <input type="hidden" name="vendorId" value={booking.vendor_id || ""} />
-                    <input type="hidden" name="vendorName" value={booking.vendorName || ""} />
 
                     <Button
                       type="submit"
