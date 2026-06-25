@@ -19,8 +19,8 @@ function getInitials(name) {
     .toUpperCase();
 }
 
-const thClass = "px-4 py-3 text-left text-sm font-semibold text-gray-600";
-const tdClass = "px-4 py-4 text-sm text-gray-700";
+const thClass = "px-2 py-2 text-left text-xs font-semibold text-gray-600 sm:px-4 sm:py-3 sm:text-sm";
+const tdClass = "px-2 py-3 text-xs text-gray-700 sm:px-4 sm:py-4 sm:text-sm";
 
 export default function AdminUserList({ initialUsers = [] }) {
   const [users, setUsers] = useState(initialUsers);
@@ -45,8 +45,8 @@ export default function AdminUserList({ initialUsers = [] }) {
   }
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
-      <table className="w-full min-w-[800px] border-collapse">
+    <div className="w-full max-w-full overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+      <table className="w-full min-w-[720px] border-collapse">
         <thead>
           <tr className="border-b border-gray-200 bg-gray-50">
             <th className={`${thClass} w-12`}>#</th>
@@ -97,7 +97,7 @@ export default function AdminUserList({ initialUsers = [] }) {
                 </td>
 
                 <td className={tdClass}>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     <Button
                       size="sm"
                       onClick={() => handleRoleChange(id, "admin")}

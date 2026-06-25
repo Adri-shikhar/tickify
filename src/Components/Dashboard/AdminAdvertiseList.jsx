@@ -60,8 +60,8 @@ export default function AdminAdvertiseList() {
       {approved.length === 0 ? (
         <p className="text-gray-500">No approved tickets to advertise.</p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
-          <table className="w-full min-w-[700px] text-left text-sm">
+        <div className="w-full max-w-full overflow-x-auto rounded-xl border bg-white shadow-sm">
+          <table className="w-full min-w-[560px] text-left text-sm">
             <thead>
               <tr className="border-b bg-gray-50 text-xs font-bold uppercase text-gray-500">
                 <th className="px-4 py-3">Title</th>

@@ -29,9 +29,9 @@ export default function BookingsPage() {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-4xl flex-col gap-6 bg-gray-50/50 p-6 md:p-8 isolate">
+    <div className="mx-auto flex w-full max-w-4xl flex-col gap-4 bg-gray-50/50 p-4 sm:gap-6 sm:p-6 md:p-8">
       <div>
-        <h1 className="text-3xl font-black text-gray-900">
+        <h1 className="text-xl font-black text-gray-900 sm:text-2xl md:text-3xl">
           Requested Bookings <span className="text-cyan-600">({bookings?.length || 0})</span>
         </h1>
         <p className="mt-1 text-sm text-gray-500">Passenger reservations for your tickets.</p>

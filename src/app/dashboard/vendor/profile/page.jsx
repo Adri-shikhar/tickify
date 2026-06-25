@@ -15,7 +15,7 @@ export default function VendorProfilePage() {
   }
 
   return (
-    <div className="flex justify-center p-8">
+    <div className="flex justify-center p-4 sm:p-6 md:p-8">
       <ProfileCard user={session?.user} role="vendor" />
     </div>
   );

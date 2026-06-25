@@ -7,7 +7,7 @@ import { getTickets } from "@/actions/tickets";
 import { fmtDate } from "@/lib/format";
 import { Card } from "@heroui/react";
 
-const cardClass = "rounded-2xl border border-gray-100 bg-white p-5 shadow-md";
+const cardClass = "rounded-2xl border border-gray-100 bg-white p-4 shadow-md sm:p-5";
 
 export default function RevenuePage() {
   const { data: session } = useSession();
@@ -37,9 +37,9 @@ export default function RevenuePage() {
   const max = Math.max(tickets.length, sold, revenue, 1);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-7xl flex-col gap-6 bg-gray-50/50 p-6 md:p-8">
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 bg-gray-50/50 p-4 sm:gap-6 sm:p-6 md:p-8">
       <div>
-        <h1 className="text-3xl font-black text-gray-900 tracking-tight">Revenue Overview</h1>
+        <h1 className="text-xl font-black tracking-tight text-gray-900 sm:text-2xl md:text-3xl">Revenue Overview</h1>
         <p className="mt-1 text-sm text-gray-500">
           Track tickets added, sales, and paid transactions for your vendor account.
         </p>
@@ -71,7 +71,7 @@ export default function RevenuePage() {
             </Card>
           </div>
 
-          <Card className="rounded-2xl border border-gray-100 bg-white p-6 shadow-md">
+          <Card className="rounded-2xl border border-gray-100 bg-white p-4 shadow-md sm:p-6">
             <Card.Content>
               <h2 className="text-lg font-bold text-gray-900">Revenue Overview</h2>
               <p className="mt-1 text-sm text-gray-500">Summary of your ticket sales performance.</p>
@@ -101,7 +101,7 @@ export default function RevenuePage() {
 
           <Card className="rounded-2xl border border-gray-100 bg-white shadow-md">
             <Card.Content className="p-0">
-              <div className="border-b border-gray-100 px-6 py-4">
+              <div className="border-b border-gray-100 px-4 py-3 sm:px-6 sm:py-4">
                 <h2 className="text-lg font-bold text-gray-900">
                   Transactions <span className="text-cyan-600">({payments.length})</span>
                 </h2>
@@ -113,16 +113,16 @@ export default function RevenuePage() {
                   No transactions yet. Revenue will appear here after customers pay for accepted bookings.
                 </p>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full min-w-[720px] text-left text-sm">
+                <div className="w-full overflow-x-auto">
+                  <table className="w-full min-w-[640px] text-left text-sm">
                     <thead>
                       <tr className="border-b border-gray-100 bg-gray-50/80 text-[11px] font-bold uppercase tracking-wider text-gray-500">
-                        <th className="px-6 py-3">Transaction ID</th>
-                        <th className="px-6 py-3">Ticket</th>
-                        <th className="px-6 py-3">Customer</th>
-                        <th className="px-6 py-3">Qty</th>
-                        <th className="px-6 py-3">Amount</th>
-                        <th className="px-6 py-3">Payment Date</th>
+                        <th className="px-3 py-2 sm:px-6 sm:py-3">Transaction ID</th>
+                        <th className="px-3 py-2 sm:px-6 sm:py-3">Ticket</th>
+                        <th className="px-3 py-2 sm:px-6 sm:py-3">Customer</th>
+                        <th className="px-3 py-2 sm:px-6 sm:py-3">Qty</th>
+                        <th className="px-3 py-2 sm:px-6 sm:py-3">Amount</th>
+                        <th className="px-3 py-2 sm:px-6 sm:py-3">Payment Date</th>
                       </tr>
                     </thead>
                     <tbody>

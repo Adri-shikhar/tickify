@@ -46,8 +46,8 @@ export default function AddTicketsPage() {
   const inputClass = "h-10 w-full rounded-lg bg-gray-100 px-3 text-sm outline-none";
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-gray-50 p-4">
-      <Card className="w-full max-w-xl rounded-xl border p-6 shadow-md">
+    <div className="flex min-h-full items-center justify-center bg-gray-50 p-4 sm:p-6">
+      <Card className="w-full max-w-xl rounded-xl border p-4 shadow-md sm:p-6">
         <Card.Content className="flex flex-col gap-5">
           <h1 className="text-center text-2xl font-bold text-cyan-600">Add New Ticket</h1>
 
@@ -56,7 +56,7 @@ export default function AddTicketsPage() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input name="title" required placeholder="Ticket Title" className={inputClass} />
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <input name="from" required placeholder="From (city)" className={inputClass} />
               <input name="to" required placeholder="To (city)" className={inputClass} />
             </div>
@@ -68,7 +68,7 @@ export default function AddTicketsPage() {
               <option value="flight">Flight</option>
             </select>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <input name="price" type="number" required min="0" placeholder="Price (৳)" className={inputClass} />
               <input name="quantity" type="number" required min="1" placeholder="Total Seats" className={inputClass} />
             </div>

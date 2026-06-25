@@ -15,9 +15,9 @@ export default function TransactionHistoryPage() {
   );
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 bg-gray-50/50 p-6 md:p-8">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 bg-gray-50/50 p-4 sm:gap-6 sm:p-6 md:p-8">
       <div>
-        <h1 className="text-3xl font-black text-gray-900 tracking-tight">
+        <h1 className="text-xl font-black tracking-tight text-gray-900 sm:text-2xl md:text-3xl">
           Transaction History <span className="text-emerald-500">({payments.length})</span>
         </h1>
         <p className="mt-1 text-sm text-gray-500">All payments made from your account.</p>
@@ -31,14 +31,14 @@ export default function TransactionHistoryPage() {
           {!loading && !error && payments.length === 0 ? (
             <p className="px-6 py-12 text-center text-sm text-gray-400">No transactions yet.</p>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[600px] text-left text-sm">
+            <div className="w-full overflow-x-auto">
+              <table className="w-full min-w-[520px] text-left text-sm">
                 <thead>
                   <tr className="border-b border-gray-100 bg-gray-50/80 text-[11px] font-bold uppercase tracking-wider text-gray-500">
-                    <th className="px-6 py-3">Transaction ID</th>
-                    <th className="px-6 py-3">Ticket Title</th>
-                    <th className="px-6 py-3">Amount</th>
-                    <th className="px-6 py-3">Payment Date</th>
+                    <th className="px-3 py-2 sm:px-6 sm:py-3">Transaction ID</th>
+                    <th className="px-3 py-2 sm:px-6 sm:py-3">Ticket Title</th>
+                    <th className="px-3 py-2 sm:px-6 sm:py-3">Amount</th>
+                    <th className="px-3 py-2 sm:px-6 sm:py-3">Payment Date</th>
                   </tr>
                 </thead>
                 <tbody>

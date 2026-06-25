@@ -61,8 +61,8 @@ export default function MyTicketsPage() {
   }
 
   return (
-    <div className="p-8">
-      <h1 className="mb-8 text-2xl font-black text-gray-900">
+    <div className="w-full p-4 sm:p-6 md:p-8">
+      <h1 className="mb-6 text-xl font-black text-gray-900 sm:mb-8 sm:text-2xl md:text-3xl">
         My Tickets <span className="text-emerald-500">({tickets.length})</span>
       </h1>
 
