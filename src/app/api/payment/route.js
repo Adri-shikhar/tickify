@@ -43,7 +43,7 @@ export async function POST(request) {
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: "bdt",
             product_data: { name: booking?.ticketTitle || "Ticket" },
             unit_amount: Number(price) * 100,
           },
