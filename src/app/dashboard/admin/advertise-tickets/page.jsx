@@ -1,6 +1,8 @@
 import AdminAdvertiseList from "@/Components/Dashboard/AdminAdvertiseList";
 
-export default function AdvertiseTicketsPage() {
+export default async function AdvertiseTicketsPage() {
+  const token = await getToken();
+  console.log("token", token);
   return (
     <div className="mx-auto w-full max-w-5xl p-4 sm:p-6 md:p-8">
       <h1 className="mb-2 text-xl font-black text-gray-900 sm:text-2xl md:text-3xl">Advertise Tickets</h1>

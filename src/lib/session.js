@@ -6,6 +6,7 @@ export async function getUserSession(requestHeaders) {
   return auth.api.getSession({
     headers: requestHeaders ?? (await headers()),
   });
+  
 }
 
 export async function verifyUser(role) {

@@ -1,7 +1,10 @@
 import { getTicketsAdmin } from "@/actions/tickets";
 import AdminTicketList from "@/Components/Dashboard/AdminTicketList";
+import { getToken } from "@/actions/token";
 
 export default async function ManageTicketsPage() {
+  const token = await getToken();
+  console.log("token", token);
   const res = await getTicketsAdmin();
   const tickets = res.error ? [] : (res.tickets ?? []);
 

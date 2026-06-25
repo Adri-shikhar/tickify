@@ -21,13 +21,17 @@ export async function getTickets(vendorId) {
 
 // Fetches a single ticket by its ID
 export async function getTicket(id) {
-  const { data, error } = await apiReq(`/api/tickets/${id}`, { cache: "no-store" });
+  const { data, error } = await apiReq(`/api/tickets/${id}`, {
+    cache: "no-store",
+  });
   return error ? { error } : { ticket: data };
 }
 
 // Fetches all tickets for admin
 export async function getTicketsAdmin() {
-  const { data, error } = await apiReq("/api/tickets/admin", { cache: "no-store" });
+  const { data, error } = await apiReq("/api/tickets/admin", {
+    cache: "no-store",
+  });
   return error ? { error } : { tickets: data };
 }
 
@@ -61,13 +65,17 @@ export async function deleteTicket(id) {
 
 // Home: advertised tickets (max 6)
 export async function getAdvertisedTickets() {
-  const { data, error } = await apiReq("/api/tickets/advertised", { cache: "no-store" });
+  const { data, error } = await apiReq("/api/tickets/advertised", {
+    cache: "no-store",
+  });
   return error ? { error } : { tickets: data };
 }
 
 // Home: latest accepted tickets
 export async function getLatestTickets() {
-  const { data, error } = await apiReq("/api/tickets/latest", { cache: "no-store" });
+  const { data, error } = await apiReq("/api/tickets/latest", {
+    cache: "no-store",
+  });
   return error ? { error } : { tickets: data };
 }
 
