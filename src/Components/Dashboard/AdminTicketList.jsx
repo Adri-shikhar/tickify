@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Card, Button } from "@heroui/react";
 import { updateTicketStatus } from "@/actions/tickets";
-import { fmtDate } from "@/lib/format";
+import { fmtDate, fmtPrice } from "@/lib/format";
 
 export default function AdminTicketList({ initialTickets = [] }) {
   const [tickets, setTickets] = useState(initialTickets);
@@ -79,7 +79,7 @@ export default function AdminTicketList({ initialTickets = [] }) {
             <span>
               Seats: <strong>{ticket.quantity}</strong>
             </span>
-            <span className="font-bold text-emerald-500">৳ {ticket.price}</span>
+            <span className="font-bold text-emerald-500">{fmtPrice(ticket.price)}</span>
           </div>
         </Card>
       ))}

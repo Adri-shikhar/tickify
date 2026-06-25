@@ -71,7 +71,7 @@ export default function EditTicketForm({ ticket, ticketId }) {
             </select>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <input name="price" type="number" required min="0" defaultValue={ticket.price} placeholder="Price (৳)" className={inputClass} />
+              <input name="price" type="number" required min="0" defaultValue={ticket.price} placeholder="Price (tk)" className={inputClass} />
               <input name="quantity" type="number" required min="1" defaultValue={ticket.quantity} placeholder="Total Seats" className={inputClass} />
             </div>
 

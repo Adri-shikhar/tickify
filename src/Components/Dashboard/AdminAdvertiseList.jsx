@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { toggleAdvertise } from "@/actions/tickets";
 import { Button } from "@heroui/react";
+import { fmtPrice } from "@/lib/format";
 
 export default function AdminAdvertiseList({ initialTickets }) {
   const [tickets, setTickets] = useState(initialTickets);
@@ -66,7 +67,7 @@ export default function AdminAdvertiseList({ initialTickets }) {
                     {ticket.from} → {ticket.to}
                   </td>
                   <td className="px-4 py-3 capitalize">{ticket.transportType}</td>
-                  <td className="px-4 py-3 font-bold text-emerald-600">৳ {ticket.price}</td>
+                  <td className="px-4 py-3 font-bold text-emerald-600">{fmtPrice(ticket.price)}</td>
                   <td className="px-4 py-3">
                     <Button
                       size="sm"

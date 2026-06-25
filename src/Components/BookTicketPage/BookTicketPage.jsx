@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "@/Components/Image";
 import { useSession } from "@/lib/auth-client";
 import { bookTicket } from "@/actions/booked";
-import { fmtDate } from "@/lib/format";
+import { fmtDate, fmtPrice } from "@/lib/format";
 import { Card, Button } from "@heroui/react";
 import Countdown from "react-countdown";
 
@@ -177,7 +177,7 @@ export default function BookTicketPage({ initialTicket, ticketId }) {
                 <div className="grid grid-cols-2 gap-4 border-y border-gray-100 py-3 text-sm">
                   <div>
                     <span className="text-gray-500">Price:</span>{" "}
-                    <span className="font-black">৳{ticket.price}</span>
+                    <span className="font-black">{fmtPrice(ticket.price)}</span>
                   </div>
                   <div>
                     <span className="text-gray-500">Available:</span>{" "}
@@ -265,7 +265,7 @@ export default function BookTicketPage({ initialTicket, ticketId }) {
 
               <div className="flex justify-between rounded-xl border border-emerald-100 bg-emerald-50 p-3 text-sm">
                 <span className="font-bold">Total:</span>
-                <span className="text-xl font-black text-emerald-600">৳ {totalPrice}</span>
+                <span className="text-xl font-black text-emerald-600">{fmtPrice(totalPrice)}</span>
               </div>
 
               <div className="flex gap-3">

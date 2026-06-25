@@ -17,6 +17,7 @@ export async function POST(request) {
     const formData = await request.formData();
     const bookingId = String(formData.get("bookingId") || "");
     const totalPrice = formData.get("totalPrice");
+    const paidAt = String(formData.get("paidAt") || "");
 
     let booking = null;
     if (bookingId) {
@@ -57,6 +58,7 @@ export async function POST(request) {
         vendorName: String(booking?.vendorName || ""),
         quantity: String(booking?.seatsBooked || 1),
         totalPrice: String(price),
+        paidAt,
       },
       mode: "payment",
       success_url: `${origin}/all-tickets/success?session_id={CHECKOUT_SESSION_ID}`,

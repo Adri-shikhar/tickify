@@ -1,6 +1,6 @@
 import { getUserSession } from "@/lib/session";
 import { getUserPayments } from "@/actions/payment";
-import { fmtDate } from "@/lib/format";
+import { fmtDate, fmtPrice } from "@/lib/format";
 import { Card } from "@heroui/react";
 
 export default async function TransactionHistoryPage() {
@@ -44,8 +44,8 @@ export default async function TransactionHistoryPage() {
                         {String(p.payment_intent_id || p.session_id || p._id).slice(-12)}
                       </td>
                       <td className="px-6 py-4 font-semibold text-gray-900">{p.ticketTitle || "Ticket"}</td>
-                      <td className="px-6 py-4 font-black text-emerald-600">৳ {p.totalPrice}</td>
-                      <td className="px-6 py-4 text-gray-600">{fmtDate(p.paidAt)}</td>
+                      <td className="px-6 py-4 font-black text-emerald-600">{fmtPrice(p.totalPrice)}</td>
+                      <td className="px-6 py-4 text-gray-600">{fmtDate(p.paidAt || p.createdAt)}</td>
                     </tr>
                   ))}
                 </tbody>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { updateBookingStatus } from "@/actions/booked";
-import { fmtDate } from "@/lib/format";
+import { fmtDate, fmtPrice } from "@/lib/format";
 import { Card, Button } from "@heroui/react";
 
 export default function VendorBookingsList({ initialBookings }) {
@@ -91,7 +91,7 @@ export default function VendorBookingsList({ initialBookings }) {
             </div>
             <div className="text-right">
               <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Revenue</p>
-              <p className="mt-0.5 text-lg font-black text-emerald-500">৳ {totalPrice}</p>
+              <p className="mt-0.5 text-lg font-black text-emerald-500">{fmtPrice(totalPrice)}</p>
             </div>
           </div>
         </Card>

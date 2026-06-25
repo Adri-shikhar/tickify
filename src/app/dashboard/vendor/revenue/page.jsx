@@ -1,7 +1,7 @@
 import { getUserSession } from "@/lib/session";
 import { getVendorPayments } from "@/actions/payment";
 import { getTickets } from "@/actions/tickets";
-import { fmtDate } from "@/lib/format";
+import { fmtDate, fmtPrice } from "@/lib/format";
 import { Card } from "@heroui/react";
 
 const cardClass = "rounded-2xl border border-gray-100 bg-white p-4 shadow-md sm:p-5";
@@ -52,7 +52,7 @@ export default async function RevenuePage() {
             <Card className={cardClass}>
               <Card.Content>
                 <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Total Revenue</p>
-                <p className="mt-2 text-3xl font-black text-indigo-600">৳ {revenue}</p>
+                <p className="mt-2 text-3xl font-black text-indigo-600">{fmtPrice(revenue)}</p>
               </Card.Content>
             </Card>
           </div>
@@ -66,7 +66,7 @@ export default async function RevenuePage() {
                 {[
                   ["Tickets Added", tickets.length, "bg-cyan-500"],
                   ["Tickets Sold", sold, "bg-emerald-500"],
-                  ["Revenue (৳)", revenue, "bg-indigo-500"],
+                  ["Revenue (tk)", revenue, "bg-indigo-500"],
                 ].map(([label, value, color]) => (
                   <div key={label}>
                     <div className="mb-1 flex justify-between text-xs font-semibold text-gray-600">
@@ -120,8 +120,8 @@ export default async function RevenuePage() {
                           <td className="px-6 py-4 font-semibold text-gray-900">{p.ticketTitle || "Ticket"}</td>
                           <td className="px-6 py-4 text-gray-600">{p.customerEmail || "N/A"}</td>
                           <td className="px-6 py-4 font-semibold">{p.quantity || 1}</td>
-                          <td className="px-6 py-4 font-black text-emerald-600">৳ {p.totalPrice}</td>
-                          <td className="px-6 py-4 text-gray-600">{fmtDate(p.paidAt)}</td>
+                          <td className="px-6 py-4 font-black text-emerald-600">{fmtPrice(p.totalPrice)}</td>
+                          <td className="px-6 py-4 text-gray-600">{fmtDate(p.paidAt || p.createdAt)}</td>
                         </tr>
                       ))}
                     </tbody>

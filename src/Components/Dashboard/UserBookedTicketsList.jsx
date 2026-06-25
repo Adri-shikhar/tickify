@@ -1,6 +1,6 @@
 "use client";
 
-import { fmtDate } from "@/lib/format";
+import { fmtDate, fmtPrice } from "@/lib/format";
 import { Card, Button } from "@heroui/react";
 import Countdown from "react-countdown";
 
@@ -70,20 +70,27 @@ export default function UserBookedTicketsList({ bookings }) {
               </div>
               <div className="text-right">
                 <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Total Due</p>
-                <p className="mt-0.5 text-lg font-black text-emerald-500">৳ {booking.totalPrice}</p>
+                <p className="mt-0.5 text-lg font-black text-emerald-500">{fmtPrice(booking.totalPrice)}</p>
               </div>
             </div>
 
             {canPay && (
               <div className="border-t border-gray-100 pt-3">
-                <form action="/api/payment" method="POST">
+                <form
+                  action="/api/payment"
+                  method="POST"
+                  onSubmit={(e) => {
+                    e.currentTarget.paidAt.value = new Date().toISOString();
+                  }}
+                >
                   <input type="hidden" name="bookingId" value={String(booking._id)} />
                   <input type="hidden" name="totalPrice" value={booking.totalPrice} />
+                  <input type="hidden" name="paidAt" defaultValue="" />
                   <Button
                     type="submit"
                     className="h-9 w-full rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-xs font-bold text-white shadow-sm"
                   >
-                    💳 Pay Now (৳{booking.totalPrice})
+                    💳 Pay Now ({fmtPrice(booking.totalPrice)})
                   </Button>
                 </form>
               </div>

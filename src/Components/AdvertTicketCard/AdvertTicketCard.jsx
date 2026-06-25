@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "@/Components/Image";
+import { fmtPrice } from "@/lib/format";
 
 const perkLabels = {
   ac: "AC",
@@ -36,7 +37,7 @@ export default function AdvertTicketCard({ ticket, onSeeDetails }) {
         </p>
 
         <p className="text-2xl font-bold text-gray-900">
-          ৳ {price}{" "}
+          {fmtPrice(price)}{" "}
           <span className="text-sm font-normal text-gray-500">/ ticket</span>
         </p>
 

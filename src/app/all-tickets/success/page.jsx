@@ -31,6 +31,7 @@ export default async function Success({ searchParams }) {
     status: "paid",
     customerEmail: session.customer_details?.email || "",
     payment_intent_id: String(session.payment_intent || ""),
+    paidAt: m.paidAt || new Date().toISOString(),
   });
 
   return (

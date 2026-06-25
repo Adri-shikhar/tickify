@@ -3,7 +3,7 @@
 // Reusable ticket card — used on the public tickets page and vendor's my-tickets page
 import { Card, Button } from "@heroui/react";
 import Image from "@/Components/Image";
-import { fmtDate } from "@/lib/format";
+import { fmtDate, fmtPrice } from "@/lib/format";
 
 export default function TicketCard({ ticket, onBook, footer, showEmail = false, buttonText = "Book Ticket" }) {
   const { title, from, to, transportType, price, quantity, departureDateTime, imageUrl, vendorName, vendorEmail, perks = {} } = ticket;
@@ -29,7 +29,7 @@ export default function TicketCard({ ticket, onBook, footer, showEmail = false, 
         <p className="text-xs font-bold capitalize text-gray-700">🚌 {transportType}</p>
 
         <div className="flex justify-between border-b border-gray-100 pb-2">
-          <span className="font-extrabold text-emerald-500">৳ {price}</span>
+          <span className="font-extrabold text-emerald-500">{fmtPrice(price)}</span>
           <span className="text-xs font-bold">Available: {quantity}</span>
         </div>
 
