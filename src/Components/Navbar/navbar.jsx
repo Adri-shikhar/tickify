@@ -1,7 +1,7 @@
 "use client";
 
 // Public navbar shown on all non-dashboard pages
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { authClient, useSession } from "@/lib/auth-client";
@@ -40,29 +40,18 @@ export default function TickifyNavbar() {
   const router = useRouter();
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const menuRef = useRef(null);
 
   const profilePath = session ? getProfilePath(session.user?.role) : "/sign-in";
 
-  useEffect(() => {
-    const handleClick = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setProfileOpen(false);
-    };
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
+  const setMobileMenuOpen = (open) => {
+    setMobileOpen(open);
+    document.body.style.overflow = open ? "hidden" : "";
+  };
 
   const handleLogout = async () => {
     await authClient.signOut();
     setProfileOpen(false);
-    setMobileOpen(false);
+    setMobileMenuOpen(false);
     router.push("/sign-in");
   };
 
@@ -98,7 +87,7 @@ export default function TickifyNavbar() {
           <DarkModeToggle />
 
           {!isPending && session ? (
-            <div className="relative hidden sm:block" ref={menuRef}>
+            <div className="relative hidden sm:block">
               <button
                 type="button"
                 onClick={() => setProfileOpen((prev) => !prev)}
@@ -127,12 +116,20 @@ export default function TickifyNavbar() {
               </button>
 
               {profileOpen && (
-                <div className="dropdown-menu absolute right-0 mt-2 w-40">
-                  <Link href={profilePath} onClick={() => setProfileOpen(false)} className="dropdown-item">Profile</Link>
-                  <button type="button" onClick={handleLogout} className="block w-full px-4 py-2 text-left text-sm font-medium text-red-500 hover:bg-red-50">
-                    Logout
-                  </button>
-                </div>
+                <>
+                  <button
+                    type="button"
+                    className="fixed inset-0 z-40"
+                    aria-label="Close profile menu"
+                    onClick={() => setProfileOpen(false)}
+                  />
+                  <div className="dropdown-menu absolute right-0 z-50 mt-2 w-40">
+                    <Link href={profilePath} onClick={() => setProfileOpen(false)} className="dropdown-item">Profile</Link>
+                    <button type="button" onClick={handleLogout} className="block w-full px-4 py-2 text-left text-sm font-medium text-red-500 hover:bg-red-50">
+                      Logout
+                    </button>
+                  </div>
+                </>
               )}
             </div>
           ) : !isPending ? (
@@ -148,7 +145,7 @@ export default function TickifyNavbar() {
 
           <button
             type="button"
-            onClick={() => setMobileOpen((prev) => !prev)}
+            onClick={() => setMobileMenuOpen(!mobileOpen)}
             className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800 md:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
@@ -164,7 +161,7 @@ export default function TickifyNavbar() {
             type="button"
             className="fixed inset-0 z-40 bg-black/40 md:hidden"
             aria-label="Close menu"
-            onClick={() => setMobileOpen(false)}
+            onClick={() => setMobileMenuOpen(false)}
           />
           <div className="surface-border relative z-50 border-t md:hidden">
             <ul className="flex flex-col px-4 py-3">
@@ -174,7 +171,7 @@ export default function TickifyNavbar() {
                   <li key={link.label}>
                     <Link
                       href={href}
-                      onClick={() => setMobileOpen(false)}
+                      onClick={() => setMobileMenuOpen(false)}
                       className={`block rounded-lg px-3 py-3 ${linkClass(link.href)}`}
                     >
                       {link.label}
@@ -208,7 +205,7 @@ export default function TickifyNavbar() {
                 </div>
                 <Link
                   href={profilePath}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                   className="dropdown-item mb-1"
                 >
                   Profile
@@ -221,14 +218,14 @@ export default function TickifyNavbar() {
               <div className="surface-border flex flex-col gap-2 border-t px-4 py-4">
                 <Link
                   href="/sign-in"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                   className="rounded-lg bg-[#1a1c1e] px-4 py-3 text-center text-sm font-medium text-white hover:bg-[#2d3135]"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/sign-up"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={() => setMobileMenuOpen(false)}
                   className="text-heading surface-border rounded-lg border px-4 py-3 text-center text-sm font-medium"
                 >
                   Sign Up

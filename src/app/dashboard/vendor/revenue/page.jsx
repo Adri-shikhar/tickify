@@ -1,7 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useSession } from "@/lib/auth-client";
+import { getUserSession } from "@/lib/session";
 import { getVendorPayments } from "@/actions/payment";
 import { getTickets } from "@/actions/tickets";
 import { fmtDate } from "@/lib/format";
@@ -9,28 +6,18 @@ import { Card } from "@heroui/react";
 
 const cardClass = "rounded-2xl border border-gray-100 bg-white p-4 shadow-md sm:p-5";
 
-export default function RevenuePage() {
-  const { data: session } = useSession();
+export default async function RevenuePage() {
+  const session = await getUserSession();
   const vendorId = session?.user?.id;
 
-  const [payments, setPayments] = useState([]);
-  const [tickets, setTickets] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [payRes, ticketRes] = await Promise.all([
+    getVendorPayments(vendorId),
+    getTickets(vendorId),
+  ]);
 
-  useEffect(() => {
-    if (!vendorId) return;
-
-    Promise.all([getVendorPayments(vendorId), getTickets(vendorId)]).then(([payRes, ticketRes]) => {
-      if (payRes.error || ticketRes.error) {
-        setError(payRes.error || ticketRes.error);
-      } else {
-        setPayments(payRes.payments ?? []);
-        setTickets(ticketRes.tickets ?? []);
-      }
-      setLoading(false);
-    });
-  }, [vendorId]);
+  const error = payRes.error || ticketRes.error || "";
+  const payments = payRes.error ? [] : (payRes.payments ?? []);
+  const tickets = ticketRes.error ? [] : (ticketRes.tickets ?? []);
 
   const sold = payments.reduce((n, p) => n + Number(p.quantity || 0), 0);
   const revenue = payments.reduce((n, p) => n + Number(p.totalPrice || 0), 0);
@@ -45,10 +32,9 @@ export default function RevenuePage() {
         </p>
       </div>
 
-      {loading && <p className="animate-pulse text-sm text-gray-500">Loading revenue data...</p>}
       {error && <p className="rounded-xl border border-red-100 bg-red-50 p-3 text-sm text-red-500">{error}</p>}
 
-      {!loading && !error && (
+      {!error && (
         <>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <Card className={cardClass}>

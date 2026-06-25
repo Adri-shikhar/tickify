@@ -1,27 +1,10 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { getAdvertisedTickets } from "@/actions/tickets";
-import AdvertTicketCard from "@/Components/AdvertTicketCard";
+import AdvertisementGrid from "./AdvertisementGrid";
 
-export default function AdvertisementSection() {
-  const router = useRouter();
-  const [tickets, setTickets] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    getAdvertisedTickets().then((result) => {
-      if (result.error) setError(result.error);
-      else setTickets(result.tickets || []);
-      setLoading(false);
-    });
-  }, []);
-
-  if (loading) {
-    return <p className="text-center text-gray-500">Loading featured tickets...</p>;
-  }
+export default async function AdvertisementSection() {
+  const result = await getAdvertisedTickets();
+  const error = result.error || "";
+  const tickets = result.error ? [] : (result.tickets ?? []);
 
   if (error) {
     return (
@@ -31,21 +14,9 @@ export default function AdvertisementSection() {
     );
   }
 
-  if (tickets.length === 0) {
-    return (
-      <p className="text-center text-gray-500">No featured tickets right now.</p>
-    );
+  if (!tickets.length) {
+    return <p className="text-center text-gray-500">No featured tickets right now.</p>;
   }
 
-  return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-      {tickets.map((ticket) => (
-        <AdvertTicketCard
-          key={String(ticket._id)}
-          ticket={ticket}
-          onSeeDetails={() => router.push(`/all-tickets/${ticket._id}`)}
-        />
-      ))}
-    </div>
-  );
+  return <AdvertisementGrid tickets={tickets} />;
 }

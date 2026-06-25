@@ -1,14 +1,15 @@
 "use client";
 
 // Toggles dark mode and saves the preference to localStorage
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+function getInitialDark() {
+  if (typeof document === "undefined") return false;
+  return document.documentElement.classList.contains("dark");
+}
 
 export default function DarkModeToggle() {
-  const [dark, setDark] = useState(false);
-
-  useEffect(() => {
-    setDark(document.documentElement.classList.contains("dark"));
-  }, []);
+  const [dark, setDark] = useState(getInitialDark);
 
   const toggle = () => {
     const next = !document.documentElement.classList.contains("dark");

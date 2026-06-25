@@ -1,27 +1,10 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { getLatestTickets } from "@/actions/tickets";
-import TicketCard from "@/Components/TicketCard";
+import LatestTicketsGrid from "./LatestTicketsGrid";
 
-export default function LatestTicketsSection() {
-  const router = useRouter();
-  const [tickets, setTickets] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    getLatestTickets().then((result) => {
-      if (result.error) setError(result.error);
-      else setTickets(result.tickets || []);
-      setLoading(false);
-    });
-  }, []);
-
-  if (loading) {
-    return <p className="text-center text-gray-500">Loading latest tickets...</p>;
-  }
+export default async function LatestTicketsSection() {
+  const result = await getLatestTickets();
+  const error = result.error || "";
+  const tickets = result.error ? [] : (result.tickets ?? []);
 
   if (error) {
     return (
@@ -31,20 +14,9 @@ export default function LatestTicketsSection() {
     );
   }
 
-  if (tickets.length === 0) {
+  if (!tickets.length) {
     return <p className="text-center text-gray-500">No tickets available yet.</p>;
   }
 
-  return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {tickets.map((ticket) => (
-        <TicketCard
-          key={String(ticket._id)}
-          ticket={ticket}
-          buttonText="See details"
-          onBook={() => router.push(`/all-tickets/${ticket._id}`)}
-        />
-      ))}
-    </div>
-  );
+  return <LatestTicketsGrid tickets={tickets} />;
 }

@@ -1,18 +1,15 @@
-"use client";
-
-import { useSession } from "@/lib/auth-client";
+import { getUserSession } from "@/lib/session";
 import { getUserPayments } from "@/actions/payment";
-import { useSessionData } from "@/lib/useSessionData";
 import { fmtDate } from "@/lib/format";
 import { Card } from "@heroui/react";
 
-export default function TransactionHistoryPage() {
-  const { data: session } = useSession();
-  const { data: payments = [], error, loading } = useSessionData(
-    session?.user?.id,
-    getUserPayments,
-    "payments"
-  );
+export default async function TransactionHistoryPage() {
+  const session = await getUserSession();
+  const userId = session?.user?.id;
+
+  const res = await getUserPayments(userId);
+  const error = res.error || "";
+  const payments = res.error ? [] : (res.payments ?? []);
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 bg-gray-50/50 p-4 sm:gap-6 sm:p-6 md:p-8">
@@ -23,12 +20,11 @@ export default function TransactionHistoryPage() {
         <p className="mt-1 text-sm text-gray-500">All payments made from your account.</p>
       </div>
 
-      {loading && <p className="text-sm text-gray-500">Loading transactions...</p>}
       {error && <p className="rounded-xl border border-red-100 bg-red-50 p-3 text-sm text-red-500">{error}</p>}
 
       <Card className="rounded-2xl border border-gray-100 bg-white shadow-md">
         <Card.Content className="p-0">
-          {!loading && !error && payments.length === 0 ? (
+          {!error && payments.length === 0 ? (
             <p className="px-6 py-12 text-center text-sm text-gray-400">No transactions yet.</p>
           ) : (
             <div className="w-full overflow-x-auto">

@@ -1,8 +1,10 @@
+import { getTicketsAdmin } from "@/actions/tickets";
 import AdminAdvertiseList from "@/Components/Dashboard/AdminAdvertiseList";
 
 export default async function AdvertiseTicketsPage() {
-  const token = await getToken();
-  console.log("token", token);
+  const res = await getTicketsAdmin();
+  const tickets = res.error ? [] : (res.tickets ?? []);
+
   return (
     <div className="mx-auto w-full max-w-5xl p-4 sm:p-6 md:p-8">
       <h1 className="mb-2 text-xl font-black text-gray-900 sm:text-2xl md:text-3xl">Advertise Tickets</h1>
@@ -10,7 +12,11 @@ export default async function AdvertiseTicketsPage() {
         Pick up to 6 approved tickets to show on the home page advertisement section.
       </p>
 
-      <AdminAdvertiseList />
+      {res.error && (
+        <p className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-500">{res.error}</p>
+      )}
+
+      <AdminAdvertiseList initialTickets={tickets} />
     </div>
   );
 }

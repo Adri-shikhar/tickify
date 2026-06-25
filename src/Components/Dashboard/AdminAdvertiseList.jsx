@@ -1,22 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getTicketsAdmin, toggleAdvertise } from "@/actions/tickets";
+import { useState } from "react";
+import { toggleAdvertise } from "@/actions/tickets";
 import { Button } from "@heroui/react";
 
-export default function AdminAdvertiseList() {
-  const [tickets, setTickets] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function AdminAdvertiseList({ initialTickets }) {
+  const [tickets, setTickets] = useState(initialTickets);
   const [error, setError] = useState("");
   const [togglingId, setTogglingId] = useState(null);
-
-  useEffect(() => {
-    getTicketsAdmin().then((result) => {
-      if (result.error) setError(result.error);
-      else setTickets(result.tickets || []);
-      setLoading(false);
-    });
-  }, []);
 
   const approved = tickets.filter((t) => t.status === "accepted");
   const advertisedCount = tickets.filter((t) => t.isAdvertised).length;
@@ -41,13 +32,9 @@ export default function AdminAdvertiseList() {
     }
 
     setTickets((prev) =>
-      prev.map((t) =>
-        String(t._id) === String(ticket._id) ? { ...t, isAdvertised: newValue } : t
-      )
+      prev.map((t) => (String(t._id) === String(ticket._id) ? { ...t, isAdvertised: newValue } : t))
     );
   }
-
-  if (loading) return <p className="text-gray-500">Loading...</p>;
 
   return (
     <div>

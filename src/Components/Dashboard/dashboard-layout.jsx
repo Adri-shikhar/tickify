@@ -1,7 +1,6 @@
 "use client";
 
 // Renders the sidebar and protects dashboard routes based on the user's role
-import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "@/Components/Logo";
@@ -15,14 +14,6 @@ export default function DashboardLayout({ children }) {
   const router = useRouter();
   const pathname = usePathname();
   const role = getRoleFromPath(pathname);
-
-  useEffect(() => {
-    if (isPending || !role) return;
-    if (!session) { router.replace("/sign-in"); return; }
-
-    const userRole = session.user?.role ?? "user";
-    if (userRole !== role) router.replace("/unauthorized");
-  }, [isPending, session, router, role]);
 
   if (!role) return children;
 
