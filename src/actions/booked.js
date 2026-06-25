@@ -37,5 +37,6 @@ export async function updateBookingStatus(id, status) {
     method: "PATCH",
     headers: await authHeaders(),
     body: JSON.stringify({ status }),
-  });  return error ? { error } : { success: true, status: data.status };
+  });
+  return error ? { error } : { success: true, status: data.status };
 }

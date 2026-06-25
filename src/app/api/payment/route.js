@@ -20,7 +20,11 @@ export async function POST(request) {
 
     let booking = null;
     if (bookingId) {
-      const res = await fetch(`${API}/api/bookings/${bookingId}`, { cache: "no-store" });
+      const token = session.session?.token;
+      const res = await fetch(`${API}/api/bookings/${bookingId}`, {
+        cache: "no-store",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
       if (res.ok) booking = await res.json();
     }
 

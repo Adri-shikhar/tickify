@@ -7,7 +7,7 @@ export async function getToken() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  return session?.session?.token || null;
+  return session?.session?.token ?? null;
 }
 
 export async function authHeaders() {
