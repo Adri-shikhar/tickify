@@ -1,23 +1,29 @@
 import { NextResponse } from "next/server";
-import { auth } from "./lib/auth";
-import { headers } from "next/headers";
+import { getRoleFromPath } from "./lib/dashboard";
+import { getUserSession } from "./lib/session";
 
-// This function can be marked `async` if using `await` inside
 export async function proxy(request) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const pathname = request.nextUrl.pathname;
+  const requiredRole = getRoleFromPath(pathname);
+
+  if (!requiredRole) {
+    return NextResponse.next();
+  }
+
+  const session = await getUserSession(request.headers);
 
   if (!session) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
+  }
+
+  const userRole = session.user?.role ?? "user";
+  if (userRole !== requiredRole) {
+    return NextResponse.redirect(new URL("/unauthorized", request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-
-  ],
+  matcher: ["/dashboard/:path*"],
 };

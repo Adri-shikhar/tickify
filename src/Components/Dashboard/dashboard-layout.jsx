@@ -7,28 +7,21 @@ import { usePathname, useRouter } from "next/navigation";
 import Logo from "@/Components/Logo";
 import DarkModeToggle from "@/Components/DarkModeToggle";
 import { authClient, useSession } from "@/lib/auth-client";
-import { getDashboardPath, logoutBtn, themes, adminLinks, userLinks, vendorLinks } from "@/lib/dashboard";
+import { logoutBtn, themes, adminLinks, userLinks, vendorLinks, getRoleFromPath } from "@/lib/dashboard";
 import { sidebarIcons } from "@/Components/Dashboard/sidebar-icons";
-
-function roleFromPath(pathname) {
-  if (pathname.startsWith("/dashboard/admin")) return "admin";
-  if (pathname.startsWith("/dashboard/vendor")) return "vendor";
-  if (pathname.startsWith("/dashboard/user")) return "user";
-  return null;
-}
 
 export default function DashboardLayout({ children }) {
   const { data: session, isPending } = useSession();
   const router = useRouter();
   const pathname = usePathname();
-  const role = roleFromPath(pathname);
+  const role = getRoleFromPath(pathname);
 
   useEffect(() => {
     if (isPending || !role) return;
     if (!session) { router.replace("/sign-in"); return; }
 
     const userRole = session.user?.role ?? "user";
-    if (userRole !== role) router.replace(getDashboardPath(userRole));
+    if (userRole !== role) router.replace("/unauthorized");
   }, [isPending, session, router, role]);
 
   if (!role) return children;

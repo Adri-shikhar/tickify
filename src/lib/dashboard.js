@@ -1,5 +1,12 @@
 // Dashboard config: sidebar links and colour themes for admin (amber), vendor (purple), and user (teal)
 
+export function getRoleFromPath(pathname) {
+  if (pathname.startsWith("/dashboard/admin")) return "admin";
+  if (pathname.startsWith("/dashboard/vendor")) return "vendor";
+  if (pathname.startsWith("/dashboard/user")) return "user";
+  return null;
+}
+
 // Returns the correct dashboard path based on the user's role
 export function getDashboardPath(role) {
   if (role === "admin") return "/dashboard/admin";
