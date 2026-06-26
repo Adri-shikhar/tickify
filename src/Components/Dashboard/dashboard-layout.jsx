@@ -111,7 +111,15 @@ export default function DashboardLayout({ children }) {
       </aside>
 
       <main className="min-h-0 min-w-0 w-full flex-1 overflow-x-hidden overflow-y-auto">
-        {children}
+        {role === "vendor" && session?.user?.isFraud ? (
+          <div className="flex min-h-[60vh] items-center justify-center p-6">
+            <p className="rounded-xl border border-red-100 bg-red-50 p-6 text-center text-lg font-semibold text-red-500">
+              Cannot access. Your vendor account is marked as fraud.
+            </p>
+          </div>
+        ) : (
+          children
+        )}
       </main>
     </div>
   );

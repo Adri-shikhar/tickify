@@ -1,11 +1,11 @@
 "use client";
 
-// Add Tickets page (route: /dashboard/vendor/add-tickets) — form to create a new ticket
 import { useState } from "react";
 import { Card, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
 import { createTicket } from "@/actions/tickets";
+import TicketImageInput from "@/Components/Dashboard/TicketImageInput";
 
 const PERKS = ["ac", "wifi", "food", "tv", "chargingPort", "breakfast"];
 
@@ -14,10 +14,14 @@ export default function AddTicketsPage() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!session?.user?.id) { setError("You must be signed in as a vendor."); return; }
+    if (!session?.user?.id) {
+      setError("You must be signed in as a vendor.");
+      return;
+    }
 
     setLoading(true);
     const form = new FormData(e.currentTarget);
@@ -30,11 +34,10 @@ export default function AddTicketsPage() {
       price: Number(form.get("price")),
       quantity: Number(form.get("quantity")),
       departureDateTime: form.get("departureDateTime"),
-      imageUrl: form.get("imageUrl") || "",
+      imageUrl,
       vendor_id: session.user.id,
       vendorName: session.user.name,
       vendorEmail: session.user.email,
-      // Build { ac: true, wifi: false, ... } from the checkboxes
       perks: Object.fromEntries(PERKS.map((p) => [p, form.get(p) === "on"])),
     });
 
@@ -44,6 +47,7 @@ export default function AddTicketsPage() {
   };
 
   const inputClass = "h-10 w-full rounded-lg bg-gray-100 px-3 text-sm outline-none";
+  const readOnlyClass = `${inputClass} cursor-not-allowed bg-gray-200 text-gray-600`;
 
   return (
     <div className="flex min-h-full items-center justify-center bg-gray-50 p-4 sm:p-6">
@@ -51,7 +55,11 @@ export default function AddTicketsPage() {
         <Card.Content className="flex flex-col gap-5">
           <h1 className="text-center text-2xl font-bold text-cyan-600">Add New Ticket</h1>
 
-          {error && <p className="rounded-lg border border-red-100 bg-red-50 p-2 text-center text-sm text-red-500">{error}</p>}
+          {error && (
+            <p className="rounded-lg border border-red-100 bg-red-50 p-2 text-center text-sm text-red-500">
+              {error}
+            </p>
+          )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input name="title" required placeholder="Ticket Title" className={inputClass} />
@@ -62,9 +70,12 @@ export default function AddTicketsPage() {
             </div>
 
             <select name="transportType" required defaultValue="" className={inputClass}>
-              <option value="" disabled>Select Transport Type</option>
+              <option value="" disabled>
+                Select Transport Type
+              </option>
               <option value="bus">Bus</option>
               <option value="train">Train</option>
+              <option value="launch">Launch</option>
               <option value="flight">Flight</option>
             </select>
 
@@ -79,14 +90,26 @@ export default function AddTicketsPage() {
               {PERKS.map((p) => (
                 <label key={p} className="flex items-center gap-2 capitalize">
                   <input type="checkbox" name={p} />
-                  {p.replace(/([A-Z])/g, " $1")} {/* "chargingPort" → "charging Port" */}
+                  {p.replace(/([A-Z])/g, " $1")}
                 </label>
               ))}
             </div>
 
-            <input name="imageUrl" type="url" placeholder="Image URL (optional)" className={inputClass} />
+            <TicketImageInput
+              imageUrl={imageUrl}
+              onImageUrlChange={setImageUrl}
+              onError={setError}
+              inputClass={inputClass}
+            />
 
-            <Button type="submit" disabled={loading} className="h-10 w-full rounded-lg bg-gradient-to-r from-emerald-400 to-blue-600 font-bold text-gray-950">
+            <input readOnly value={session?.user?.name || ""} placeholder="Vendor name" className={readOnlyClass} />
+            <input readOnly value={session?.user?.email || ""} placeholder="Vendor email" className={readOnlyClass} />
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="h-10 w-full rounded-lg bg-gradient-to-r from-emerald-400 to-blue-600 font-bold text-gray-950"
+            >
               {loading ? "Adding..." : "Add Ticket"}
             </Button>
           </form>

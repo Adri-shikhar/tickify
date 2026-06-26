@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Card, Button } from "@heroui/react";
 import { updateTicket } from "@/actions/tickets";
+import TicketImageInput from "@/Components/Dashboard/TicketImageInput";
 
 const PERKS = ["ac", "wifi", "food", "tv", "chargingPort", "breakfast"];
 
@@ -12,6 +13,7 @@ export default function EditTicketForm({ ticket, ticketId }) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState(ticket.imageUrl || "");
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -28,7 +30,7 @@ export default function EditTicketForm({ ticket, ticketId }) {
       price: Number(form.get("price")),
       quantity: Number(form.get("quantity")),
       departureDateTime: form.get("departureDateTime"),
-      imageUrl: form.get("imageUrl") || "",
+      imageUrl,
       perks: Object.fromEntries(PERKS.map((p) => [p, form.get(p) === "on"])),
     });
 
@@ -67,6 +69,7 @@ export default function EditTicketForm({ ticket, ticketId }) {
             <select name="transportType" required defaultValue={ticket.transportType} className={inputClass}>
               <option value="bus">Bus</option>
               <option value="train">Train</option>
+              <option value="launch">Launch</option>
               <option value="flight">Flight</option>
             </select>
 
@@ -92,12 +95,11 @@ export default function EditTicketForm({ ticket, ticketId }) {
               ))}
             </div>
 
-            <input
-              name="imageUrl"
-              type="url"
-              defaultValue={ticket.imageUrl || ""}
-              placeholder="Image URL (optional)"
-              className={inputClass}
+            <TicketImageInput
+              imageUrl={imageUrl}
+              onImageUrlChange={setImageUrl}
+              onError={setError}
+              inputClass={inputClass}
             />
 
             <Button

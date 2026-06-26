@@ -30,6 +30,7 @@ export default function TicketSearchForm({ from, to, type, sort }) {
         <option value="">All Transport Types</option>
         <option value="bus">Bus</option>
         <option value="train">Train</option>
+        <option value="launch">Launch</option>
         <option value="flight">Flight</option>
       </select>
 
