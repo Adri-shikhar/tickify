@@ -26,7 +26,8 @@ export default function BookTicketPage({ initialTicket, ticketId }) {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [departed, setDeparted] = useState(
-    () => initialTicket && new Date(initialTicket.departureDateTime) < new Date()
+    () =>
+      initialTicket && new Date(initialTicket.departureDateTime) < new Date(),
   );
 
   async function handleSubmit(event) {
@@ -69,7 +70,9 @@ export default function BookTicketPage({ initialTicket, ticketId }) {
   if (ticket === null) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
-        <p className="text-gray-500 font-bold">Ticket information could not be found.</p>
+        <p className="text-gray-500 font-bold">
+          Ticket information could not be found.
+        </p>
       </div>
     );
   }
@@ -164,7 +167,9 @@ export default function BookTicketPage({ initialTicket, ticketId }) {
 
                 <div className="flex justify-between gap-4 items-start">
                   <div>
-                    <h1 className="text-2xl font-black text-gray-900">{ticket.title}</h1>
+                    <h1 className="text-2xl font-black text-gray-900">
+                      {ticket.title}
+                    </h1>
                     <p className="mt-1 text-sm font-bold text-gray-700">
                       {ticket.from} ➔ {ticket.to}
                     </p>
@@ -239,7 +244,10 @@ export default function BookTicketPage({ initialTicket, ticketId }) {
             aria-modal="true"
             aria-labelledby="book-modal-title"
           >
-            <h2 id="book-modal-title" className="text-xl font-black text-gray-900">
+            <h2
+              id="book-modal-title"
+              className="text-xl font-black text-gray-900"
+            >
               Book {ticket.title}
             </h2>
             <p className="mt-1 text-sm text-gray-500">
@@ -260,12 +268,16 @@ export default function BookTicketPage({ initialTicket, ticketId }) {
                   className="h-10 rounded-lg bg-gray-100 px-3 text-sm font-bold"
                   required
                 />
-                <p className="text-xs text-gray-400">Max available: {ticket.quantity}</p>
+                <p className="text-xs text-gray-400">
+                  Max available: {ticket.quantity}
+                </p>
               </div>
 
               <div className="flex justify-between rounded-xl border border-emerald-100 bg-emerald-50 p-3 text-sm">
                 <span className="font-bold">Total:</span>
-                <span className="text-xl font-black text-emerald-600">{fmtPrice(totalPrice)}</span>
+                <span className="text-xl font-black text-emerald-600">
+                  {fmtPrice(totalPrice)}
+                </span>
               </div>
 
               <div className="flex gap-3">

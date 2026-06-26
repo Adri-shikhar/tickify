@@ -32,7 +32,9 @@ export default function LandingPage() {
         <h2 className="mb-2 text-center text-3xl font-black bg-gradient-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
           Latest Tickets
         </h2>
-        <p className="mb-8 text-center text-sm text-gray-500">Recently added trips you can book now</p>
+        <p className="mb-8 text-center text-sm text-gray-500">
+          Recently added trips you can book now
+        </p>
         <LatestTicketsSection />
       </section>
 
@@ -40,7 +42,9 @@ export default function LandingPage() {
         <h2 className="mb-2 text-center text-3xl font-black bg-gradient-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
           Advertisement
         </h2>
-        <p className="mb-8 text-center text-sm text-gray-500">Featured tickets selected by admin</p>
+        <p className="mb-8 text-center text-sm text-gray-500">
+          Featured tickets selected by admin
+        </p>
         <AdvertisementSection />
       </section>
 
