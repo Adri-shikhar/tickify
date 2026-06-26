@@ -12,6 +12,14 @@ export async function bookTicket(booking) {
   });
   return error ? { error } : { success: true, booking: data };
 }
+ //For download ticket
+export async function getBooking(id) {
+  const { data, error } = await apiReq(`/api/bookings/${id}`, {
+    cache: "no-store",
+    headers: await authHeaders(),
+  });
+  return error ? { error } : { booking: data };
+}
 
 // Fetches all bookings made by a specific user
 export async function getUserBookings(userId) {

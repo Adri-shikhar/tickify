@@ -38,12 +38,22 @@ export default async function Success({ searchParams }) {
     <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-8 text-center">
       <h1 className="text-2xl font-bold text-emerald-600">Payment Successful!</h1>
       <p className="text-gray-600">Thank you! Your ticket is confirmed.</p>
-      <Link
-        href="/dashboard/user/my-booked-tickets"
-        className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-bold text-white"
-      >
-        My Bookings
-      </Link>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        {m.bookingId && (
+          <Link
+            href={`/dashboard/user/download-ticket/${m.bookingId}`}
+            className="rounded-lg bg-emerald-600 px-5 py-2 text-sm font-bold text-white"
+          >
+            Download Ticket
+          </Link>
+        )}
+        <Link
+          href="/dashboard/user/my-booked-tickets"
+          className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-bold text-white"
+        >
+          My Bookings
+        </Link>
+      </div>
     </div>
   );
 }

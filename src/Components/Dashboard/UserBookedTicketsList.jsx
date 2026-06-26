@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { fmtDate, fmtPrice } from "@/lib/format";
 import { Card, Button } from "@heroui/react";
 import Countdown from "react-countdown";
@@ -73,6 +74,17 @@ export default function UserBookedTicketsList({ bookings }) {
                 <p className="mt-0.5 text-lg font-black text-emerald-500">{fmtPrice(booking.totalPrice)}</p>
               </div>
             </div>
+
+            {booking.status === "paid" && (
+              <div className="border-t border-gray-100 pt-3">
+                <Link
+                  href={`/dashboard/user/download-ticket/${booking._id}`}
+                  className="flex h-9 w-full items-center justify-center rounded-xl bg-emerald-600 text-xs font-bold text-white shadow-sm hover:bg-emerald-700"
+                >
+                  Download Ticket
+                </Link>
+              </div>
+            )}
 
             {canPay && (
               <div className="border-t border-gray-100 pt-3">
