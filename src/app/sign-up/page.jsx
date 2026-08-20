@@ -3,20 +3,24 @@
 import { useState } from "react";
 import { Input, Button, Card } from "@heroui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { FcGoogle } from "react-icons/fc";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function registerWithEmail(e) {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     const result = await authClient.signUp.email({
       name,
@@ -24,15 +28,18 @@ export default function SignUpPage() {
       password,
       image: photoUrl || undefined,
       role,
-      callbackURL: "/",
     });
+
+    setLoading(false);
 
     if (result.error) {
       setError(result.error.message ?? "Registration failed");
       return;
     }
 
-    window.location.href = "/";
+    // Signing up doesn't create a session any more — the account has to
+    // confirm its email with the code that was just sent.
+    router.push(`/verify-email?email=${encodeURIComponent(email)}&sent=1`);
   }
 
   async function registerWithGoogle() {
@@ -145,9 +152,10 @@ export default function SignUpPage() {
 
             <Button
               type="submit"
+              disabled={loading}
               className="mt-1 h-10 w-full rounded-lg bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600 text-sm font-bold text-gray-950 shadow-sm hover:opacity-90"
             >
-              Register with Email
+              {loading ? "Creating account..." : "Register with Email"}
             </Button>
           </form>
 
