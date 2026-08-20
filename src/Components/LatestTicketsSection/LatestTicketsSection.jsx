@@ -15,7 +15,7 @@ export default async function LatestTicketsSection() {
   }
 
   if (!tickets.length) {
-    return <p className="text-center text-gray-500">No tickets available yet.</p>;
+    return <p className="text-center text-body">No tickets available yet.</p>;
   }
 
   return <LatestTicketsGrid tickets={tickets} />;

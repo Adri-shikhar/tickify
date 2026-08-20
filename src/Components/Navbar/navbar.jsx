@@ -91,9 +91,9 @@ export default function TickifyNavbar() {
               <button
                 type="button"
                 onClick={() => setProfileOpen((prev) => !prev)}
-                className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-gray-50 dark:hover:bg-gray-800"
+                className="flex items-center gap-3 rounded-control px-2 py-1 hover:bg-surface-hover"
               >
-                <div className="relative h-9 w-9 overflow-hidden rounded-full border-2 border-teal-400 bg-gray-200">
+                <div className="relative h-9 w-9 overflow-hidden rounded-full border-2 border-accent bg-sunken">
                   <Image
                     src={session.user?.image}
                     alt={session.user.name ?? "Profile"}
@@ -110,7 +110,7 @@ export default function TickifyNavbar() {
                 <span className="text-heading hidden text-sm font-semibold lg:block">
                   {session.user?.name ?? "User"}
                 </span>
-                <svg className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <svg className="h-4 w-4 text-body" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
@@ -125,7 +125,7 @@ export default function TickifyNavbar() {
                   />
                   <div className="dropdown-menu absolute right-0 z-50 mt-2 w-40">
                     <Link href={profilePath} onClick={() => setProfileOpen(false)} className="dropdown-item">Profile</Link>
-                    <button type="button" onClick={handleLogout} className="block w-full px-4 py-2 text-left text-sm font-medium text-red-500 hover:bg-red-50">
+                    <button type="button" onClick={handleLogout} className="block w-full px-4 py-2 text-left text-sm font-medium text-danger hover:bg-danger-soft">
                       Logout
                     </button>
                   </div>
@@ -134,10 +134,10 @@ export default function TickifyNavbar() {
             </div>
           ) : !isPending ? (
             <div className="hidden items-center gap-2 md:flex">
-              <Link href="/sign-up" className="text-heading rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800">
+              <Link href="/sign-up" className="text-heading rounded-control px-4 py-2 text-sm font-medium hover:bg-surface-hover">
                 Sign Up
               </Link>
-              <Link href="/sign-in" className="rounded-lg bg-[#1a1c1e] px-5 py-2 text-sm font-medium text-white hover:bg-[#2d3135]">
+              <Link href="/sign-in" className="rounded-control bg-[#1a1c1e] px-5 py-2 text-sm font-medium text-white hover:bg-[#2d3135]">
                 Sign In
               </Link>
             </div>
@@ -146,7 +146,7 @@ export default function TickifyNavbar() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileOpen)}
-            className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800 md:hidden"
+            className="rounded-control p-2 hover:bg-surface-hover md:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
           >
@@ -163,7 +163,7 @@ export default function TickifyNavbar() {
             aria-label="Close menu"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="surface-border relative z-50 border-t md:hidden">
+          <div className="border-default relative z-50 border-t md:hidden">
             <ul className="flex flex-col px-4 py-3">
               {visibleLinks.map((link) => {
                 const href = link.href === "dashboard" ? "/dashboard" : link.href;
@@ -172,7 +172,7 @@ export default function TickifyNavbar() {
                     <Link
                       href={href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`block rounded-lg px-3 py-3 ${linkClass(link.href)}`}
+                      className={`block rounded-control px-3 py-3 ${linkClass(link.href)}`}
                     >
                       {link.label}
                     </Link>
@@ -182,9 +182,9 @@ export default function TickifyNavbar() {
             </ul>
 
             {!isPending && session ? (
-              <div className="surface-border border-t px-4 py-4">
+              <div className="border-default border-t px-4 py-4">
                 <div className="mb-3 flex items-center gap-3">
-                  <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-teal-400 bg-gray-200">
+                  <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-accent bg-sunken">
                     <Image
                       src={session.user?.image}
                       alt={session.user.name ?? "Profile"}
@@ -210,23 +210,23 @@ export default function TickifyNavbar() {
                 >
                   Profile
                 </Link>
-                <button type="button" onClick={handleLogout} className="dropdown-item w-full text-left text-red-500">
+                <button type="button" onClick={handleLogout} className="dropdown-item w-full text-left text-danger">
                   Logout
                 </button>
               </div>
             ) : !isPending ? (
-              <div className="surface-border flex flex-col gap-2 border-t px-4 py-4">
+              <div className="border-default flex flex-col gap-2 border-t px-4 py-4">
                 <Link
                   href="/sign-in"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-lg bg-[#1a1c1e] px-4 py-3 text-center text-sm font-medium text-white hover:bg-[#2d3135]"
+                  className="rounded-control bg-[#1a1c1e] px-4 py-3 text-center text-sm font-medium text-white hover:bg-[#2d3135]"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/sign-up"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-heading surface-border rounded-lg border px-4 py-3 text-center text-sm font-medium"
+                  className="text-heading border-default rounded-control border px-4 py-3 text-center text-sm font-medium"
                 >
                   Sign Up
                 </Link>

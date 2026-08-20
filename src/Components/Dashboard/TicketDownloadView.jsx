@@ -72,11 +72,11 @@ export default function TicketDownloadView({ booking }) {
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-4 p-4 sm:p-6">
-      <h1 className="text-center text-xl font-bold print:hidden">Your E-Ticket</h1>
+      <h1 className="text-center text-xl font-bold text-heading print:hidden">Your E-Ticket</h1>
 
       <div
         id="ticket-print"
-        className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl"
+        className="overflow-hidden rounded-card border border-gray-200 bg-white shadow-raised"
       >
         {/* Header */}
         <div className="flex">
@@ -165,10 +165,10 @@ export default function TicketDownloadView({ booking }) {
         <div className="h-3 bg-[#2a9fd8] sm:h-4" />
       </div>
 
-      <p className="text-center text-xs font-semibold text-emerald-600 print:hidden">✓ Paid & Confirmed</p>
+      <p className="text-center text-xs font-semibold text-success print:hidden">✓ Paid & Confirmed</p>
 
-      <div className="rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm text-gray-700 print:hidden">
-        <p className="font-bold text-blue-800">How to download:</p>
+      <div className="rounded-control border border-info/30 bg-info-soft p-4 text-sm text-label print:hidden">
+        <p className="font-bold text-info-soft-fg">How to download:</p>
         <ol className="mt-2 list-inside list-decimal space-y-1">
           <li>Click <strong>Save as PDF</strong> below</li>
           <li>Set <strong>Destination</strong> to <strong>Save as PDF</strong></li>
@@ -179,14 +179,14 @@ export default function TicketDownloadView({ booking }) {
       <button
         type="button"
         onClick={() => window.print()}
-        className="rounded-lg bg-[#2a9fd8] py-3 font-bold text-white print:hidden hover:bg-[#2389be]"
+        className="rounded-control bg-accent py-3 font-bold text-on-accent print:hidden hover:bg-accent-hover"
       >
         Save as PDF
       </button>
 
       <Link
         href="/dashboard/user/my-booked-tickets"
-        className="text-center text-sm text-gray-500 underline print:hidden"
+        className="text-center text-sm text-body underline print:hidden"
       >
         Back to My Bookings
       </Link>

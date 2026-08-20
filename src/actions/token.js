@@ -1,12 +1,12 @@
 "use server";
 
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getUserSession } from "@/lib/session";
 
+// Goes through the cache()-wrapped session read, so calling authHeaders() from
+// a server action no longer costs an extra Atlas round trip on top of the one
+// the page and layout already paid.
 export async function getToken() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getUserSession();
   return session?.session?.token ?? null;
 }
 

@@ -7,8 +7,8 @@ export default async function ManageUsersPage() {
 
   return (
     <div className="mx-auto w-full max-w-6xl p-4 sm:p-6 md:p-8">
-      <h1 className="mb-6 text-center text-xl font-black text-gray-900 sm:mb-8 sm:text-2xl md:text-3xl">
-        Manage Users <span className="text-amber-600">({users.length})</span>
+      <h1 className="mb-6 text-center text-xl font-black text-heading sm:mb-8 sm:text-2xl md:text-3xl">
+        Manage Users <span className="text-accent">({users.length})</span>
       </h1>
 
       <AdminUserList initialUsers={users} />

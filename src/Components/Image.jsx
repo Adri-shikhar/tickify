@@ -15,7 +15,7 @@ export default function Image({ src, alt = "", className = "", fill = false, wid
   if (!isValidSrc(src) || error) {
     if (fallback) return fallback;
     return (
-      <div className={`flex items-center justify-center bg-gray-200 text-sm text-gray-400 ${fallbackClassName || className}`}>
+      <div className={`flex items-center justify-center bg-sunken text-sm text-muted ${fallbackClassName || className}`}>
         No Image
       </div>
     );

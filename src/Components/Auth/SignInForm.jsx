@@ -55,22 +55,22 @@ export default function SignInForm({ passwordWasReset = false }) {
 
   return (
     <div className="flex min-h-[70vh] items-center justify-center px-4 py-12">
-      <Card className="surface surface-border w-full max-w-md rounded-2xl border p-4 shadow-xl">
+      <Card className="bg-surface border-default w-full max-w-md rounded-card border p-4 shadow-raised">
         <Card.Content className="flex flex-col items-center gap-6">
           <div className="w-full text-center">
-            <h1 className="bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600 bg-clip-text pb-2 text-5xl font-extrabold tracking-tight text-transparent">
+            <h1 className="bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600 bg-clip-text pb-2 text-4xl font-extrabold tracking-tight text-transparent">
               Log In
             </h1>
             <p className="text-body mt-1 text-sm font-medium">Sign in to access your account</p>
           </div>
 
           {passwordWasReset && !error && (
-            <p className="w-full rounded-lg border border-emerald-100 bg-emerald-50 py-2 text-center text-sm font-medium text-emerald-600">
+            <p className="w-full rounded-control border border-success/30 bg-success-soft py-2 text-center text-sm font-medium text-success-soft-fg">
               Password updated. Log in with your new password.
             </p>
           )}
 
-          {error && <p className="w-full text-center text-sm text-red-500">{error}</p>}
+          {error && <p className="w-full text-center text-sm text-danger">{error}</p>}
 
           <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1.5">
@@ -88,22 +88,22 @@ export default function SignInForm({ passwordWasReset = false }) {
               <Input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} className="input-field h-12 w-full px-4" required />
             </div>
 
-            <Button type="submit" disabled={loading} className="mt-2 h-12 w-full rounded-lg bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600 text-base font-bold text-gray-900 shadow-md hover:opacity-90">
+            <Button type="submit" disabled={loading} className="mt-2 h-12 w-full rounded-control bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600 text-base font-bold text-gray-900 shadow-card hover:opacity-90">
               {loading ? "Logging in..." : "Log In"}
             </Button>
           </form>
 
           <div className="flex w-full items-center gap-3">
-            <div className="h-px flex-1 bg-gray-200" />
+            <div className="h-px flex-1 bg-default" />
             <span className="text-body text-xs font-medium">or</span>
-            <div className="h-px flex-1 bg-gray-200" />
+            <div className="h-px flex-1 bg-default" />
           </div>
 
           <div className="flex w-full flex-col gap-3">
             <Button
               type="button"
               onClick={handleGoogleSignIn}
-              className="surface-border btn-outline flex h-12 w-full items-center justify-center gap-2 rounded-lg border text-base font-semibold"
+              className="border-default btn-outline flex h-12 w-full items-center justify-center gap-2 rounded-control border text-base font-semibold"
             >
               <FcGoogle className="text-xl" />
               Continue with Google
@@ -111,7 +111,7 @@ export default function SignInForm({ passwordWasReset = false }) {
 
             <Link
               href="/sign-in/otp"
-              className="surface-border btn-outline flex h-12 w-full items-center justify-center gap-2 rounded-lg border text-base font-semibold"
+              className="border-default btn-outline flex h-12 w-full items-center justify-center gap-2 rounded-control border text-base font-semibold"
             >
               ✉️ Email me a login code
             </Link>

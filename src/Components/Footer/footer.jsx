@@ -10,7 +10,7 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="mt-auto border-t border-[var(--color-border)] bg-[var(--color-surface)]">
+    <footer className="mt-auto border-t border-default bg-surface">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-14">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div className="space-y-4">
@@ -60,7 +60,7 @@ export default function Footer() {
               {["Stripe", "Visa", "Mastercard"].map((method) => (
                 <span
                   key={method}
-                  className="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-xs font-bold text-heading"
+                  className="rounded-control border border-default bg-canvas px-3 py-2 text-xs font-bold text-heading"
                 >
                   {method}
                 </span>
@@ -70,9 +70,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-[var(--color-border)] bg-[var(--color-bg)]">
+      <div className="border-t border-default bg-canvas">
         <p className="px-4 py-4 text-center text-xs text-body sm:text-sm">
-          &copy; 2025 TicketBari. All rights reserved.
+          &copy; {new Date().getFullYear()} Tickify. All rights reserved.
         </p>
       </div>
     </footer>

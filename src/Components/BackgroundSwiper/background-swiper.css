@@ -27,6 +27,20 @@
   object-fit: cover;
 }
 
+/* Darkens the lower half so white headline text stays readable on any frame */
+.background-swiper__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgb(2 6 23 / 0.72) 0%,
+    rgb(2 6 23 / 0.45) 45%,
+    rgb(2 6 23 / 0.15) 100%
+  );
+}
+
 .background-swiper .swiper-pagination {
   bottom: 1.5rem;
   z-index: 2;

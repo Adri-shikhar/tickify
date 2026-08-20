@@ -15,7 +15,7 @@ export default async function AdvertisementSection() {
   }
 
   if (!tickets.length) {
-    return <p className="text-center text-gray-500">No featured tickets right now.</p>;
+    return <p className="text-center text-body">No featured tickets right now.</p>;
   }
 
   return <AdvertisementGrid tickets={tickets} />;

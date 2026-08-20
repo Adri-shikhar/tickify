@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "@/Components/Image";
 
 const topRow = [
@@ -34,7 +32,7 @@ const bottomRow = [
 function DestinationCard({ name, image, tall = false }) {
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl bg-gray-200 ${
+      className={`relative overflow-hidden rounded-card bg-sunken ${
         tall ? "h-56 md:h-64" : "h-44 md:h-52"
       }`}
     >
@@ -49,10 +47,10 @@ function DestinationCard({ name, image, tall = false }) {
 export default function TrendingDestinations() {
   return (
     <section className="page-bg mx-auto max-w-7xl px-4 py-14 sm:px-6">
-      <h2 className="text-center text-3xl font-black bg-gradient-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
+      <h2 className="text-center text-3xl font-bold text-heading">
         Trending Destinations
       </h2>
-      <p className="mt-2 text-center text-sm text-gray-500">
+      <p className="mt-2 text-center text-sm text-body">
         Explore popular travel destinations across Bangladesh
       </p>
 

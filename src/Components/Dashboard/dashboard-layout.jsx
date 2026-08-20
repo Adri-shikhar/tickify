@@ -27,7 +27,6 @@ export default function DashboardLayout({ children }) {
   const theme = themes[role];
   const links =
     role === "admin" ? adminLinks : role === "vendor" ? vendorLinks : userLinks;
-  const showIcons = role === "admin";
 
   if (isPending) {
     return (
@@ -50,6 +49,10 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div
+      // data-role resolves --tk-role / --tk-role-soft in globals.css, which is
+      // what the role-* utilities below read. One attribute replaces the three
+      // hand-maintained colour schemes this file used to switch between.
+      data-role={role}
       className={`flex min-h-screen w-full flex-col md:h-screen md:flex-row md:overflow-hidden ${theme.main}`}
     >
       <aside
@@ -90,7 +93,7 @@ export default function DashboardLayout({ children }) {
                 href={href}
                 className={`flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold transition-all sm:gap-3 sm:px-4 sm:py-2.5 sm:text-sm md:shrink ${isActive ? theme.active : theme.inactive}`}
               >
-                {showIcons && icon && sidebarIcons[icon]}
+                {icon && sidebarIcons[icon]}
                 <span className="whitespace-nowrap">{label}</span>
               </Link>
             );
@@ -113,7 +116,7 @@ export default function DashboardLayout({ children }) {
       <main className="min-h-0 min-w-0 w-full flex-1 overflow-x-hidden overflow-y-auto">
         {role === "vendor" && session?.user?.isFraud ? (
           <div className="flex min-h-[60vh] items-center justify-center p-6">
-            <p className="rounded-xl border border-red-100 bg-red-50 p-6 text-center text-lg font-semibold text-red-500">
+            <p className="rounded-card border border-danger/30 bg-danger-soft p-6 text-center text-lg font-semibold text-danger-soft-fg">
               Cannot access. Your vendor account is marked as fraud.
             </p>
           </div>

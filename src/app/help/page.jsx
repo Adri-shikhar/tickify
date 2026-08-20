@@ -1,5 +1,3 @@
-"use client";
-
 const helpCards = [
   {
     icon: "🎫",
@@ -36,26 +34,26 @@ const helpCards = [
 export default function HelpPage() {
   return (
     <div className="page-bg mx-auto max-w-7xl px-4 py-14 sm:px-6">
-      <h1 className="text-center text-3xl font-black bg-gradient-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
+      <h1 className="text-center text-3xl font-bold text-heading">
         Help & Support
       </h1>
-      <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-gray-500">
+      <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-body">
         Your journey matters to us. Get fast, reliable help at every step with Tickify.
       </p>
 
       <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {helpCards.map((card) => (
-          <div key={card.title} className="rounded-2xl bg-white p-6 shadow-md">
-            <span className="text-3xl text-emerald-500">{card.icon}</span>
-            <h2 className="mt-4 text-lg font-bold text-gray-900">{card.title}</h2>
-            <p className="mt-2 text-sm leading-relaxed text-gray-500">{card.text}</p>
+          <div key={card.title} className="rounded-card bg-surface p-6 shadow-card">
+            <span className="text-3xl text-success">{card.icon}</span>
+            <h2 className="mt-4 text-lg font-bold text-heading">{card.title}</h2>
+            <p className="mt-2 text-sm leading-relaxed text-body">{card.text}</p>
           </div>
         ))}
       </div>
 
-      <p className="mt-10 text-center text-sm text-gray-500">
+      <p className="mt-10 text-center text-sm text-body">
         Still need help? Email us at{" "}
-        <a href="mailto:support@tickify.com" className="font-semibold text-teal-600">
+        <a href="mailto:support@tickify.com" className="font-semibold text-accent">
           support@tickify.com
         </a>
       </p>

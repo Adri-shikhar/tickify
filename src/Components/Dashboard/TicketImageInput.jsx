@@ -46,18 +46,17 @@ export default function TicketImageInput({ imageUrl, onImageUrlChange, onError, 
   };
 
   const tabClass = (active) =>
-    `flex flex-1 items-center justify-center gap-2 rounded-lg border px-3 py-2 text-sm font-semibold transition ${
+    `flex flex-1 items-center justify-center gap-2 rounded-control border px-3 py-2 text-sm font-semibold transition ${
       active
-        ? "border-emerald-500 bg-emerald-50 text-emerald-700"
-        : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+        ? "border-success bg-success-soft text-success-soft-fg"
+        : "border-default bg-surface text-body hover:border-strong"
     }`;
 
-  const defaultInputClass =
-    inputClass || "h-10 w-full rounded-lg bg-gray-100 px-3 text-sm outline-none";
+  const defaultInputClass = inputClass || "input-field h-10 w-full px-3 text-sm";
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-sm font-semibold text-gray-700">Ticket Image</span>
+      <span className="text-sm font-semibold text-label">Ticket Image</span>
 
       <div className="grid grid-cols-2 gap-2">
         <button type="button" onClick={() => setMode("upload")} className={tabClass(mode === "upload")}>
@@ -72,7 +71,7 @@ export default function TicketImageInput({ imageUrl, onImageUrlChange, onError, 
 
       {mode === "upload" ? (
         <div className="flex items-center gap-4">
-          <label className="relative flex h-28 w-28 shrink-0 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 transition hover:border-emerald-400 hover:bg-emerald-50/50">
+          <label className="relative flex h-28 w-28 shrink-0 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-card border-2 border-dashed border-strong bg-canvas transition hover:border-success hover:bg-success-soft">
             <input
               type="file"
               accept="image/png, image/jpeg"
@@ -83,14 +82,14 @@ export default function TicketImageInput({ imageUrl, onImageUrlChange, onError, 
             {imageUrl ? (
               <img src={imageUrl} alt="Ticket preview" className="h-full w-full object-cover" />
             ) : (
-              <FiUpload className="text-2xl text-gray-400" />
+              <FiUpload className="text-2xl text-muted" />
             )}
           </label>
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-label">
               {uploading ? "Uploading file..." : "Upload image"}
             </span>
-            <span className="mt-0.5 text-xs text-gray-500">PNG, JPG up to 5MB</span>
+            <span className="mt-0.5 text-xs text-body">PNG, JPG up to 5MB</span>
           </div>
         </div>
       ) : (
@@ -107,7 +106,7 @@ export default function TicketImageInput({ imageUrl, onImageUrlChange, onError, 
       )}
 
       {imageUrl && mode === "url" && (
-        <div className="h-36 w-full overflow-hidden rounded-xl border border-gray-200 bg-gray-100">
+        <div className="h-36 w-full overflow-hidden rounded-card border border-default bg-sunken">
           <img src={imageUrl} alt="Ticket preview" className="h-full w-full object-cover" />
         </div>
       )}
