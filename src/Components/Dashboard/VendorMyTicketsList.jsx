@@ -4,127 +4,102 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { deleteTicket } from "@/actions/tickets";
 import TicketCard from "@/Components/TicketCard";
-import { Button } from "@heroui/react";
-
-const statusStyle = {
-  approved: "bg-emerald-50 border-emerald-200 text-emerald-600",
-  accepted: "bg-emerald-50 border-emerald-200 text-emerald-600",
-  rejected: "bg-red-50 border-red-200 text-red-600",
-};
+import Button from "@/Components/ui/Button";
+import StatusBadge from "@/Components/ui/StatusBadge";
+import ConfirmDialog from "@/Components/ui/ConfirmDialog";
+import EmptyState from "@/Components/ui/EmptyState";
 
 export default function VendorMyTicketsList({ initialTickets }) {
   const router = useRouter();
   const [tickets, setTickets] = useState(initialTickets);
   const [error, setError] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [deleteId, setDeleteId] = useState("");
-  const [deleteTitle, setDeleteTitle] = useState("");
+  const [pendingDelete, setPendingDelete] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
-  function openDeleteModal(ticket) {
-    setDeleteId(ticket._id);
-    setDeleteTitle(ticket.title);
-    setShowModal(true);
-  }
+  async function confirmDelete() {
+    if (!pendingDelete) return;
 
-  function closeModal() {
-    setShowModal(false);
-    setDeleteId("");
-    setDeleteTitle("");
-  }
-
-  async function yesDelete() {
-    const result = await deleteTicket(deleteId);
+    setDeleting(true);
+    const result = await deleteTicket(pendingDelete._id);
+    setDeleting(false);
 
     if (result.error) {
       setError(result.error);
-      closeModal();
+      setPendingDelete(null);
       return;
     }
 
-    setTickets(tickets.filter((t) => String(t._id) !== String(deleteId)));
-    closeModal();
+    setTickets(tickets.filter((t) => String(t._id) !== String(pendingDelete._id)));
+    setPendingDelete(null);
   }
 
   return (
     <>
-      {error && <p className="mb-4 rounded-xl border border-red-100 bg-red-50 p-3 text-red-500">{error}</p>}
+      {error && (
+        <p className="mb-4 rounded-card border border-danger/30 bg-danger-soft p-3 text-danger-soft-fg">
+          {error}
+        </p>
+      )}
 
-      {!tickets.length && <p className="text-gray-500">No tickets yet. Add your first ticket!</p>}
+      {!tickets.length ? (
+        <EmptyState
+          icon="🎫"
+          title="No tickets yet"
+          description="Add your first trip and it will appear here once an admin approves it."
+          actionLabel="Add a ticket"
+          actionHref="/dashboard/vendor/add-tickets"
+        />
+      ) : (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {tickets.map((ticket) => {
+            const isRejected = ticket.status === "rejected";
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {tickets.map((ticket) => {
-          const isRejected = ticket.status === "rejected";
-
-          return (
-            <TicketCard
-              key={String(ticket._id)}
-              ticket={ticket}
-              showEmail
-              footer={
-                <div className="flex items-center justify-between gap-4">
-                  <Button
-                    size="sm"
-                    disabled={isRejected}
-                    onClick={() => router.push(`/dashboard/vendor/my-tickets/${ticket._id}`)}
-                    className="h-8 rounded-lg bg-gradient-to-r from-teal-500 to-blue-600 text-xs font-bold text-white"
-                  >
-                    Update
-                  </Button>
-
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`rounded-md border px-2.5 py-0.5 text-[10px] font-black uppercase ${
-                        statusStyle[ticket.status?.toLowerCase()] ??
-                        "border-amber-200 bg-amber-50 text-amber-600"
-                      }`}
-                    >
-                      {ticket.status || "pending"}
-                    </span>
-
+            return (
+              <TicketCard
+                key={String(ticket._id)}
+                ticket={ticket}
+                showEmail
+                footer={
+                  <div className="flex items-center justify-between gap-3">
                     <Button
                       size="sm"
-                      variant="bordered"
-                      onClick={() => openDeleteModal(ticket)}
-                      className="h-8 text-xs font-bold"
+                      disabled={isRejected}
+                      onClick={() => router.push(`/dashboard/vendor/my-tickets/${ticket._id}`)}
                     >
-                      Delete
+                      Update
                     </Button>
+
+                    <div className="flex items-center gap-2">
+                      <StatusBadge status={ticket.status} />
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={() => setPendingDelete(ticket)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              }
-            />
-          );
-        })}
-      </div>
-
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
-            <h2 className="text-lg font-bold text-gray-900">Delete ticket?</h2>
-            <p className="mt-2 text-sm text-gray-600">
-              Are you sure you want to delete <strong>{deleteTitle}</strong>? This cannot be undone.
-            </p>
-
-            <div className="mt-6 flex gap-3">
-              <Button
-                type="button"
-                variant="bordered"
-                onClick={closeModal}
-                className="h-10 flex-1 rounded-xl text-sm font-bold"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="button"
-                onClick={yesDelete}
-                className="h-10 flex-1 rounded-xl bg-red-500 text-sm font-bold text-white"
-              >
-                Yes, Delete
-              </Button>
-            </div>
-          </div>
+                }
+              />
+            );
+          })}
         </div>
       )}
+
+      <ConfirmDialog
+        open={Boolean(pendingDelete)}
+        onClose={() => setPendingDelete(null)}
+        onConfirm={confirmDelete}
+        loading={deleting}
+        title="Delete this ticket?"
+        description={
+          pendingDelete
+            ? `"${pendingDelete.title}" will be removed permanently. This cannot be undone.`
+            : ""
+        }
+        confirmLabel="Yes, delete"
+      />
     </>
   );
 }

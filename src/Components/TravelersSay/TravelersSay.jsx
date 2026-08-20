@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "@/Components/Image";
 
 const reviews = [
@@ -33,7 +31,7 @@ function Stars({ count }) {
   return (
     <div className="flex justify-center gap-1">
       {[1, 2, 3, 4, 5].map((n) => (
-        <span key={n} className={n <= count ? "text-amber-400" : "text-gray-300"}>
+        <span key={n} className={n <= count ? "text-warning" : "text-muted"}>
           ★
         </span>
       ))}
@@ -44,17 +42,17 @@ function Stars({ count }) {
 export default function TravelersSay() {
   return (
     <section className="page-bg mx-auto max-w-7xl px-4 py-14 sm:px-6">
-      <h2 className="text-center text-3xl font-black bg-gradient-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
+      <h2 className="text-center text-3xl font-bold text-heading">
         What Our Travelers Say
       </h2>
-      <p className="mt-2 text-center text-sm text-gray-500">Trusted by travelers across Bangladesh</p>
+      <p className="mt-2 text-center text-sm text-body">Trusted by travelers across Bangladesh</p>
 
       <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3 md:items-center">
         {reviews.map((review) => (
           <div
             key={review.name}
-            className={`rounded-2xl bg-white p-6 text-center shadow-md ${
-              review.featured ? "md:scale-105 md:shadow-xl" : ""
+            className={`rounded-card bg-surface p-6 text-center shadow-card ${
+              review.featured ? "md:scale-105 md:shadow-raised" : ""
             }`}
           >
             <div className="relative mx-auto mb-4 h-20 w-20 overflow-hidden rounded-full">
@@ -67,14 +65,14 @@ export default function TravelersSay() {
               />
             </div>
 
-            <p className="text-sm leading-relaxed text-gray-600">&ldquo;{review.text}&rdquo;</p>
+            <p className="text-sm leading-relaxed text-body">&ldquo;{review.text}&rdquo;</p>
 
             <div className="my-4">
               <Stars count={review.stars} />
             </div>
 
-            <p className="font-bold text-blue-700">{review.name}</p>
-            <p className="mt-1 text-xs text-gray-500">{review.role}</p>
+            <p className="font-bold text-heading">{review.name}</p>
+            <p className="mt-1 text-xs text-body">{review.role}</p>
           </div>
         ))}
       </div>

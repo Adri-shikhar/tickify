@@ -73,7 +73,7 @@ export default function OtpSignInForm() {
 
   return (
     <div className="flex min-h-[70vh] items-center justify-center px-4 py-12">
-      <Card className="surface surface-border w-full max-w-md rounded-2xl border p-4 shadow-xl">
+      <Card className="bg-surface border-default w-full max-w-md rounded-card border p-4 shadow-raised">
         <Card.Content className="flex flex-col items-center gap-6">
           <div className="w-full text-center">
             <h1 className="bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600 bg-clip-text pb-2 text-4xl font-extrabold tracking-tight text-transparent">
@@ -85,13 +85,13 @@ export default function OtpSignInForm() {
           </div>
 
           {error && (
-            <p className="w-full rounded-lg border border-red-100 bg-red-50 py-2 text-center text-sm font-medium text-red-500">
+            <p className="w-full rounded-control border border-danger/30 bg-danger-soft py-2 text-center text-sm font-medium text-danger-soft-fg">
               {error}
             </p>
           )}
 
           {notice && !error && (
-            <p className="w-full rounded-lg border border-emerald-100 bg-emerald-50 py-2 text-center text-sm font-medium text-emerald-600">
+            <p className="w-full rounded-control border border-success/30 bg-success-soft py-2 text-center text-sm font-medium text-success-soft-fg">
               {notice}
             </p>
           )}
@@ -113,7 +113,7 @@ export default function OtpSignInForm() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="h-12 w-full rounded-lg bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600 text-base font-bold text-gray-900 shadow-md hover:opacity-90"
+                className="h-12 w-full rounded-control bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600 text-base font-bold text-gray-900 shadow-card hover:opacity-90"
               >
                 {loading ? "Sending..." : "Email Me a Code"}
               </Button>
@@ -131,7 +131,7 @@ export default function OtpSignInForm() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="h-12 w-full rounded-lg bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600 text-base font-bold text-gray-900 shadow-md hover:opacity-90"
+                className="h-12 w-full rounded-control bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600 text-base font-bold text-gray-900 shadow-card hover:opacity-90"
               >
                 {loading ? "Signing in..." : "Sign In"}
               </Button>

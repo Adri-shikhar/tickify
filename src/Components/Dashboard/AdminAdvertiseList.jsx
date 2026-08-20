@@ -39,19 +39,21 @@ export default function AdminAdvertiseList({ initialTickets }) {
 
   return (
     <div>
-      <p className="mb-4 text-sm font-semibold text-gray-600">
-        Advertised: <span className="text-cyan-600">{advertisedCount} / 6</span>
+      <p className="mb-4 text-sm font-semibold text-body">
+        Advertised: <span className="text-accent">{advertisedCount} / 6</span>
       </p>
 
-      {error && <p className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-500">{error}</p>}
+      {error && (
+        <p className="mb-4 rounded-control bg-danger-soft p-3 text-sm text-danger-soft-fg">{error}</p>
+      )}
 
       {approved.length === 0 ? (
-        <p className="text-gray-500">No approved tickets to advertise.</p>
+        <p className="text-body">No approved tickets to advertise.</p>
       ) : (
-        <div className="w-full max-w-full overflow-x-auto rounded-xl border bg-white shadow-sm">
+        <div className="w-full max-w-full overflow-x-auto rounded-card border border-default bg-surface shadow-card">
           <table className="w-full min-w-[560px] text-left text-sm">
             <thead>
-              <tr className="border-b bg-gray-50 text-xs font-bold uppercase text-gray-500">
+              <tr className="border-b border-default bg-canvas text-xs font-bold uppercase text-body">
                 <th className="px-4 py-3">Title</th>
                 <th className="px-4 py-3">Route</th>
                 <th className="px-4 py-3">Transport</th>
@@ -61,13 +63,13 @@ export default function AdminAdvertiseList({ initialTickets }) {
             </thead>
             <tbody>
               {approved.map((ticket) => (
-                <tr key={String(ticket._id)} className="border-b">
+                <tr key={String(ticket._id)} className="border-b border-default">
                   <td className="px-4 py-3 font-semibold">{ticket.title}</td>
                   <td className="px-4 py-3">
                     {ticket.from} → {ticket.to}
                   </td>
                   <td className="px-4 py-3 capitalize">{ticket.transportType}</td>
-                  <td className="px-4 py-3 font-bold text-emerald-600">{fmtPrice(ticket.price)}</td>
+                  <td className="px-4 py-3 font-bold text-success">{fmtPrice(ticket.price)}</td>
                   <td className="px-4 py-3">
                     <Button
                       size="sm"
@@ -75,8 +77,8 @@ export default function AdminAdvertiseList({ initialTickets }) {
                       onClick={() => handleToggle(ticket)}
                       className={
                         ticket.isAdvertised
-                          ? "bg-red-500 text-xs font-bold text-white"
-                          : "bg-cyan-600 text-xs font-bold text-white"
+                          ? "bg-danger text-xs font-bold text-on-accent"
+                          : "bg-accent text-xs font-bold text-on-accent"
                       }
                     >
                       {togglingId === String(ticket._id)

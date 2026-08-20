@@ -2,77 +2,66 @@
 
 import Image from "@/Components/Image";
 import { fmtPrice } from "@/lib/format";
-
-const perkLabels = {
-  ac: "AC",
-  wifi: "WiFi",
-  food: "Food",
-  tv: "TV",
-  chargingPort: "Charging Port",
-  breakfast: "Breakfast",
-};
-
-function getTransportIcon(type) {
-  if (type === "train") return "🚆";
-  if (type === "flight") return "✈️";
-  return "🚌";
-}
+import { getTransportIcon, activePerkLabels } from "@/lib/transport";
+import Button from "@/Components/ui/Button";
 
 export default function AdvertTicketCard({ ticket, onSeeDetails }) {
   const { title, from, to, transportType, price, quantity, imageUrl, perks = {} } = ticket;
-  const activePerks = Object.keys(perks).filter((name) => perks[name]);
+  const activePerks = activePerkLabels(perks);
 
   return (
-    <div className="flex h-full min-w-[220px] flex-col overflow-hidden rounded-2xl bg-white shadow-md transition hover:shadow-lg">
-      <div className="relative h-36 w-full shrink-0 bg-gray-200">
-        <Image src={imageUrl} alt={title} fill className="object-cover" fallbackClassName="h-full w-full" />
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-3 pb-3 pt-8">
-          <p className="text-lg font-bold text-white">{title}</p>
+    <div className="group flex h-full min-w-[220px] flex-col overflow-hidden rounded-card border border-default bg-surface shadow-card transition-[box-shadow,transform] duration-200 ease-standard hover:-translate-y-0.5 hover:shadow-hover">
+      <div className="relative h-36 w-full shrink-0 overflow-hidden bg-sunken">
+        <Image
+          src={imageUrl}
+          alt={title}
+          fill
+          className="object-cover transition-transform duration-400 ease-out-soft group-hover:scale-[1.04]"
+          fallbackClassName="h-full w-full"
+        />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/85 to-transparent px-3 pb-3 pt-8">
+          <p className="text-base font-semibold text-white">{title}</p>
         </div>
       </div>
 
       <div className="flex flex-1 flex-col gap-2.5 p-4">
-        <p className="text-sm font-bold text-emerald-600">
-          {from} <span className="text-emerald-500">→</span> {to}
+        <p className="text-sm font-medium text-label">
+          {from} <span className="text-accent">→</span> {to}
         </p>
 
-        <p className="text-2xl font-bold text-gray-900">
+        <p className="text-2xl font-bold text-heading">
           {fmtPrice(price)}{" "}
-          <span className="text-sm font-normal text-gray-500">/ ticket</span>
+          <span className="text-sm font-normal text-muted">/ ticket</span>
         </p>
 
-        <div className="flex flex-wrap items-center gap-2 text-sm text-gray-800">
+        <div className="flex flex-wrap items-center gap-2 text-sm text-label">
           <span>{getTransportIcon(transportType)}</span>
-          <span className="font-semibold capitalize">{transportType || "Bus"}</span>
-          <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-600">
+          <span className="font-medium capitalize">{transportType || "Bus"}</span>
+          <span className="rounded-full bg-sunken px-2.5 py-0.5 text-micro text-body">
             {quantity} seats left
           </span>
         </div>
 
-        <p className="text-xs font-bold text-gray-900">Included Perks:</p>
+        <p className="text-micro font-semibold uppercase text-muted">Included perks</p>
 
         <div className="flex min-h-[52px] flex-wrap gap-1.5">
           {activePerks.length === 0 ? (
-            <span className="text-xs text-gray-400">None</span>
+            <span className="text-xs text-muted">None</span>
           ) : (
             activePerks.map((perk) => (
               <span
                 key={perk}
-                className="rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-medium text-gray-700"
+                className="rounded-full bg-sunken px-2.5 py-1 text-micro font-medium text-body"
               >
-                <span className="text-emerald-500">✓</span> {perkLabels[perk] || perk}
+                <span className="text-success">✓</span> {perk}
               </span>
             ))
           )}
         </div>
 
-        <button
-          type="button"
-          onClick={onSeeDetails}
-          className="mt-auto w-full rounded-xl bg-gradient-to-r from-blue-500 to-emerald-400 py-2.5 text-sm font-bold text-white hover:opacity-90"
-        >
+        <Button className="mt-auto" fullWidth onClick={onSeeDetails}>
           See Details
-        </button>
+        </Button>
       </div>
     </div>
   );

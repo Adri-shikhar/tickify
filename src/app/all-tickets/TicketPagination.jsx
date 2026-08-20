@@ -11,42 +11,76 @@ function buildHref(page, { from, to, type, sort }) {
   return query ? `/all-tickets?${query}` : "/all-tickets";
 }
 
-const btnClass =
-  "rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-semibold text-gray-700 hover:border-emerald-400 hover:text-emerald-600";
+// Window of page numbers around the current page, with first/last always shown
+// and gaps collapsed. Previously every page rendered a chip, so a few hundred
+// tickets produced a wall of numbers that wrapped over several rows.
+function pageItems(page, totalPages) {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
+  const items = [1];
+  const start = Math.max(2, page - 1);
+  const end = Math.min(totalPages - 1, page + 1);
+
+  if (start > 2) items.push("gap-start");
+  for (let n = start; n <= end; n++) items.push(n);
+  if (end < totalPages - 1) items.push("gap-end");
+
+  items.push(totalPages);
+  return items;
+}
+
+// 44px targets so they are comfortably tappable
+const base =
+  "inline-flex h-11 min-w-11 items-center justify-center rounded-control border px-3 text-sm font-medium transition-colors duration-150 ease-standard";
+const enabled = `${base} border-default bg-surface text-label hover:border-strong hover:text-heading`;
+const disabled = `${base} border-subtle bg-surface text-muted opacity-50`;
+const current = `${base} border-accent bg-accent text-on-accent`;
 
 export default function TicketPagination({ page, totalPages, from, to, type, sort }) {
   if (totalPages <= 1) return null;
 
   const filters = { from, to, type, sort };
+  const items = pageItems(page, totalPages);
 
   return (
     <nav className="mt-8 flex flex-wrap items-center justify-center gap-2" aria-label="Pagination">
       {page > 1 ? (
-        <Link href={buildHref(page - 1, filters)} className={btnClass}>
+        <Link href={buildHref(page - 1, filters)} className={enabled} rel="prev">
           Previous
         </Link>
       ) : (
-        <span className={`${btnClass} opacity-40`}>Previous</span>
+        <span className={disabled} aria-disabled="true">
+          Previous
+        </span>
       )}
 
-      {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-        <Link
-          key={n}
-          href={buildHref(n, filters)}
-          className={`${btnClass} min-w-9 text-center ${
-            n === page ? "border-emerald-500 bg-emerald-500 text-white" : ""
-          }`}
-        >
-          {n}
-        </Link>
-      ))}
+      {items.map((item) =>
+        typeof item === "string" ? (
+          <span key={item} className="px-1 text-sm text-muted" aria-hidden="true">
+            …
+          </span>
+        ) : (
+          <Link
+            key={item}
+            href={buildHref(item, filters)}
+            className={item === page ? current : enabled}
+            aria-current={item === page ? "page" : undefined}
+          >
+            {item}
+          </Link>
+        ),
+      )}
 
       {page < totalPages ? (
-        <Link href={buildHref(page + 1, filters)} className={btnClass}>
+        <Link href={buildHref(page + 1, filters)} className={enabled} rel="next">
           Next
         </Link>
       ) : (
-        <span className={`${btnClass} opacity-40`}>Next</span>
+        <span className={disabled} aria-disabled="true">
+          Next
+        </span>
       )}
     </nav>
   );

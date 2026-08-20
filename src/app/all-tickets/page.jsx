@@ -4,7 +4,9 @@ import TicketGrid from "@/Components/TicketGrid";
 import TicketSearchForm from "@/Components/TicketSearchForm";
 import TicketPagination from "./TicketPagination";
 
-const PER_PAGE = 5;
+// 6, not 5: the grid is 3 columns at lg, so 5 left a ragged 3+2 orphan row on
+// every single page.
+const PER_PAGE = 6;
 const isApproved = (t) =>
   ["approved", "accepted"].includes(t.status?.toLowerCase());
 export default async function AllTicketsPage({ searchParams }) {
@@ -52,26 +54,28 @@ export default async function AllTicketsPage({ searchParams }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-      <h1 className="mb-6 text-2xl font-black text-gray-900">
+      <h1 className="mb-6 text-2xl font-bold text-heading">
         Available Tickets{" "}
-        <span className="text-emerald-500">({totalTickets})</span>
+        <span className="text-accent">({totalTickets})</span>
       </h1>
 
       <TicketSearchForm from={from} to={to} type={type} sort={sort} />
 
       {error && (
-        <p className="mb-4 rounded-xl border border-red-100 bg-red-50 p-3 text-red-500">
+        <p className="mb-4 rounded-card border border-danger/30 bg-danger-soft p-3 text-danger-soft-fg">
           {error}
         </p>
       )}
 
       {!error && !totalTickets && (
-        <p className="text-gray-500">No tickets available right now.</p>
+        <p className="rounded-card border border-dashed border-default py-16 text-center text-body">
+          No tickets available right now.
+        </p>
       )}
 
       {!error && totalTickets > 0 && (
         <>
-          <p className="mb-4 text-sm text-gray-500">
+          <p className="mb-4 text-sm text-muted">
             Showing {start + 1}–{Math.min(start + PER_PAGE, totalTickets)} of {totalTickets}
           </p>
           <TicketGrid tickets={paginatedTickets} />

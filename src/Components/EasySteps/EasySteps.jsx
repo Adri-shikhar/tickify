@@ -1,5 +1,3 @@
-"use client";
-
 const steps = [
   {
     title: "Search",
@@ -21,10 +19,10 @@ const steps = [
 export default function EasySteps() {
   return (
     <section className="page-bg mx-auto max-w-7xl px-4 py-14 sm:px-6">
-      <h2 className="text-center text-3xl font-black bg-gradient-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
+      <h2 className="text-center text-3xl font-bold text-heading">
         Buy tickets in 3 easy steps
       </h2>
-      <p className="mt-2 text-center text-sm text-gray-500">
+      <p className="mt-2 text-center text-sm text-body">
         Book your tickets quickly and securely with Tickify
       </p>
 
@@ -32,14 +30,14 @@ export default function EasySteps() {
         {steps.map((step) => (
           <div
             key={step.title}
-            className="flex items-start gap-4 rounded-2xl bg-white p-6 shadow-md"
+            className="flex items-start gap-4 rounded-card bg-surface p-6 shadow-card"
           >
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-teal-50 text-2xl">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-soft text-2xl">
               {step.icon}
             </div>
             <div>
-              <h3 className="text-lg font-bold text-blue-900">{step.title}</h3>
-              <p className="mt-2 text-sm text-gray-500">{step.text}</p>
+              <h3 className="text-lg font-bold text-heading">{step.title}</h3>
+              <p className="mt-2 text-sm text-body">{step.text}</p>
             </div>
           </div>
         ))}

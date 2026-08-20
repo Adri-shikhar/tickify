@@ -1,7 +1,7 @@
 "use client";
 
 const inputClass =
-  "w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-emerald-400";
+  "input-field w-full px-4 py-2.5 text-sm";
 
 export default function TicketSearchForm({ from, to, type, sort }) {
   const submitForm = (e) => e.currentTarget.form?.requestSubmit();

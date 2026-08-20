@@ -4,86 +4,298 @@
 /* ─── Tell Tailwind v4 to use .dark class (not media query) for dark: variants */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ─── Semantic colour tokens ───────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. RAW TOKENS — the single source of truth.
+      Never use --tk-* directly in JSX; they exist to feed @theme below.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Surfaces */
+  --tk-canvas:        #f6f7f9;   /* page ground                        */
+  --tk-sunken:        #eef1f5;   /* table headers, input wells, chips  */
+  --tk-surface:       #ffffff;   /* cards, navbar, sidebar             */
+  --tk-surface-hover: #f6f7f9;   /* row and menu-item hover            */
+  --tk-raised:        #ffffff;   /* modals, dropdowns, popovers        */
+
+  /* Text */
+  --tk-heading:    #0f172a;
+  --tk-label:      #334155;
+  --tk-body:       #475569;
+  --tk-muted:      #64748b;      /* timestamps, placeholders, empties  */
+  --tk-on-accent:  #ffffff;
+
+  /* Borders */
+  --tk-border-subtle: #eef1f5;   /* internal dividers                  */
+  --tk-border:        #e2e8f0;   /* card and input outlines            */
+  --tk-border-strong: #cbd5e1;   /* hover and emphasis                 */
+
+  /* Brand — teal, matching the existing accent */
+  --tk-accent:         #0d9488;
+  --tk-accent-hover:   #0f766e;
+  --tk-accent-press:   #115e59;
+  --tk-accent-soft:    #ccfbf1;
+  --tk-accent-soft-fg: #115e59;
+
+  /* Status */
+  --tk-success: #047857;  --tk-success-soft: #ecfdf5;  --tk-success-soft-fg: #065f46;
+  --tk-warning: #b45309;  --tk-warning-soft: #fffbeb;  --tk-warning-soft-fg: #92400e;
+  --tk-danger:  #dc2626;  --tk-danger-soft:  #fef2f2;  --tk-danger-soft-fg:  #b91c1c;
+  --tk-info:    #2563eb;  --tk-info-soft:    #eff6ff;  --tk-info-soft-fg:    #1d4ed8;
+
+  /* Role accents for the three dashboards */
+  --tk-role-admin:  #b45309;  --tk-role-admin-soft:  #fffbeb;
+  --tk-role-vendor: #6d28d9;  --tk-role-vendor-soft: #f5f3ff;
+  --tk-role-user:   #0d9488;  --tk-role-user-soft:   #f0fdfa;
+
+  /* Focus */
+  --tk-focus:      #0d9488;
+  --tk-focus-ring: rgb(13 148 136 / 0.35);
+
+  /* Elevation — light mode uses real blur */
+  --tk-shadow-card:   0 1px 2px rgb(15 23 42 / .06), 0 1px 3px rgb(15 23 42 / .10);
+  --tk-shadow-hover:  0 4px 10px rgb(15 23 42 / .08), 0 2px 4px rgb(15 23 42 / .06);
+  --tk-shadow-raised: 0 8px 24px rgb(15 23 42 / .12);
+}
+
+.dark {
+  /* Surfaces */
+  --tk-canvas:        #0b0f19;
+  --tk-sunken:        #121826;
+  --tk-surface:       #171e2b;
+  --tk-surface-hover: #1e2635;
+  --tk-raised:        #202836;   /* lighter than surface: on dark, elevation
+                                    reads as lightness, not as shadow      */
+
+  /* Text */
+  --tk-heading:    #f8fafc;
+  --tk-label:      #cbd5e1;
+  --tk-body:       #b6c0cf;
+  --tk-muted:      #8b97a8;
+  --tk-on-accent:  #042f2e;
+
+  /* Borders */
+  --tk-border-subtle: #1e2635;
+  --tk-border:        #2a3444;
+  --tk-border-strong: #3d4a5c;
+
+  /* Brand — lifted, because #0d9488 on a dark surface is only ~3.7:1 */
+  --tk-accent:         #2dd4bf;
+  --tk-accent-hover:   #5eead4;
+  --tk-accent-press:   #99f6e4;
+  --tk-accent-soft:    rgb(13 148 136 / .18);
+  --tk-accent-soft-fg: #99f6e4;
+
+  /* Status */
+  --tk-success: #34d399;  --tk-success-soft: #05271d;  --tk-success-soft-fg: #6ee7b7;
+  --tk-warning: #fbbf24;  --tk-warning-soft: #2a1f0a;  --tk-warning-soft-fg: #fcd34d;
+  --tk-danger:  #f87171;  --tk-danger-soft:  #2c1214;  --tk-danger-soft-fg:  #fca5a5;
+  --tk-info:    #60a5fa;  --tk-info-soft:    #0e1a33;  --tk-info-soft-fg:    #93c5fd;
+
+  /* Role accents */
+  --tk-role-admin:  #fbbf24;  --tk-role-admin-soft:  #251a08;
+  --tk-role-vendor: #a78bfa;  --tk-role-vendor-soft: #191233;
+  --tk-role-user:   #2dd4bf;  --tk-role-user-soft:   #042b28;
+
+  /* Focus */
+  --tk-focus:      #2dd4bf;
+  --tk-focus-ring: rgb(45 212 191 / 0.40);
+
+  /* Elevation — dark mode uses a hairline, not blur */
+  --tk-shadow-card:   inset 0 0 0 1px rgb(255 255 255 / .05);
+  --tk-shadow-hover:  inset 0 0 0 1px rgb(255 255 255 / .09);
+  --tk-shadow-raised: 0 8px 24px rgb(0 0 0 / .60), inset 0 0 0 1px rgb(255 255 255 / .07);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. MOTION — identical in both themes.
+      Kept outside @theme because Tailwind v4 has no --duration-* namespace.
+      Exits are always faster than entrances; that one rule is most of what
+      separates "responsive" from "sluggish".
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --dur-instant: 75ms;
+  --dur-fast:    150ms;   /* colour, opacity, border — the default */
+  --dur-press:   200ms;   /* transform, shadow, card lift          */
+  --dur-enter:   250ms;   /* overlay entrance                      */
+  --dur-exit:    120ms;   /* overlay exit                          */
+  --dur-slow:    400ms;   /* image zoom, skeleton shimmer          */
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. TAILWIND THEME — `inline` is required so utilities resolve the variable
+      at runtime and therefore follow the .dark class. A plain @theme would
+      bake the light value in at build time and never switch.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@theme inline {
+  /* Surfaces → bg-canvas, bg-surface, hover:bg-surface-hover, bg-raised/80 */
+  --color-canvas:        var(--tk-canvas);
+  --color-sunken:        var(--tk-sunken);
+  --color-surface:       var(--tk-surface);
+  --color-surface-hover: var(--tk-surface-hover);
+  --color-raised:        var(--tk-raised);
+
+  /* Text → text-heading, text-body, text-muted, … */
+  --color-heading:   var(--tk-heading);
+  --color-label:     var(--tk-label);
+  --color-body:      var(--tk-body);
+  --color-muted:     var(--tk-muted);
+  --color-on-accent: var(--tk-on-accent);
+
+  /* Borders → border-subtle, border-default, border-strong */
+  --color-subtle:  var(--tk-border-subtle);
+  --color-default: var(--tk-border);
+  --color-strong:  var(--tk-border-strong);
+
+  /* Brand */
+  --color-accent:         var(--tk-accent);
+  --color-accent-hover:   var(--tk-accent-hover);
+  --color-accent-press:   var(--tk-accent-press);
+  --color-accent-soft:    var(--tk-accent-soft);
+  --color-accent-soft-fg: var(--tk-accent-soft-fg);
+
+  /* Status */
+  --color-success:         var(--tk-success);
+  --color-success-soft:    var(--tk-success-soft);
+  --color-success-soft-fg: var(--tk-success-soft-fg);
+  --color-warning:         var(--tk-warning);
+  --color-warning-soft:    var(--tk-warning-soft);
+  --color-warning-soft-fg: var(--tk-warning-soft-fg);
+  --color-danger:          var(--tk-danger);
+  --color-danger-soft:     var(--tk-danger-soft);
+  --color-danger-soft-fg:  var(--tk-danger-soft-fg);
+  --color-info:            var(--tk-info);
+  --color-info-soft:       var(--tk-info-soft);
+  --color-info-soft-fg:    var(--tk-info-soft-fg);
+
+  /* Role accent, driven by data-role on the dashboard shell */
+  --color-role:      var(--tk-role);
+  --color-role-soft: var(--tk-role-soft);
+
+  /* Radius → rounded-control, rounded-card, rounded-sheet */
+  --radius-control: 0.5rem;
+  --radius-card:    1rem;
+  --radius-sheet:   1.25rem;
+
+  /* Shadow → shadow-card, shadow-hover, shadow-raised */
+  --shadow-card:   var(--tk-shadow-card);
+  --shadow-hover:  var(--tk-shadow-hover);
+  --shadow-raised: var(--tk-shadow-raised);
+
+  /* Easing → ease-standard, ease-out-soft, ease-out-quad.
+     The last two match HeroUI's own curves so library motion and ours agree. */
+  --ease-standard: cubic-bezier(.2, 0, 0, 1);
+  --ease-out-soft: cubic-bezier(0, 0, .2, 1);
+  --ease-out-quad: cubic-bezier(.25, .46, .45, .94);
+
+  /* One sanctioned micro-label size, replacing ad-hoc text-[9px]/[10px]/[11px] */
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.4;
+  --text-micro--letter-spacing: 0.06em;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. ROLE ACCENT — one attribute on the dashboard shell replaces the 39
+      hand-maintained class strings that used to live in lib/dashboard.js.
+   ═══════════════════════════════════════════════════════════════════════════ */
+[data-role="admin"]  { --tk-role: var(--tk-role-admin);  --tk-role-soft: var(--tk-role-admin-soft); }
+[data-role="vendor"] { --tk-role: var(--tk-role-vendor); --tk-role-soft: var(--tk-role-vendor-soft); }
+[data-role="user"]   { --tk-role: var(--tk-role-user);   --tk-role-soft: var(--tk-role-user-soft); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. BASE
+   ═══════════════════════════════════════════════════════════════════════════ */
 @layer base {
-  :root {
-    --color-heading:  #111827;
-    --color-body:     #6b7280;
-    --color-label:    #374151;
-    --color-bg:       #f9fafb;
-    --color-surface:  #ffffff;
-    --color-border:   #e5e7eb;
+  /* Stops the page jumping sideways when a scrollbar appears or is hidden */
+  html { scrollbar-gutter: stable; }
+
+  /* One focus identity for the whole app. Several components used to strip
+     the outline with `outline-none` and put nothing back. */
+  :where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--tk-focus);
+    outline-offset: 2px;
   }
 
-  .dark {
-    --color-heading:  #f9fafb;
-    --color-body:     #9ca3af;
-    --color-label:    #d1d5db;
-    --color-bg:       #111827;
-    --color-surface:  #1f2937;
-    --color-border:   #374151;
+  /* Universal interactive easing. Only non-layout properties, so this can
+     never cause reflow. */
+  :where(a, button, [role="button"], input, select, textarea) {
+    transition:
+      color var(--dur-fast) var(--ease-standard),
+      background-color var(--dur-fast) var(--ease-standard),
+      border-color var(--dur-fast) var(--ease-standard),
+      box-shadow var(--dur-fast) var(--ease-standard),
+      opacity var(--dur-fast) var(--ease-standard);
   }
 }
 
-/* ─── Utility classes ───────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. LEGACY ALIASES — kept so existing markup keeps working while files are
+      migrated to the real utilities. text-heading / text-body / text-label
+      are no longer defined here: @theme now generates them, with modifier
+      support that these hand-written versions never had.
+   ═══════════════════════════════════════════════════════════════════════════ */
 @layer utilities {
-  .text-heading { color: var(--color-heading); }
-  .text-body    { color: var(--color-body); }
-  .text-label   { color: var(--color-label); }
-
-  .page-bg        { background-color: var(--color-bg); }
-  .surface        { background-color: var(--color-surface); }
-  .surface-border { border-color: var(--color-border); }
+  .page-bg        { background-color: var(--tk-canvas); }
+  /* NOTE: HeroUI also ships a .surface component class. This utility-layer
+     rule intentionally outranks it, as it did before. Migrate call sites to
+     `bg-surface` and delete this. */
+  .surface        { background-color: var(--tk-surface); }
+  .surface-border { border-color: var(--tk-border); }
 
   .btn-outline {
     background-color: transparent;
-    color: var(--color-heading);
-  }
-
-  .input-field {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 0.5rem;
-    color: var(--color-heading);
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .input-field:focus {
-    border-color: #14b8a6;
-    box-shadow: 0 0 0 2px rgb(20 184 166 / 0.15);
+    color: var(--tk-heading);
   }
 }
 
-/* ─── Component classes ─────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. COMPONENT CLASSES
+   ═══════════════════════════════════════════════════════════════════════════ */
 @layer components {
 
-  /* ── Navbar ─────────────────────────────────── */
+  /* ── Form control ───────────────────────────────────────────── */
+  .input-field {
+    /* sunken, not surface: an input on a card needs fill contrast */
+    background-color: var(--tk-sunken);
+    border: 1px solid var(--tk-border);
+    border-radius: var(--radius-control);
+    color: var(--tk-heading);
+    outline: none;
+  }
+  .input-field::placeholder { color: var(--tk-muted); }
+  .input-field:hover:not(:focus) { border-color: var(--tk-border-strong); }
+  .input-field:focus-visible,
+  .input-field:focus {
+    background-color: var(--tk-surface);
+    border-color: var(--tk-accent);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--tk-focus-ring);
+  }
+
+  /* ── Navbar ─────────────────────────────────────────────────── */
   .nav-bar {
-    background-color: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    box-shadow: 0 1px 3px rgb(0 0 0 / 0.06);
+    background-color: var(--tk-surface);
+    border-bottom: 1px solid var(--tk-border);
+    box-shadow: var(--tk-shadow-card);
   }
 
   .nav-link {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-body);
-    transition: color 0.15s;
+    color: var(--tk-body);
   }
-  .nav-link:hover { color: var(--color-heading); }
+  .nav-link:hover { color: var(--tk-heading); }
 
   .nav-link-active {
     font-size: 0.875rem;
-    font-weight: 700;
-    color: #0d9488;
+    font-weight: 600;
+    color: var(--tk-accent);
   }
 
-  /* ── Dropdown ────────────────────────────────── */
+  /* ── Dropdown ───────────────────────────────────────────────── */
   .dropdown-menu {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 0.75rem;
-    box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+    background-color: var(--tk-raised);
+    border: 1px solid var(--tk-border);
+    border-radius: var(--radius-control);
+    box-shadow: var(--tk-shadow-raised);
     padding: 0.25rem;
     z-index: 50;
   }
@@ -92,23 +304,41 @@
     display: block;
     width: 100%;
     padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
+    border-radius: calc(var(--radius-control) - 2px);
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-heading);
-    transition: background-color 0.15s;
+    color: var(--tk-heading);
   }
-  .dropdown-item:hover { background-color: var(--color-bg); }
+  /* hovers to surface-hover, not the page ground — the old rule was a
+     1.5% luminance step against a white menu, i.e. no feedback at all */
+  .dropdown-item:hover { background-color: var(--tk-surface-hover); }
 
-  /* ── Profile avatar ring wrapper ─────────────── */
+  /* ── Profile avatar ring ────────────────────────────────────── */
   .profile-avatar-ring {
     position: relative;
     overflow: hidden;
     border-radius: 9999px;
-    border: 4px solid var(--color-surface);
+    border: 4px solid var(--tk-surface);
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. REDUCED MOTION — declared up front, before motion is added anywhere.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* A frozen spinner is worse than a slow one */
+  .animate-spin { animation: spin 1.5s linear infinite !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. PRINT — e-ticket / boarding pass
+   ═══════════════════════════════════════════════════════════════════════════ */
 @media print {
   aside {
     display: none !important;

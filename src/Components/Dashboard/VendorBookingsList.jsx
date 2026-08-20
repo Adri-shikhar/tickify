@@ -17,7 +17,7 @@ export default function VendorBookingsList({ initialBookings }) {
 
   if (!bookings.length) {
     return (
-      <p className="rounded-2xl border bg-white py-12 text-center text-sm font-medium text-gray-400 shadow-sm">
+      <p className="rounded-card border border-default bg-surface py-12 text-center text-sm font-medium text-muted shadow-card">
         No bookings yet.
       </p>
     );
@@ -28,14 +28,14 @@ export default function VendorBookingsList({ initialBookings }) {
       {bookings.map(({ _id, ticketTitle, departureDateTime, bookedAt, seatsBooked, totalPrice, userName, userEmail, status }) => (
         <Card
           key={String(_id)}
-          className="backface-hidden flex transform-gpu flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-md"
+          className="backface-hidden flex transform-gpu flex-col gap-4 rounded-card border border-subtle bg-surface p-5 shadow-card"
         >
           <div className="flex items-start justify-between gap-4">
             <div>
-              <span className="rounded border border-cyan-100 bg-cyan-50 px-2 py-0.5 text-[10px] font-bold uppercase text-cyan-600">
+              <span className="rounded border border-accent/30 bg-accent-soft px-2 py-0.5 text-micro font-bold uppercase text-accent-soft-fg">
                 Order
               </span>
-              <h2 className="mt-1 line-clamp-1 text-lg font-bold tracking-tight text-gray-900">{ticketTitle}</h2>
+              <h2 className="mt-1 line-clamp-1 text-lg font-bold tracking-tight text-heading">{ticketTitle}</h2>
             </div>
 
             {!status || status === "pending" || status === "waiting for confirm" ? (
@@ -43,24 +43,24 @@ export default function VendorBookingsList({ initialBookings }) {
                 <Button
                   size="sm"
                   onClick={() => handleAction(_id, "accepted")}
-                  className="h-7 rounded-md bg-emerald-500 px-3 text-xs font-bold text-white shadow-sm hover:bg-emerald-600"
+                  className="h-7 rounded-md bg-success px-3 text-xs font-bold text-on-accent shadow-card hover:bg-success/90"
                 >
                   Accept
                 </Button>
                 <Button
                   size="sm"
                   onClick={() => handleAction(_id, "rejected")}
-                  className="h-7 rounded-md bg-red-500 px-3 text-xs font-bold text-white shadow-sm hover:bg-red-600"
+                  className="h-7 rounded-md bg-danger px-3 text-xs font-bold text-on-accent shadow-card hover:bg-danger/90"
                 >
                   Reject
                 </Button>
               </div>
             ) : (
               <span
-                className={`shrink-0 rounded-md border px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider ${
+                className={`shrink-0 rounded-md border px-2.5 py-0.5 text-micro font-semibold uppercase ${
                   status === "accepted" || status === "pay"
-                    ? "border-blue-200 bg-blue-50 text-blue-600"
-                    : "border-red-200 bg-red-50 text-red-600"
+                    ? "border-info/30 bg-info-soft text-info-soft-fg"
+                    : "border-danger/30 bg-danger-soft text-danger-soft-fg"
                 }`}
               >
                 {status === "accepted" || status === "pay" ? "accepted" : "rejected"}
@@ -68,30 +68,30 @@ export default function VendorBookingsList({ initialBookings }) {
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-3 rounded-xl border border-gray-100/60 bg-gray-50 p-3 text-xs text-gray-600">
+          <div className="grid grid-cols-2 gap-3 rounded-card border border-subtle bg-sunken p-3 text-xs text-body">
             <div>
-              <p className="text-[10px] font-bold uppercase text-gray-400">Customer</p>
-              <p className="mt-0.5 font-bold text-gray-800">{userName || "User"}</p>
+              <p className="text-micro font-bold uppercase text-muted">Customer</p>
+              <p className="mt-0.5 font-bold text-heading">{userName || "User"}</p>
             </div>
             <div>
-              <p className="text-[10px] font-bold uppercase text-gray-400">Email</p>
-              <p className="mt-0.5 font-semibold text-gray-700">{userEmail || "N/A"}</p>
+              <p className="text-micro font-bold uppercase text-muted">Email</p>
+              <p className="mt-0.5 font-semibold text-label">{userEmail || "N/A"}</p>
             </div>
           </div>
 
-          <div className="flex justify-between px-0.5 text-xs font-semibold text-gray-500">
+          <div className="flex justify-between px-0.5 text-xs font-semibold text-body">
             <span>🕒 Departure: {fmtDate(departureDateTime)}</span>
-            <span className="font-medium text-gray-400">Booked: {fmtDate(bookedAt)}</span>
+            <span className="font-medium text-muted">Booked: {fmtDate(bookedAt)}</span>
           </div>
 
-          <div className="flex items-end justify-between border-t border-dashed border-gray-100 pt-3">
+          <div className="flex items-end justify-between border-t border-dashed border-subtle pt-3">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Seats</p>
-              <p className="mt-0.5 text-sm font-black text-gray-800">{seatsBooked}</p>
+              <p className="text-micro font-bold uppercase text-muted">Seats</p>
+              <p className="mt-0.5 text-sm font-black text-heading">{seatsBooked}</p>
             </div>
             <div className="text-right">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Revenue</p>
-              <p className="mt-0.5 text-lg font-black text-emerald-500">{fmtPrice(totalPrice)}</p>
+              <p className="text-micro font-bold uppercase text-muted">Revenue</p>
+              <p className="mt-0.5 text-lg font-black text-success">{fmtPrice(totalPrice)}</p>
             </div>
           </div>
         </Card>

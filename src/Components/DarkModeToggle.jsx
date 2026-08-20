@@ -23,7 +23,7 @@ export default function DarkModeToggle() {
       type="button"
       onClick={toggle}
       aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-      className="rounded-lg px-2 py-1 text-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-control text-lg hover:bg-surface-hover"
     >
       {dark ? "☀️" : "🌙"}
     </button>

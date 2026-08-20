@@ -92,7 +92,7 @@ export default function OtpInput({ value, onChange, onComplete, disabled = false
           onPaste={handlePaste}
           onFocus={(e) => e.target.select()}
           aria-label={`Digit ${index + 1} of ${LENGTH}`}
-          className="input-field h-12 w-11 text-center text-xl font-bold sm:h-14 sm:w-12 sm:text-2xl"
+          className="input-field h-12 w-full max-w-12 text-center text-xl font-bold sm:h-14 sm:text-2xl"
         />
       ))}
     </div>

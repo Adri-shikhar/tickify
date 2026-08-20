@@ -13,7 +13,7 @@ export default function ProfileCard({ user, role = "user" }) {
   const initials = name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase();
 
   return (
-    <div className={`mx-auto w-full max-w-lg overflow-hidden rounded-2xl border ${theme.card}`}>
+    <div className={`mx-auto w-full max-w-lg overflow-hidden rounded-card border ${theme.card}`}>
       <div className={`h-36 ${theme.banner}`} />
 
       <div className="flex flex-col items-center px-6 pb-8">
@@ -36,11 +36,11 @@ export default function ProfileCard({ user, role = "user" }) {
           {user?.role ?? role}
         </span>
 
-        <h2 className="mt-3 text-xl font-bold text-gray-900 dark:text-gray-100">{name}</h2>
-        <p className="mt-1 text-sm text-gray-500">{user?.email}</p>
+        <h2 className="mt-3 text-xl font-bold text-heading">{name}</h2>
+        <p className="mt-1 text-sm text-body">{user?.email}</p>
 
         {/* Edit Profile button — not yet functional */}
-        <Button className={`mt-6 h-11 w-full max-w-xs rounded-xl font-semibold ${theme.button}`}>
+        <Button className={`mt-6 h-11 w-full max-w-xs rounded-card font-semibold ${theme.button}`}>
           Edit Profile
         </Button>
       </div>

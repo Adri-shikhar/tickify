@@ -44,16 +44,16 @@ export default function EditTicketForm({ ticket, ticketId }) {
     router.push("/dashboard/vendor/my-tickets");
   }
 
-  const inputClass = "h-10 w-full rounded-lg bg-gray-100 px-3 text-sm outline-none";
+  const inputClass = "input-field h-10 w-full px-3 text-sm";
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-gray-50 p-4 sm:p-6">
-      <Card className="w-full max-w-xl rounded-xl border p-4 shadow-md sm:p-6">
+    <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
+      <Card className="w-full max-w-xl rounded-card border border-default p-4 shadow-card sm:p-6">
         <Card.Content className="flex flex-col gap-5">
-          <h1 className="text-center text-2xl font-bold text-cyan-600">Update Ticket</h1>
+          <h1 className="text-center text-2xl font-bold text-accent">Update Ticket</h1>
 
           {error && (
-            <p className="rounded-lg border border-red-100 bg-red-50 p-2 text-center text-sm text-red-500">
+            <p className="rounded-control border border-danger/30 bg-danger-soft p-2 text-center text-sm text-danger-soft-fg">
               {error}
             </p>
           )}
@@ -86,7 +86,7 @@ export default function EditTicketForm({ ticket, ticketId }) {
               className={inputClass}
             />
 
-            <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+            <div className="grid grid-cols-2 gap-2 text-sm text-body">
               {PERKS.map((p) => (
                 <label key={p} className="flex items-center gap-2 capitalize">
                   <input type="checkbox" name={p} defaultChecked={ticket.perks?.[p]} />
@@ -105,12 +105,12 @@ export default function EditTicketForm({ ticket, ticketId }) {
             <Button
               type="submit"
               disabled={loading}
-              className="h-10 w-full rounded-lg bg-gradient-to-r from-emerald-400 to-blue-600 font-bold text-gray-950"
+              className="h-10 w-full rounded-control bg-gradient-to-r from-emerald-400 to-blue-600 font-bold text-gray-950"
             >
               {loading ? "Saving..." : "Save Changes"}
             </Button>
 
-            <Link href="/dashboard/vendor/my-tickets" className="text-center text-sm text-gray-500 underline">
+            <Link href="/dashboard/vendor/my-tickets" className="text-center text-sm text-body underline">
               Cancel
             </Link>
           </form>
